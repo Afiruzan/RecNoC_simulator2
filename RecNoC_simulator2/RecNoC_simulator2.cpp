@@ -9,7 +9,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 }
 //########################################################################
-//RecNoC simulator by Arash Firuzan (arash.firuzan@gmail.com)
+//RecNoC simulator by Arash Firuzan (arash.firuzan@gmail.com) _ 2017
 //Under supervision of Dr. Mehdi Modarressi (modarressi@ut.ac.ir)
 //Arbitration of each router is priority-based of ports
 //########################################################################
@@ -1023,7 +1023,7 @@ void main()
 					//code for recswitches					
 					else
 					{
-						rt:for (int z = 1; z < simulation_time; z++)//flit traversal on recswitches is real-time vs flit traversal in routers
+						for (int z = 1; z < simulation_time; z++)//flit traversal on recswitches is real-time vs flit traversal in routers
 						{
 							// ******************************************************
 							//// for all inlinks of recswitch copy inlink to inport of that recswitch
