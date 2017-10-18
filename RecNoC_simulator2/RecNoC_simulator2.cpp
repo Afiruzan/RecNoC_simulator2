@@ -25,12 +25,12 @@ int _tmain(int argc, _TCHAR* argv[])
 using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
-//Please set the flit data at line 400 of this code
+//Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 4
 int cluster_size = 1;
-int num_of_corridors = 0;
-const int networkx = 2; //networkx=networky
-const int networky = 2;
+int num_of_corridors = 1;
+const int networkx = 4; //networkx=networky
+const int networky = 4;
 const int networkz = 1;
 int simulation_time = 100;//simulation time by cycle unit
 int number_of_elements_in_x_direction = networkx + (((networkx/cluster_size) - 1)*num_of_corridors);
@@ -804,8 +804,10 @@ void main()
 	// traffic manager
 	myfile << "\n\n#################################################################\n\ntraffic manager result:\n\n";
 	//information of input flits is in below:
-	flit f1, f2,f3,f4;
-	int number_of_flits =4;
+	int number_of_flits;
+	number_of_flits = networkx*networky;
+	/*flit f1, f2,f3,f4;
+	int number_of_flits = 4;
 	f1.number = 1;
 	f2.number = 2;
 	f3.number = 3;
@@ -833,7 +835,7 @@ void main()
 	net[2][2][1].inport_number[4].buffer.enQueue(f2);
 	net[2][2][1].inport_number[3].buffer.enQueue(f3);
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);
-	
+	*/
 	//modified recswitch matrix must be placed below
 	/*net[2][3][1].crossbar_in_recswitch[3][2] = 0;
 	net[2][3][1].crossbar_in_recswitch[3][1] = 1;
@@ -866,6 +868,7 @@ void main()
 					//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
 					if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
 					{
+						if(NI_1.queue[j][k].isEmpty()==0) //if Network Interface buffer is not empty
 						net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
 					}
 				}
