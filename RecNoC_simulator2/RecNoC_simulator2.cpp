@@ -18,6 +18,7 @@ int _tmain(int argc, _TCHAR* argv[])
 #include<iostream>
 #include <new>
 #include<fstream>
+#include <stdlib.h>
 #include<string>
 #include<typeinfo>
 #include <vector>
@@ -37,7 +38,7 @@ int number_of_elements_in_y_direction = networky + (((networky/cluster_size) - 1
 ofstream myfile("Result.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
-//class definitions is here
+//Begin of class definitions
 class flit
 {
 public:
@@ -170,7 +171,6 @@ public:
 	void buffer_read_increase_time();
 	bool grant;//for arbitration section
 };
-
 flit inport::buffer_display()//this function returns front flit of queue
 {
 	flit result;
@@ -179,17 +179,12 @@ flit inport::buffer_display()//this function returns front flit of queue
 	result = buffer.f[front2];
 	return result;
 }
-
-
 void inport::buffer_read_increase_time()
 {
 	int front3;
 	front3 = buffer.front;
 	buffer.f[front3].time++;
 }
-
-
-
 class element //an element can be router or reconfigurable switch
 {
 public:
@@ -239,6 +234,11 @@ element::element() //constructor for recswitch matrix, by default North connecte
 		
 	}
 }
+class NI
+{
+public:
+	Queue queue[10][10];
+};
 //End of class definitions
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
@@ -817,7 +817,7 @@ void main()
 	net[2][2][1].inport_number[3].buffer.enQueue(f3);
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);
 	
-	//modified recswitch matrix
+	//modified recswitch matrix must be placed below
 	/*net[2][3][1].crossbar_in_recswitch[3][2] = 0;
 	net[2][3][1].crossbar_in_recswitch[3][1] = 1;
 	net[2][3][1].crossbar_in_recswitch[0][1] = 0;
@@ -826,6 +826,29 @@ void main()
 	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
 	net[2][1][1].crossbar_in_recswitch[2][3] = 1;
 	net[2][1][1].crossbar_in_recswitch[3][2] = 1;*/
+	//--------------------------------------------------------------------------------
+	int injection_rate;
+	NI NI_1;
+	for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
+	{
+		for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
+		{
+			for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
+			{
+				if (net[j][k][l].router == 1)//////////////////////////////////////
+				{
+					int R;
+					R = rand() % 10 + 1; //R in the range 1 to 10
+					flit temp_flit;
+					if (R < injection_rate)
+					{
+						NI_1.queue[j][k].enQueue(temp_flit);
+					}
+				}
+			}
+		}
+	}
+	//--------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------
 	cout << "\n" << "simulation duration = " << simulation_time << "\n";
 	for (int i = 1; i < simulation_time; i++) // i does not show clock cycle, it is only a loop variable
