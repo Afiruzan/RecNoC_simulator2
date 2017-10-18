@@ -28,7 +28,7 @@ using namespace std;
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 4
 int cluster_size = 1;
-int num_of_corridors = 1;
+int num_of_corridors = 0;
 const int networkx = 4; //networkx=networky
 const int networky = 4;
 const int networkz = 1;
@@ -848,33 +848,7 @@ void main()
 	//--------------------------------------------------------------------------------
 	int injection_rate=0.02;
 	NI NI_1;
-	trafficmanager TF1;
-	for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
-	{
-		for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
-		{
-			for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
-			{
-				if (net[j][k][l].router == 1)//////////////////////////////////////
-				{
-					int R;
-					R = rand() % 10 + 1; //R in the range 1 to 10
-					flit temp_flit;
-					if (R < injection_rate)
-					{
-						temp_flit = TF1.generate_flit();
-						NI_1.queue[j][k].enQueue(temp_flit);
-					}
-					//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
-					if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
-					{
-						if(NI_1.queue[j][k].isEmpty()==0) //if Network Interface buffer is not empty
-						net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
-					}
-				}
-			}
-		}
-	}
+	trafficmanager TF1;		
 	//--------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------
 	cout << "\n" << "simulation duration = " << simulation_time << "\n";
@@ -889,6 +863,20 @@ void main()
 				{
 					if (net[j][k][l].router == 1)//////////////////////////////////////
 					{
+						int R;
+						R = rand() % 10 + 1; //R in the range 1 to 10
+						flit temp_flit;
+						if (R < injection_rate)
+						{
+							temp_flit = TF1.generate_flit();
+							NI_1.queue[j][k].enQueue(temp_flit);
+						}
+						//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
+						if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
+						{
+							if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
+								net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
+						}
 						//--------------------------------------------------------------------------------
 						//initialization of arbiter_array of all outports to zero
 						for (int u = 1; u < 6; u++)//for all output ports
