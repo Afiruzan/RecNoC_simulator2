@@ -863,6 +863,11 @@ void main()
 						temp_flit = TF1.generate_flit();
 						NI_1.queue[j][k].enQueue(temp_flit);
 					}
+					//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
+					if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
+					{
+						net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
+					}
 				}
 			}
 		}
