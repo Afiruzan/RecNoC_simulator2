@@ -239,6 +239,23 @@ class NI
 public:
 	Queue queue[10][10];
 };
+class trafficmanager
+{
+public:
+	flit generate_flit();
+	void retire_flit();
+};
+flit trafficmanager::generate_flit()
+{
+	flit Temp_Flit;
+	int x;
+	int y;
+	x = rand() % networkx + 1; //x in the range 1 to 10
+	y= rand() % networky + 1; //y in the range 1 to 10
+	Temp_Flit.x_dest = x;
+	Temp_Flit.y_dest = y;
+	return Temp_Flit;
+}
 //End of class definitions
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
@@ -827,8 +844,9 @@ void main()
 	net[2][1][1].crossbar_in_recswitch[2][3] = 1;
 	net[2][1][1].crossbar_in_recswitch[3][2] = 1;*/
 	//--------------------------------------------------------------------------------
-	int injection_rate;
+	int injection_rate=0.02;
 	NI NI_1;
+	trafficmanager TF1;
 	for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 	{
 		for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
@@ -842,6 +860,7 @@ void main()
 					flit temp_flit;
 					if (R < injection_rate)
 					{
+						temp_flit = TF1.generate_flit();
 						NI_1.queue[j][k].enQueue(temp_flit);
 					}
 				}
