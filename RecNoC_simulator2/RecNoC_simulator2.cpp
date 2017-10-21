@@ -26,7 +26,7 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
-#define buffer_size 2
+#define buffer_size 4
 int cluster_size = 1;
 int num_of_corridors = 0;
 const int networkx = 4; //networkx=networky
@@ -48,6 +48,7 @@ public:
 	int y_dest;
 	int data;
 	int time; //time which flit comes to cluster-based RecNoC and reached to its destination
+	bool is_flit_reached_to_its_destination; // if flit reaches to its destination then this flag being one
 };
 
 class inlink
@@ -55,6 +56,10 @@ class inlink
 public:
 	flit f;
 	bool is_full;
+};
+class credit_received
+{
+	bool credit; //for credit-based flow control
 };
 
 class outport
@@ -72,6 +77,7 @@ public:
 			arbiter_array[i] = 0;
 		}
 	}
+	bool credit_out;
 };
 
 class Queue //buffer is a circular queue
@@ -81,13 +87,13 @@ public:
 	bool credit_is_received = 0;
 	flit f[buffer_size];
 	int front, rear;
-	Queue(){
+	Queue() {
 		front = -1;
 		rear = -1;
 	}
 
-	bool isFull(){
-		if (front == 0 && rear == buffer_size - 1){
+	bool isFull() {
+		if (front == 0 && rear == buffer_size - 1) {
 			return true;
 		}
 		if (front == rear + 1) {
@@ -96,13 +102,13 @@ public:
 		return false;
 	}
 
-	bool isEmpty(){
+	bool isEmpty() {
 		if (front == -1) return true;
 		else return false;
 	}
 
-	void enQueue(flit f2){
-		if (isFull()){
+	void enQueue(flit f2) {
+		if (isFull()) {
 			//cout << "Buffer is full\n";
 		}
 		else {
@@ -113,17 +119,17 @@ public:
 		}
 	}
 
-	flit deQueue(){
+	flit deQueue() {
 		flit f2;
 		//flit errorflit;
 		//errorflit.number = -1;
-		if (isEmpty()){
+		if (isEmpty()) {
 			//cout << "Queue is empty" << endl;
 			//return(errorflit);
 		}
 		else {
 			f2 = f[front];
-			if (front == rear){
+			if (front == rear) {
 				front = -1;
 				rear = -1;
 			} /* Q has only one element, so we reset the queue after deleting it. */
@@ -146,10 +152,10 @@ public:
 			myfile << endl << " ++++++++++++++ Items -> ";
 			for (i = front; i != rear; i = (i + 1) % buffer_size)
 			{
-				myfile << f[i].number<<" , ";
+				myfile << f[i].number << " , ";
 			}
 			myfile << f[i].number;
-			myfile << endl << " ++++++++++++++ Index of Rear -> " << rear<<"\n";
+			myfile << endl << " ++++++++++++++ Index of Rear -> " << rear << "\n";
 		}
 	}
 };
@@ -169,7 +175,7 @@ public:
 	//int write_pointer=-1;// equal to rear initializing write pointer;
 	//int read_pointer=-1;// equal to front initializing read pointer
 	void buffer_read_increase_time();
-	bool grant;//for arbitration section
+	bool grant=0;//for arbitration section
 	int outport_computed_by_routing_function;
 };
 flit inport::buffer_display()//this function returns front flit of queue
@@ -197,6 +203,7 @@ public:
 	inport inport_number[20]; // an array for easily usage of inports
 	outport outport_number[20];  // an array for easily usage of outports
 	inlink inlink_number[8];
+	credit_received credit_receive;
 	int crossbar_in_recswitch[4][4]; //which input of recswitch is connected to which output using a 4 * 4 matrix
 	element(); //constructor for recswitch matrix
 	/*
@@ -804,9 +811,11 @@ void main()
 				myfile << " . ";
 			}
 		}
-		cout << "\n";
-		myfile << "\n";
 	}
+	cout << "\n";
+	myfile << "\n";
+	cout << "\nbuffer_size= " << buffer_size;
+	myfile << "\nbuffer_size= " << buffer_size;
 	//End of shape of net
 	//##################################################################################################################################
 	// traffic manager
@@ -814,7 +823,7 @@ void main()
 	//information of input flits is in below:
 	//number_of_flits = networkx*networky;
 	flit f1;
-	int number_of_flits = 1;
+	int number_of_flits = 62;
 	f1.number = 1;
 	//f2.number = 2;
 	//f3.number = 3;
@@ -853,7 +862,7 @@ void main()
 	net[2][1][1].crossbar_in_recswitch[2][3] = 1;
 	net[2][1][1].crossbar_in_recswitch[3][2] = 1;*/
 	//--------------------------------------------------------------------------------
-	int injection_rate=0.56;
+	float injection_rate=0.4;
 	NI NI_1;
 	trafficmanager TF1;		
 	//--------------------------------------------------------------------------------
@@ -865,26 +874,36 @@ void main()
 
 					//--------------------------------------------------------------------------------
 					//Generating Traffic
-					/*int R;
-					R = rand() % 10 + 1; //R in the range 1 to 10
-					flit temp_flit;
-					if (R < injection_rate)
+		for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
+		{
+			for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
+			{
+				for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
+				{
+					if (net[j][k][l].router == 1)//////////////////////////////////////
 					{
-						temp_flit = TF1.generate_flit(j, k, l);
-						NI_1.queue[j][k].enQueue(temp_flit);
-					}
-					//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
-					if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
-					{
-						if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
-							net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
-					}
-					//End of traffic generation
-					//--------------------------------------------------------------------------------
-					*/
+						int R;
+						R = rand() % 10 + 1; //R in the range 1 to 10
+						flit temp_flit;
+						if (R < (injection_rate*10))
+						{
+							temp_flit = TF1.generate_flit(j, k, l);
+							NI_1.queue[j][k].enQueue(temp_flit);
+						}
+						//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
 
-
+						if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
+						{
+							if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
+								net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
+						}
+					}
+				}
+			}
+		}
 		
+		//End of traffic generation
+					//--------------------------------------------------------------------------------
 		//net[3][1][1].inport_number[2].buffer.enQueue(f2);//??????????????????????????????????????????????????????????????????????????????
 		//initialization of arbiter_array of all outports to zero
 		for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
@@ -909,27 +928,7 @@ void main()
 			for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
 			{
 				for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
-				{
-					/*//--------------------------------------------------------------------------------
-					//Generating Traffic
-					int R;
-					R = rand() % 10 + 1; //R in the range 1 to 10
-					flit temp_flit;
-					if (R < injection_rate)
-					{
-						temp_flit = TF1.generate_flit(j, k, l);
-						NI_1.queue[j][k].enQueue(temp_flit);
-					}
-					//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
-					if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
-					{
-						if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
-							net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
-					}
-					//End of traffic generation*/
-					//--------------------------------------------------------------------------------
-
-					
+				{		
 					if (net[j][k][l].router == 1)//////////////////////////////////////
 					{
 						//------------------------------------------------------------------------------------------------------------------------------------
@@ -942,6 +941,7 @@ void main()
 								if (u == 5) /// if flit reached to its destination
 								{
 									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination after cycle " << net[j][k][l].outport_number[u].f.time << "\n\n";
+									//net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination = 1;
 									//net[j][k][l].outport_number[u].empty_buffer_slots_of_next_router--;//Credit_based flow control
 									continue;//do nothing and go to next output port
 								}
@@ -963,7 +963,7 @@ void main()
 									{
 										if (net[j][k][l].outport_number[u].f.number == t)
 										{
-											myfile << "\n Sending outport flit of router(" << j << "," << k << "," << l << ") to inlink of neighbor elelment: At cycle " << net[j][k][l].outport_number[u].f.time << " flit " << net[j][k][l].outport_number[u].f.number << " is in   router ( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
+											myfile << "\n At cycle " << net[j][k][l].outport_number[u].f.time << " flit " << net[j][k][l].outport_number[u].f.number << " is in   router ( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
 										}
 									}
 								}
@@ -999,6 +999,21 @@ void main()
 
 						//routing function implemented here
 						// for all input ports send flit of input port to an output port of own which decided by routing function
+						for (int u = 1; u < 6; u++) //for all inports if grant=1 then traverse to outport which computed by routing function in previous section
+						{
+							if (net[j][k][l].inport_number[u].grant == 1)//if grant=1 then send input to output which computed by routing function 
+							{
+								int temp;
+								temp = net[j][k][l].inport_number[u].outport_computed_by_routing_function;
+								if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0)
+								{
+									net[j][k][l].outport_number[temp].f = net[j][k][l].inport_number[u].buffer.deQueue();//put flit of winner inport into outport
+									net[j][k][l].outport_number[temp].is_full = 1;
+								}
+							}
+						}
+
+
 						for (int u = 1; u < 6; u++) // for all inports************************************ 3D must be completed
 						{
 							if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0) //If buffer of this input port is not empty
@@ -1009,12 +1024,19 @@ void main()
 								int j1, k1, l1, inlinknumber;
 								j1 = j_at_next_router(j, k, l, net, outport);//x of forward neighbor element which computed by routing. we use j1 & k1 for credit ************************************ 3D must be completed
 								k1 = k_at_next_router(j, k, l, net, outport);//y of forward neighbor element which computed by routing. we use j1 & k1 for credit ************************************ 3D must be completed
+								if (outport == 5)
+									goto bv;
 								inlinknumber = inlinknumber_computer_for_neighbor_element(outport);//this function computes inlink number in neighbor element
-								net[j][k][l].outport_number[outport].arbiter_array[u] = 1; //Arbitration Request sent to outport
+								bv:net[j][k][l].outport_number[outport].arbiter_array[u] = 1; //Arbitration Request sent to outport
 								net[j][k][l].inport_number[u].buffer_read_increase_time();//This operation requires one cycle and flit time must be added by one
-								myfile << "\n\n ++++++++++++++ Buffer of input port " << u_to_inport_name(u) << " in   router(" << j << " " << k << " " << l << ")\n";
-								net[j][k][l].inport_number[u].buffer.display();
-								myfile << " \n\n";
+								//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+								/*if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0)
+								{
+									myfile << "\n\n ++++++++++++++ Buffer of input port " << u_to_inport_name(u) << " in   router(" << j << " " << k << " " << l << ")\n";
+									net[j][k][l].inport_number[u].buffer.display();
+									myfile << " \n\n";
+								}*/
+								//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 							}
 						}
 						/*if (outport == 5)//if flit must send to PE_out do nothing TODO:add arbitration for ejection
@@ -1057,7 +1079,8 @@ void main()
 								if ((net[j][k][l].outport_number[t].arbiter_array[m] == 1) && (fz != m))//if inport sent request for outport arbiter and lose the aritraion then increadse flit time by one
 								{
 									net[j][k][l].inport_number[m].buffer_read_increase_time();//increase time for losers
-									cout << " \n at cycle " << net[j][k][l].inport_number[m].buffer_display().time << " flit " << net[j][k][l].inport_number[m].buffer_display().number << " losed in arbitration " << " at router router ( " << j << " " << k << " " << l << " )\n";
+									//cout << " \n at cycle " << net[j][k][l].inport_number[m].buffer_display().time << " flit " << net[j][k][l].inport_number[m].buffer_display().number << " losed in arbitration " << " at router router ( " << j << " " << k << " " << l << " )\n";
+									cout << " \n at cycle " << i << " flit " << net[j][k][l].inport_number[m].buffer_display().number << " losed in arbitration " << " at router router ( " << j << " " << k << " " << l << " )\n";
 								}
 							}
 							/*if ((fz > 0) && (fz < 6))//fz is index of winner inport so this index must be in range 1 to 5
@@ -1071,19 +1094,16 @@ void main()
 
 						//End of arbitration
 						//------------------------------------------------------------------------------------------------------------------------------------------------
-						for (int u = 1; u < 6; u++) //for all inports if grant=1 then traverse to outport which computed by routing function in previous section
-						{
-							if (net[j][k][l].inport_number[u].grant == 1)//if grant=1 then send input to output which computed by routing function 
-							{
-								int temp;
-								temp = net[j][k][l].inport_number[u].outport_computed_by_routing_function;
-								if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0)
-								{
-									net[j][k][l].outport_number[temp].f = net[j][k][l].inport_number[u].buffer.deQueue();//put flit of winner inport into outport
-									net[j][k][l].outport_number[temp].is_full = 1;
-								}
-							}
-						}
+						
+
+
+
+
+
+
+
+
+
 						//cout << "\nafter" << net[j][k][l].inport_number[u].buffer_display().number<<"\n";
 						//net[j][k][l].outport_number[outport].empty_buffer_slots_of_next_router--;
 						//Below lines for sending credit to backward router
@@ -1159,14 +1179,17 @@ void main()
 								inport_number = inlink_to_inport_computer(i);
 								//TODO: below lines are vc allocation
 
-
-								net[j][k][l].inport_number[inport_number].buffer.enQueue(net[j][k][l].inlink_number[i].f);
-								net[j][k][l].inlink_number[i].is_full = 0;
+								if (net[j][k][l].inlink_number[i].is_full == 1)
+								{
+									net[j][k][l].inport_number[inport_number].buffer.enQueue(net[j][k][l].inlink_number[i].f);
+									net[j][k][l].inlink_number[i].is_full = 0;
+								}
 								/*myfile << "\n\n ++++++++++++++ Buffer of input port " << u_to_inport_name(inport_number) << " in   router(" << j << " " << k << " " << l << ")\n";
 								net[j][k][l].inport_number[inport_number].buffer.display();
 								myfile << " \n\n";*/
 							}
 						}
+						//for all outports copy credit_recived to credit_out
 					}
 					
 					
@@ -1382,6 +1405,7 @@ void main()
 	//avg_delay = (f1.time + f2.time + f3.time + f4.time)/4;
 	//cout << "\nAvg delay = " << avg_delay;
 	//myfile << "\nAvg delay = " << avg_delay;
+	cout << "\n\nnumber of generated flits = " << pl << "\n\n";
 	cout << "Simulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	getchar();
 }
