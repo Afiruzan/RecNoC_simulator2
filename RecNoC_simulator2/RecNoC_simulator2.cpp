@@ -26,7 +26,7 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
-#define buffer_size 4
+#define buffer_size 1
 int cluster_size = 1;
 int num_of_corridors = 0;
 const int networkx = 4; //networkx=networky
@@ -68,7 +68,7 @@ public:
 	flit f;
 	bool is_full;
 	int empty_buffer_slots_of_next_router=buffer_size;//Credit-based flow control ***************************************newly added
-	bool empty_buffer_slots_of_next_router_is_received=0;
+	bool empty_buffer_slots_of_next_router_is_received=0;// Dr. said we does not need this  
 	bool arbiter_array[7];//arbiter array
 	outport()// constructor for initializing arbiter_array;
 	{
@@ -77,7 +77,8 @@ public:
 			arbiter_array[i] = 0;
 		}
 	}
-	bool credit_out;
+	bool credit_out = 0;
+	bool credit_recived=0;
 };
 
 class Queue //buffer is a circular queue
@@ -250,10 +251,10 @@ public:
 class trafficmanager
 {
 public:
-	flit generate_flit(int j, int k, int l);
+	flit generate_flit(int j, int k, int l,int(&a)[100]);
 	void retire_flit();
 };
-flit trafficmanager::generate_flit(int j,int k,int l)
+flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[100])//******************must be completd (int (&a))
 {
 	flit Temp_Flit;
 	int x;
@@ -265,6 +266,7 @@ flit trafficmanager::generate_flit(int j,int k,int l)
 	Temp_Flit.x_dest = x;
 	Temp_Flit.y_dest = y;
 	Temp_Flit.number = pl;
+	a[pl]++;
 	pl++;
 	return Temp_Flit;
 }
@@ -500,7 +502,7 @@ int input_to_outport_computer(int u)
 	return result[u];
 }
 
-int buffer_backpressure_outportnumber_computer(int u,element net[100][100][2],int j,int k, int l)//This function gives outport of this recswitch and then computes output port of neghibor element in credit_based back pressure buffer mechanism
+int buffer_backpressure_outportnumber_computer(int u,element net[100][100][2],int &j,int &k, int &l)//This function gives outport of this recswitch and then computes output port of neghibor element in credit_based back pressure buffer mechanism
 {
 	int y1, k1, i1, j1,result;
 	//for (int u = 1; u < 8; u++)// for all output ports of recswitch//////*******************************3D must be completed
@@ -522,6 +524,14 @@ int buffer_backpressure_outportnumber_computer(int u,element net[100][100][2],in
 			}
 		}
 	//}
+		if (result == 1)
+			k++;
+		if (result == 2)
+			j--;
+		if (result == 3)
+			k--;
+		if (result == 4)
+			j++;
 	return result;
 }
 
@@ -715,14 +725,23 @@ int outport_arbiter_function(bool arbitration_array[5])//priority Arbiter functi
 		return 7;
 	}
 }
+void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This function sends a credit to the first backpressure router u is inport number
+{
 
+	while (net[j][k][l].router == 0)
+	{
+		buffer_backpressure_outportnumber_computer(inport_to_neighbor_outport_number_computer_backpressure(u), net, j, k, l);
+	}
+}
 //End of required functions definitions
 //##########################################################################################################################
 void main()
 {
 	cout << "number_of_elements_in_x_direction= " << number_of_elements_in_x_direction << "\n";
 	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
-
+	int a[100]; //an array for evaluating the condition of flit when it reaches its destination //must be completed
+	for (int i = 0; i < 100; i++) //initialization of above array
+		a[i] = 0;
 	element net[100][100][2]; //creates a RecNoC
 	for (int i = 0; i < number_of_elements_in_x_direction + 1; i++)
 	{
@@ -735,7 +754,7 @@ void main()
 		}
 	}
 	//###################################################################################################################################
-	//Cluster-based RecNoC constructor. This section of code initialize net[j][k][l] array as a recswitch.
+	//Cluster-based Reconfigurable Network-on-Chip constructor. This section of code initialize net[j][k][l] array as a recswitch.
 	//cout <<"&net"<< &net << "\n";
 	for (int z = 1; z < (networkz + 1); z++)
 	{
@@ -811,13 +830,13 @@ void main()
 				myfile << " . ";
 			}
 		}
+		cout << "\n";
+		myfile << "\n";
 	}
-	cout << "\n";
-	myfile << "\n";
-	cout << "\nbuffer_size= " << buffer_size;
-	myfile << "\nbuffer_size= " << buffer_size;
 	//End of shape of net
 	//##################################################################################################################################
+	cout << "\nbuffer_size= " << buffer_size;
+	myfile << "\nbuffer_size= " << buffer_size;
 	// traffic manager
 	myfile << "\n\n#################################################################\n\ntraffic manager result:\n\n";
 	//information of input flits is in below:
@@ -864,7 +883,7 @@ void main()
 	//--------------------------------------------------------------------------------
 	float injection_rate=0.4;
 	NI NI_1;
-	trafficmanager TF1;		
+	trafficmanager TF1;	
 	//--------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------
 	cout << "\n" << "simulation duration = " << simulation_time << "\n";
@@ -887,7 +906,7 @@ void main()
 						flit temp_flit;
 						if (R < (injection_rate*10))
 						{
-							temp_flit = TF1.generate_flit(j, k, l);
+							temp_flit = TF1.generate_flit(j, k, l,a);
 							NI_1.queue[j][k].enQueue(temp_flit);
 						}
 						//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
@@ -895,7 +914,7 @@ void main()
 						if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
 						{
 							if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
-								net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue());
+								net[j][k][l].inport_number[5].buffer.enQueue(NI_1.queue[j][k].deQueue()); //inject flit from NI to inport buffer
 						}
 					}
 				}
@@ -941,6 +960,7 @@ void main()
 								if (u == 5) /// if flit reached to its destination
 								{
 									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination after cycle " << net[j][k][l].outport_number[u].f.time << "\n\n";
+									a[net[j][k][l].outport_number[u].f.number]++;
 									//net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination = 1;
 									//net[j][k][l].outport_number[u].empty_buffer_slots_of_next_router--;//Credit_based flow control
 									continue;//do nothing and go to next output port
@@ -1009,9 +1029,11 @@ void main()
 								{
 									net[j][k][l].outport_number[temp].f = net[j][k][l].inport_number[u].buffer.deQueue();//put flit of winner inport into outport
 									net[j][k][l].outport_number[temp].is_full = 1;
+									send_credit(net, j, k, l, u);
 								}
 							}
 						}
+						
 
 
 						for (int u = 1; u < 6; u++) // for all inports************************************ 3D must be completed
@@ -1189,7 +1211,18 @@ void main()
 								myfile << " \n\n";*/
 							}
 						}
+						
+						
+						
+						
+						
+						//-------------------------------------------------------------------------------------------
 						//for all outports copy credit_recived to credit_out
+						for (int t = 1; t < 6; t++)//For all outports
+						{
+							net[j][k][l].outport_number[t].credit_out = net[j][k][l].outport_number[t].credit_recived;
+						}
+						//-------------------------------------------------------------------------------------------
 					}
 					
 					
@@ -1405,6 +1438,24 @@ void main()
 	//avg_delay = (f1.time + f2.time + f3.time + f4.time)/4;
 	//cout << "\nAvg delay = " << avg_delay;
 	//myfile << "\nAvg delay = " << avg_delay;
+	int r_counter=0;//does not reach to destination counter
+	int y_counter=0;//reach to destination
+	for (int i = 0; i < 100; i++)
+	{
+		if (a[i] == 1)
+		{
+			r_counter++;
+			myfile << "\n\nflit " << i << " does not reached to destination\n";
+		}
+		if (a[i] == 2)
+		{
+			y_counter++;
+			myfile << "\n\nflit " << i << " reached to destination\n";
+		}
+	}
+	myfile << "\n\nnumber of generated flits = " << pl << "\n\n";
+	myfile << "\n\n " << r_counter << " reached\n";
+	myfile << "\n\n " << y_counter << " not reached\n";
 	cout << "\n\nnumber of generated flits = " << pl << "\n\n";
 	cout << "Simulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	getchar();
