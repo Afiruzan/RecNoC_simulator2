@@ -26,10 +26,10 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
-#define buffer_size 4
+#define buffer_size 30
 #define a_size 999999 //999,999 estimation of number of generated flits
 int simulation_time = 10000; //simulation time by cycle unit
-int traffic_generation_duration =9999; //traffic_generation_duration by cycle unit
+int traffic_generation_duration =8500; //traffic_generation_duration by cycle unit
 float injection_rate = 0.3;
 int cluster_size = 1;
 int num_of_corridors = 0;
@@ -38,9 +38,9 @@ const int networky = 8;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx/cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky/cluster_size) - 1)*num_of_corridors);
-int pl = 1; //pl is a global variable which will be used for flit numbering system
+int pl = 1; //pl is a global variable which will be used for counting number of flits
 int Minimum_Delay; //Minimum_Delay is a global variable which will be used for computing minimum delay
-int credit_sends_counter = 0;
+int credit_sends_counter = 0; //an integer for counting number of credit_send function calls
 ofstream myfile("Result.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
@@ -62,10 +62,6 @@ class inlink
 public:
 	flit f;
 	bool is_full;
-};
-class credit_received
-{
-	bool credit; //for credit-based flow control
 };
 
 class outport
@@ -211,7 +207,6 @@ public:
 	inport inport_number[20]; // an array for easily usage of inports
 	outport outport_number[20];  // an array for easily usage of outports
 	inlink inlink_number[8];
-	credit_received credit_receive;
 	int crossbar_in_recswitch[4][4]; //which input of recswitch is connected to which output using a 4 * 4 matrix
 	element(); //constructor for recswitch matrix
 	/*
@@ -769,7 +764,7 @@ void main()
 {
 	cout << "number_of_elements_in_x_direction= " << number_of_elements_in_x_direction << "\n";
 	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
-	int a[6][a_size]; //an array for evaluating the condition of flit when it reaches its destination and producing statistics //must be completed
+	int a[6][a_size]; //an array for storing the specification of flits such as when it reaches its destination and producing statistics //must be completed
 	for (int i = 0; i < 6; i++) //initialization of above array
 	{
 		for (int j = 0; j < a_size; j++)
@@ -777,7 +772,7 @@ void main()
 			a[i][j] = 0;
 		}
 	}
-	element net[100][100][2]; //creates a RecNoC
+	element net[100][100][2]; //creates a 3D cluster-based Reconfigurable NoC
 	for (int i = 0; i < number_of_elements_in_x_direction + 1; i++)
 	{
 		for (int j = 0; j < number_of_elements_in_y_direction + 1; j++)
@@ -820,9 +815,7 @@ void main()
 		else goto here;
 		goto here4;
 	here:;
-		//}
 	}
-	//cout << net[1][1][1].router<<"\n";
 	//End of Cluster-based RecNoC constructor
 	//###################################################################################################################################
 	//for test the program and writing result in output txt file
@@ -849,7 +842,6 @@ void main()
 	}
 	//Display shape of net on output by * and . ( *=router && .=recswitch )
 	myfile << "\nshape of RecNoC:\n\n";
-	//char net2[20][20];
 	for (int i = 1; i < number_of_elements_in_y_direction + 1; i++)
 	{
 		for (int j = 1; j < number_of_elements_in_x_direction + 1; j++)
@@ -922,7 +914,8 @@ void main()
 	//--------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------
 	cout << "\n" << "simulation duration = " << simulation_time << "\n";
-	for (int i = 1; i < simulation_time; i++) //i shows clock cycle. This is a cycle-accurate simulator
+	
+	for (int i = 1; i < simulation_time; i++) //i shows clock cycle.In other words it shows time This simulator is a cycle-accurate simulator and this line is the main line of simulator
 	{
 	    //--------------------------------------------------------------------------------
 		//Generating Traffic
@@ -937,11 +930,11 @@ void main()
 						if (net[j][k][l].router == 1)//////////////////////////////////////
 						{
 							int R;
-							R = rand() % 10 + 1; //R in the range 1 to 10
+							R = rand() % 10 + 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
 							flit temp_flit;
 							if (R <= (injection_rate * 10))
 							{
-								temp_flit = TF1.generate_flit(j, k, l, a, i);
+								temp_flit = TF1.generate_flit(j, k, l, a, i); //This line generate a flit
 								NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
 							}
 							//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
@@ -951,8 +944,8 @@ void main()
 								if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
 								{
 									flit temp4;
-									temp4 = NI_1.queue[j][k].deQueue();
-										net[j][k][l].inport_number[5].buffer.enQueue(temp4); //inject flit from NI to inport buffer
+									temp4 = NI_1.queue[j][k].deQueue(); //deQueue from NI router
+									net[j][k][l].inport_number[5].buffer.enQueue(temp4); //inject flit from NI to inport buffer
 								}
 							}
 						}
@@ -961,29 +954,24 @@ void main()
 			}
 		}
 		//End of traffic generation
-					//--------------------------------------------------------------------------------
-		//net[3][1][1].inport_number[2].buffer.enQueue(f2);//??????????????????????????????????????????????????????????????????????????????
+		//--------------------------------------------------------------------------------
 		
 		for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 		{
 			for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
 			{
 				for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
-				{		
+				{
 					if (net[j][k][l].router == 1)//////////////////////////////////////
 					{
 						//initialization of arbiter_array of all outports to zero
-						
-									for (int u = 1; u < 6; u++)//for all output ports
-									{
-										for (int y = 1; y < 6; y++)//for all arbiter_array elements
-										{
-											net[j][k][l].outport_number[u].arbiter_array[y] = 0;//set all arbitration_arrary of all outports to zero
-										}
-									}
-								
-							
-						
+						for (int u = 1; u < 6; u++)//for all output ports
+						{
+							for (int y = 1; y < 6; y++)//for all arbiter_array elements
+							{
+								net[j][k][l].outport_number[u].arbiter_array[y] = 0;//set all arbitration_arrary of all outports to zero
+							}
+						}
 						//End of initialization of arbiter_array of all outportd to zero
 						//------------------------------------------------------------------------------------------------------------------------------------
 						//------------------------------------------------------------------------------------------------------------------------------------
@@ -1085,6 +1073,7 @@ void main()
 									net[j][k][l].outport_number[temp].is_full = 1;
 									send_credit(net, j, k, l, u);
 									credit_sends_counter++;
+									net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
 								}
 							}
 						}
@@ -1099,7 +1088,7 @@ void main()
 								flit temp;
 								temp = net[j][k][l].inport_number[u].buffer_display();
 								outport = xy_routing_function(temp, j, k, l, net);//outport is computed by routing function
-								net[j][k][l].inport_number[u].outport_computed_by_routing_function = outport;
+								net[j][k][l].inport_number[u].outport_computed_by_routing_function = outport; //result of routing unit must be store for next use
 								int j1, k1, l1;
 								j1 = j_at_next_router(j, k, l, net, outport);//x of forward neighbor element which computed by routing. we use j1 & k1 for credit ************************************ 3D must be completed
 								k1 = k_at_next_router(j, k, l, net, outport);//y of forward neighbor element which computed by routing. we use j1 & k1 for credit ************************************ 3D must be completed
@@ -1108,14 +1097,6 @@ void main()
 								//inlinknumber = inlinknumber_computer_for_neighbor_element(outport);//this function computes inlink number in neighbor element
 								bv:net[j][k][l].outport_number[outport].arbiter_array[u] = 1; //Arbitration Request sent to outport
 								net[j][k][l].inport_number[u].buffer_read_increase_time();//This operation requires one cycle and flit time must be added by one
-								//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-								/*if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0)
-								{
-									myfile << "\n\n ++++++++++++++ Buffer of input port " << u_to_inport_name(u) << " in   router(" << j << " " << k << " " << l << ")\n";
-									net[j][k][l].inport_number[u].buffer.display();
-									myfile << " \n\n";
-								}*/
-								//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 							}
 						}
 						/*if (outport == 5)//if flit must send to PE_out do nothing TODO:add arbitration for ejection
@@ -1141,16 +1122,17 @@ void main()
 						{
 							int counter = 0;
 							//Below loop computes number of ones in arbiter_array
-							for (int i = 1; i < 6; i++) //for all inports TODO:#D
+							for (int i = 1; i < 6; i++) //for all inports TODO:3D
 							{
 								if (net[j][k][l].outport_number[t].arbiter_array[i] == 1)
 									counter++;
 							}
-							if ((counter > 0)&&(net[j][k][l].outport_number[t].credit_out>0))//&& credit of this port is greater than one //if arbitration request for a specified port was greater than zero
+							if ((counter > 0)&&(net[j][k][l].outport_number[t].credit_out>0))//if there is at least one arbitration request credit of this port is greater than one
 							{
 								
 								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;
+								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array)] = 0; //This line is not necessery
 							}
 							
 							/*if ((fz > 0) && (fz < 6))//fz is index of winner inport so this index must be in range 1 to 5
@@ -1358,19 +1340,15 @@ void main()
 							// for all out ports if there is a flit send out to in-link of neighbor element
 							for (int u = 1; u < 5; u++)// for all output ports//////*******************************
 							{
-								if (net[j][k][l].outport_number[u].is_full == 1) //for all out ports if there is a flit
+								if (net[j][k][l].outport_number[u].is_full == 1) //if there is a flit in this outport
 								{
 									int j1, k1, l1, inlinknumber;
 									j1 = j_at_next_router(j, k, l, net, u);
 									k1 = k_at_next_router(j, k, l, net, u);
-									inlinknumber = inlinknumber_computer_for_neighbor_element(u);
+									inlinknumber = inlinknumber_computer_for_neighbor_element(u); //inlinknumber_computer_for_neighbor_element
 									net[j][k][l].outport_number[u].is_full = 0; //send out to in-link of neighbor element
-									net[j1][k1][l].inlink_number[inlinknumber].is_full = 1;/////*************************************************************
-									net[j1][k1][l].inlink_number[inlinknumber].f = net[j][k][l].outport_number[u].f;
-									/*if (net[j1][k1][l].router == 1)
-									{
-										goto here7;
-									}*/
+									net[j1][k1][l].inlink_number[inlinknumber].is_full = 1;
+									net[j1][k1][l].inlink_number[inlinknumber].f = net[j][k][l].outport_number[u].f; //send out to in-link of neighbor element
 									for (int t = 1; t < number_of_flits + 1; t++)///////*****************************************************must be corrected
 									{
 										if (net[j][k][l].outport_number[u].f.number == t)
@@ -1381,113 +1359,14 @@ void main()
 									}
 								}
 							}
-						//}
-//					here7:;
-						//for (int i = 1; i < simulation_time; i++)
-						//{
-							//// ******************************************************
-							//credit_based buffer backpressure on recswitch output ports for transmiiting empty_buffer_slots_of_next_router
-							/*for (int u = 1; u < 5; u++)// for all output ports of a recswitch copy empty_buffer_slots_of_next_router of that recswitch to empty_buffer_slots_of_next_router of backpressure recswitch output port//************************************ 3D must be completed
-							{
-								for (int i1 = 0; i1 < 4; i1++) //crossbar in recswitch matrix
-								{
-									for (int j1 = 0; j1 < 4; j1++)
-									{
-										if (net[j][k][l].crossbar_in_recswitch[i1][j1] == 1)
-										{
-											int y1, k2;
-											y1 = y_computer(i1, j1); //y= input port
-											k2 = k_computer(i1, j1); //k=output port
-											if (u == k2)
-											{
-												int jj, kk, ll;
-												jj = x_of_neighbor_element_in_backpressure(u, net, j, k, l);//x_of_neighbor_element_in_backpressure
-												kk = y_of_neighbor_element_in_backpressure(u, net, j, k, l);//y_of_neighbor_element_in_backpressure
-												ll = z_of_neighbor_element_in_backpressure(u, net, j, k, l);//z_of_neighbor_element_in_backpressure
-												//Below lines contain error _ it does not change empty_buffer_slots_of_next_router when it is zero
-												int b;
-												b = buffer_backpressure_outportnumber_computer(u, net, j, k, l);
-												if (net[jj][kk][ll].outport_number[b].empty_buffer_slots_of_next_router_is_received != 1)
-												{
-
-													net[jj][kk][ll].outport_number[buffer_backpressure_outportnumber_computer(u, net, j, k, l)].empty_buffer_slots_of_next_router = net[j][k][l].outport_number[u].empty_buffer_slots_of_next_router; //for all out ports if there is a flit
-												}
-												else goto mk;
-												if (net[j][k][l].outport_number[u].empty_buffer_slots_of_next_router == 0)
-												{
-													cout << "&&&&&&&" << j << " " << k << " " << l << " " << u << " ";
-												}
-												if (net[jj][kk][ll].router == 1)
-												{
-
-													net[jj][kk][ll].outport_number[b].empty_buffer_slots_of_next_router_is_received = 1;
-													//goto here3;
-												}
-											mk:;
-											}
-										}
-									}
-								}
-								//net[jj][kk][ll].inport_number[u].buffer.credit = net[j][k][l].inport_number[]
-							}
-							//// ******************************************************
-							//credit_based buffer backpressure on recswitch input ports for transmitting credit
-							for (int u = 1; u < 5; u++)// for all input ports//************************************ 3D must be completed (5 must change to 8)
-							{
-								if (u == 5)//if u = PE_in do nothing
-								{
-									goto ghj;
-								}
-								for (int i1 = 0; i1 < 4; i1++) //crossbar in recswitch matrix
-								{
-									for (int j1 = 0; j1 < 4; j1++)
-									{
-										if (net[j][k][l].crossbar_in_recswitch[i1][j1] == 1)
-										{
-											int y1, k2;
-											y1 = y_computer(i1, j1); //y= input port
-											k2 = k_computer(i1, j1); //k=output port
-											if (u == k2)
-											{
-												int jj, kk, ll, pz, sz;
-												pz = input_to_outport_computer(u);//pz is outport of neighbore element and u is inport number
-												jj = x_of_neighbor_element(pz, net, j, k, l);//x_of_neighbor_element_in_backpressure
-												kk = y_of_neighbor_element(pz, net, j, k, l);//y_of_neighbor_element_in_backpressure
-												ll = z_of_neighbor_element(pz, net, j, k, l);//z_of_neighbor_element_in_backpressure
-												sz = what_is_inport(pz, net, j, k, l);
-												//if (net[jj][kk][ll].router == 0)//if neighbor element is a recswitch
-												//{
-												if (net[j][k][l].inport_number[u].buffer.credit == 1)
-												{
-													net[jj][kk][ll].inport_number[sz].buffer.credit = net[j][k][l].inport_number[u].buffer.credit; //for all out ports if there is a flit
-													net[j][k][l].inport_number[u].buffer.credit = 0;
-												}
-												if (net[jj][kk][ll].router == 1)
-												{
-													net[jj][kk][ll].inport_number[sz].buffer.credit_is_received = 1;
-													goto here3;
-												}
-											}
-										}
-									}
-								}
-								//net[jj][kk][ll].inport_number[u].buffer.credit = net[j][k][l].inport_number[]
-								//}
-							ghj:;
-							}*/
-						//here3:;
 					}
-					// End of recswitch code section
-					//--------------------------------------------------------------------------------
-					//--------------------------------------------------------------------------------
-					//three brackets in below lines
 				}
 			}
 		}
 		//--------------------------------------------------------------------------------
 		// one bracket
 	}
-	//_______________________________________________
+	//--------------------------------------------------------------------------------
 	int r_counter=0;//does not reach to destination
 	int y_counter=0;//reach to destination
 	int E_counter = 0; // for debug
@@ -1497,7 +1376,12 @@ void main()
 		if (a[0][i] == 1)
 		{
 			r_counter++;
-			//myfile << "\n\nflit " << i << " does not reached to its destination\n";
+			myfile << "\n\nflit " << i << " does not reached to its destination\n";
+			myfile << "\n\nflit " << a[2][i] << " \n";
+			myfile << "\n\nflit " << a[3][i] << " \n";
+			myfile << "\n\nflit " << a[4][i] << " \n";
+			myfile << "\n\nflit " << a[5][i] << " \n";
+
 		}
 		if (a[0][i] == 2)
 		{
@@ -1510,11 +1394,6 @@ void main()
 			E_counter++;
 		}
 	}
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	/*for (int i = 0; i < (pl-1); i++)
-	{
-		if()
-	}*/
 	myfile << "\n ----------------------------------------------\nStatistics of 3D ReCNoC: \n";
 	cout << "\n\n Number of send_credit function calls = " << credit_sends_counter << "\n";
 	myfile << "\n\n Number of send_credit function calls = " << credit_sends_counter << "\n";
