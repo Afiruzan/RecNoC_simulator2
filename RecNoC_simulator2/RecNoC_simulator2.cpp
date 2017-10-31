@@ -26,10 +26,10 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
-#define buffer_size 30
+#define buffer_size 8
 #define a_size 999999 //999,999 estimation of number of generated flits
-int simulation_time = 10000; //simulation time by cycle unit
-int traffic_generation_duration =8500; //traffic_generation_duration by cycle unit
+int simulation_time = 300; //simulation time by cycle unit
+int traffic_generation_duration =200; //traffic_generation_duration by cycle unit
 float injection_rate = 0.3;
 int cluster_size = 1;
 int num_of_corridors = 0;
@@ -1080,7 +1080,7 @@ void main()
 						
 
 
-						for (int u = 1; u < 6; u++) // for all inports compute routing and store result in outport_computed_by_routing_function member of  ************************************ 3D must be completed
+						for (int u = 1; u < 6; u++) // for all inports compute routing and store result in outport_computed_by_routing_function member of that inport  ************************************ 3D must be completed
 						{
 							if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0) //If buffer of this input port is not empty
 							{
