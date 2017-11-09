@@ -252,7 +252,7 @@ traffic manager result:
 
 >>>>>>>>> flit 123 reached to its destination in cycle 23
 
->>>>>>>>> flit 350 reached to its destination in cycle 23
+>>>>>>>>> flit 40 reached to its destination in cycle 23
 
 >>>>>>>>> flit 82 reached to its destination in cycle 23
 
@@ -269,8 +269,6 @@ traffic manager result:
 >>>>>>>>> flit 368 reached to its destination in cycle 24
 
 >>>>>>>>> flit 125 reached to its destination in cycle 24
-
->>>>>>>>> flit 40 reached to its destination in cycle 24
 
 >>>>>>>>> flit 130 reached to its destination in cycle 24
 
@@ -314,13 +312,19 @@ traffic manager result:
 
 >>>>>>>>> flit 62 reached to its destination in cycle 25
 
+>>>>>>>>> flit 386 reached to its destination in cycle 25
+
 >>>>>>>>> flit 109 reached to its destination in cycle 25
 
 >>>>>>>>> flit 81 reached to its destination in cycle 26
 
 >>>>>>>>> flit 393 reached to its destination in cycle 26
 
->>>>>>>>> flit 176 reached to its destination in cycle 26
+>>>>>>>>> flit 308 reached to its destination in cycle 26
+
+>>>>>>>>> flit 326 reached to its destination in cycle 26
+
+>>>>>>>>> flit 350 reached to its destination in cycle 26
 
 >>>>>>>>> flit 113 reached to its destination in cycle 26
 
@@ -344,6 +348,8 @@ traffic manager result:
 
 >>>>>>>>> flit 14 reached to its destination in cycle 27
 
+>>>>>>>>> flit 176 reached to its destination in cycle 27
+
 >>>>>>>>> flit 79 reached to its destination in cycle 27
 
 >>>>>>>>> flit 19 reached to its destination in cycle 27
@@ -359,6 +365,8 @@ traffic manager result:
 >>>>>>>>> flit 170 reached to its destination in cycle 28
 
 >>>>>>>>> flit 250 reached to its destination in cycle 28
+
+>>>>>>>>> flit 325 reached to its destination in cycle 28
 
 >>>>>>>>> flit 313 reached to its destination in cycle 28
 
@@ -388,10 +396,6 @@ traffic manager result:
 
 >>>>>>>>> flit 98 reached to its destination in cycle 29
 
->>>>>>>>> flit 418 reached to its destination in cycle 29
-
->>>>>>>>> flit 385 reached to its destination in cycle 29
-
 >>>>>>>>> flit 272 reached to its destination in cycle 29
 
 >>>>>>>>> flit 93 reached to its destination in cycle 29
@@ -412,9 +416,13 @@ traffic manager result:
 
 >>>>>>>>> flit 438 reached to its destination in cycle 30
 
+>>>>>>>>> flit 262 reached to its destination in cycle 30
+
 >>>>>>>>> flit 241 reached to its destination in cycle 30
 
 >>>>>>>>> flit 482 reached to its destination in cycle 30
+
+>>>>>>>>> flit 1 reached to its destination in cycle 30
 
 >>>>>>>>> flit 196 reached to its destination in cycle 30
 
@@ -422,21 +430,23 @@ traffic manager result:
 
 >>>>>>>>> flit 258 reached to its destination in cycle 30
 
+>>>>>>>>> flit 430 reached to its destination in cycle 30
+
 >>>>>>>>> flit 235 reached to its destination in cycle 31
 
 >>>>>>>>> flit 254 reached to its destination in cycle 31
 
->>>>>>>>> flit 327 reached to its destination in cycle 31
-
 >>>>>>>>> flit 46 reached to its destination in cycle 31
 
->>>>>>>>> flit 315 reached to its destination in cycle 31
+>>>>>>>>> flit 391 reached to its destination in cycle 31
 
->>>>>>>>> flit 1 reached to its destination in cycle 31
+>>>>>>>>> flit 344 reached to its destination in cycle 31
+
+>>>>>>>>> flit 298 reached to its destination in cycle 31
 
 >>>>>>>>> flit 292 reached to its destination in cycle 31
 
->>>>>>>>> flit 448 reached to its destination in cycle 31
+>>>>>>>>> flit 345 reached to its destination in cycle 31
 
 >>>>>>>>> flit 107 reached to its destination in cycle 31
 
@@ -454,17 +464,25 @@ traffic manager result:
 
 >>>>>>>>> flit 112 reached to its destination in cycle 32
 
->>>>>>>>> flit 270 reached to its destination in cycle 32
+>>>>>>>>> flit 327 reached to its destination in cycle 32
 
 >>>>>>>>> flit 264 reached to its destination in cycle 32
 
 >>>>>>>>> flit 251 reached to its destination in cycle 32
 
+>>>>>>>>> flit 315 reached to its destination in cycle 32
+
 >>>>>>>>> flit 4 reached to its destination in cycle 32
 
->>>>>>>>> flit 298 reached to its destination in cycle 32
+>>>>>>>>> flit 166 reached to its destination in cycle 32
 
 >>>>>>>>> flit 150 reached to its destination in cycle 32
+
+>>>>>>>>> flit 471 reached to its destination in cycle 32
+
+>>>>>>>>> flit 448 reached to its destination in cycle 32
+
+>>>>>>>>> flit 455 reached to its destination in cycle 32
 
 >>>>>>>>> flit 121 reached to its destination in cycle 32
 
@@ -472,21 +490,27 @@ traffic manager result:
 
 >>>>>>>>> flit 333 reached to its destination in cycle 32
 
+>>>>>>>>> flit 525 reached to its destination in cycle 32
+
 >>>>>>>>> flit 450 reached to its destination in cycle 32
 
 >>>>>>>>> flit 431 reached to its destination in cycle 32
 
 >>>>>>>>> flit 405 reached to its destination in cycle 32
 
->>>>>>>>> flit 475 reached to its destination in cycle 33
+>>>>>>>>> flit 549 reached to its destination in cycle 32
+
+>>>>>>>>> flit 270 reached to its destination in cycle 33
+
+>>>>>>>>> flit 498 reached to its destination in cycle 33
+
+>>>>>>>>> flit 441 reached to its destination in cycle 33
 
 >>>>>>>>> flit 200 reached to its destination in cycle 33
 
->>>>>>>>> flit 502 reached to its destination in cycle 33
-
->>>>>>>>> flit 166 reached to its destination in cycle 33
-
 >>>>>>>>> flit 291 reached to its destination in cycle 33
+
+>>>>>>>>> flit 369 reached to its destination in cycle 33
 
 >>>>>>>>> flit 15 reached to its destination in cycle 33
 
@@ -495,6 +519,12 @@ traffic manager result:
 >>>>>>>>> flit 45 reached to its destination in cycle 33
 
 >>>>>>>>> flit 75 reached to its destination in cycle 33
+
+>>>>>>>>> flit 570 reached to its destination in cycle 33
+
+>>>>>>>>> flit 182 reached to its destination in cycle 33
+
+>>>>>>>>> flit 268 reached to its destination in cycle 33
 
 >>>>>>>>> flit 138 reached to its destination in cycle 33
 
@@ -516,6 +546,8 @@ traffic manager result:
 
 >>>>>>>>> flit 300 reached to its destination in cycle 34
 
+>>>>>>>>> flit 331 reached to its destination in cycle 34
+
 >>>>>>>>> flit 189 reached to its destination in cycle 34
 
 >>>>>>>>> flit 259 reached to its destination in cycle 34
@@ -524,17 +556,11 @@ traffic manager result:
 
 >>>>>>>>> flit 297 reached to its destination in cycle 34
 
->>>>>>>>> flit 182 reached to its destination in cycle 34
-
->>>>>>>>> flit 231 reached to its destination in cycle 34
-
 >>>>>>>>> flit 247 reached to its destination in cycle 34
 
 >>>>>>>>> flit 86 reached to its destination in cycle 35
 
 >>>>>>>>> flit 60 reached to its destination in cycle 35
-
->>>>>>>>> flit 175 reached to its destination in cycle 35
 
 >>>>>>>>> flit 96 reached to its destination in cycle 35
 
@@ -548,29 +574,43 @@ traffic manager result:
 
 >>>>>>>>> flit 289 reached to its destination in cycle 35
 
->>>>>>>>> flit 471 reached to its destination in cycle 35
+>>>>>>>>> flit 461 reached to its destination in cycle 35
 
 >>>>>>>>> flit 179 reached to its destination in cycle 35
 
->>>>>>>>> flit 544 reached to its destination in cycle 35
+>>>>>>>>> flit 103 reached to its destination in cycle 35
 
 >>>>>>>>> flit 310 reached to its destination in cycle 35
 
 >>>>>>>>> flit 236 reached to its destination in cycle 35
 
->>>>>>>>> flit 153 reached to its destination in cycle 36
+>>>>>>>>> flit 175 reached to its destination in cycle 36
 
 >>>>>>>>> flit 558 reached to its destination in cycle 36
 
+>>>>>>>>> flit 481 reached to its destination in cycle 36
+
 >>>>>>>>> flit 115 reached to its destination in cycle 36
 
+>>>>>>>>> flit 465 reached to its destination in cycle 36
+
+>>>>>>>>> flit 418 reached to its destination in cycle 36
+
+>>>>>>>>> flit 366 reached to its destination in cycle 36
+
 >>>>>>>>> flit 399 reached to its destination in cycle 36
+
+>>>>>>>>> flit 284 reached to its destination in cycle 36
+
+>>>>>>>>> flit 544 reached to its destination in cycle 36
 
 >>>>>>>>> flit 374 reached to its destination in cycle 36
 
 >>>>>>>>> flit 151 reached to its destination in cycle 36
 
 >>>>>>>>> flit 314 reached to its destination in cycle 36
+
+>>>>>>>>> flit 288 reached to its destination in cycle 36
 
 >>>>>>>>> flit 212 reached to its destination in cycle 37
 
@@ -580,9 +620,15 @@ traffic manager result:
 
 >>>>>>>>> flit 422 reached to its destination in cycle 37
 
+>>>>>>>>> flit 459 reached to its destination in cycle 37
+
+>>>>>>>>> flit 153 reached to its destination in cycle 37
+
+>>>>>>>>> flit 594 reached to its destination in cycle 37
+
 >>>>>>>>> flit 145 reached to its destination in cycle 37
 
->>>>>>>>> flit 244 reached to its destination in cycle 37
+>>>>>>>>> flit 502 reached to its destination in cycle 37
 
 >>>>>>>>> flit 186 reached to its destination in cycle 37
 
@@ -590,77 +636,121 @@ traffic manager result:
 
 >>>>>>>>> flit 229 reached to its destination in cycle 37
 
->>>>>>>>> flit 168 reached to its destination in cycle 37
+>>>>>>>>> flit 191 reached to its destination in cycle 37
 
 >>>>>>>>> flit 396 reached to its destination in cycle 38
 
 >>>>>>>>> flit 68 reached to its destination in cycle 38
 
+>>>>>>>>> flit 279 reached to its destination in cycle 38
+
 >>>>>>>>> flit 77 reached to its destination in cycle 38
+
+>>>>>>>>> flit 276 reached to its destination in cycle 38
 
 >>>>>>>>> flit 209 reached to its destination in cycle 38
 
+>>>>>>>>> flit 382 reached to its destination in cycle 38
+
+>>>>>>>>> flit 411 reached to its destination in cycle 38
+
 >>>>>>>>> flit 603 reached to its destination in cycle 38
 
->>>>>>>>> flit 604 reached to its destination in cycle 38
+>>>>>>>>> flit 304 reached to its destination in cycle 38
 
 >>>>>>>>> flit 30 reached to its destination in cycle 38
 
 >>>>>>>>> flit 167 reached to its destination in cycle 38
 
+>>>>>>>>> flit 456 reached to its destination in cycle 38
+
 >>>>>>>>> flit 335 reached to its destination in cycle 38
 
->>>>>>>>> flit 288 reached to its destination in cycle 38
+>>>>>>>>> flit 571 reached to its destination in cycle 38
+
+>>>>>>>>> flit 425 reached to its destination in cycle 38
 
 >>>>>>>>> flit 616 reached to its destination in cycle 39
 
 >>>>>>>>> flit 538 reached to its destination in cycle 39
 
->>>>>>>>> flit 276 reached to its destination in cycle 39
-
 >>>>>>>>> flit 246 reached to its destination in cycle 39
 
 >>>>>>>>> flit 274 reached to its destination in cycle 39
 
->>>>>>>>> flit 474 reached to its destination in cycle 39
+>>>>>>>>> flit 618 reached to its destination in cycle 39
+
+>>>>>>>>> flit 475 reached to its destination in cycle 39
+
+>>>>>>>>> flit 468 reached to its destination in cycle 39
 
 >>>>>>>>> flit 240 reached to its destination in cycle 39
 
 >>>>>>>>> flit 188 reached to its destination in cycle 39
 
+>>>>>>>>> flit 586 reached to its destination in cycle 39
+
+>>>>>>>>> flit 302 reached to its destination in cycle 39
+
+>>>>>>>>> flit 168 reached to its destination in cycle 39
+
 >>>>>>>>> flit 248 reached to its destination in cycle 39
 
->>>>>>>>> flit 311 reached to its destination in cycle 39
+>>>>>>>>> flit 413 reached to its destination in cycle 39
 
 >>>>>>>>> flit 122 reached to its destination in cycle 39
 
 >>>>>>>>> flit 493 reached to its destination in cycle 39
 
->>>>>>>>> flit 425 reached to its destination in cycle 39
-
 >>>>>>>>> flit 177 reached to its destination in cycle 40
 
 >>>>>>>>> flit 347 reached to its destination in cycle 40
 
->>>>>>>>> flit 508 reached to its destination in cycle 40
+>>>>>>>>> flit 407 reached to its destination in cycle 40
+
+>>>>>>>>> flit 684 reached to its destination in cycle 40
+
+>>>>>>>>> flit 554 reached to its destination in cycle 40
+
+>>>>>>>>> flit 337 reached to its destination in cycle 40
 
 >>>>>>>>> flit 320 reached to its destination in cycle 40
 
+>>>>>>>>> flit 244 reached to its destination in cycle 40
+
+>>>>>>>>> flit 311 reached to its destination in cycle 40
+
+>>>>>>>>> flit 676 reached to its destination in cycle 40
+
 >>>>>>>>> flit 207 reached to its destination in cycle 40
+
+>>>>>>>>> flit 677 reached to its destination in cycle 40
+
+>>>>>>>>> flit 265 reached to its destination in cycle 40
+
+>>>>>>>>> flit 568 reached to its destination in cycle 40
 
 >>>>>>>>> flit 515 reached to its destination in cycle 41
 
+>>>>>>>>> flit 698 reached to its destination in cycle 41
+
 >>>>>>>>> flit 221 reached to its destination in cycle 41
 
->>>>>>>>> flit 119 reached to its destination in cycle 41
+>>>>>>>>> flit 474 reached to its destination in cycle 41
 
 >>>>>>>>> flit 423 reached to its destination in cycle 41
 
 >>>>>>>>> flit 316 reached to its destination in cycle 41
 
->>>>>>>>> flit 286 reached to its destination in cycle 41
+>>>>>>>>> flit 309 reached to its destination in cycle 41
 
->>>>>>>>> flit 373 reached to its destination in cycle 41
+>>>>>>>>> flit 389 reached to its destination in cycle 41
+
+>>>>>>>>> flit 480 reached to its destination in cycle 41
+
+>>>>>>>>> flit 263 reached to its destination in cycle 41
+
+>>>>>>>>> flit 242 reached to its destination in cycle 41
 
 >>>>>>>>> flit 290 reached to its destination in cycle 42
 
@@ -670,139 +760,289 @@ traffic manager result:
 
 >>>>>>>>> flit 73 reached to its destination in cycle 42
 
->>>>>>>>> flit 559 reached to its destination in cycle 42
+>>>>>>>>> flit 299 reached to its destination in cycle 42
+
+>>>>>>>>> flit 381 reached to its destination in cycle 42
+
+>>>>>>>>> flit 611 reached to its destination in cycle 42
+
+>>>>>>>>> flit 643 reached to its destination in cycle 42
+
+>>>>>>>>> flit 604 reached to its destination in cycle 42
 
 >>>>>>>>> flit 159 reached to its destination in cycle 42
 
+>>>>>>>>> flit 400 reached to its destination in cycle 42
+
+>>>>>>>>> flit 332 reached to its destination in cycle 42
+
+>>>>>>>>> flit 591 reached to its destination in cycle 42
+
 >>>>>>>>> flit 354 reached to its destination in cycle 42
+
+>>>>>>>>> flit 440 reached to its destination in cycle 42
 
 >>>>>>>>> flit 143 reached to its destination in cycle 43
 
->>>>>>>>> flit 394 reached to its destination in cycle 43
-
->>>>>>>>> flit 111 reached to its destination in cycle 43
-
 >>>>>>>>> flit 228 reached to its destination in cycle 43
 
->>>>>>>>> flit 252 reached to its destination in cycle 43
+>>>>>>>>> flit 619 reached to its destination in cycle 43
 
->>>>>>>>> flit 488 reached to its destination in cycle 43
+>>>>>>>>> flit 358 reached to its destination in cycle 43
 
->>>>>>>>> flit 625 reached to its destination in cycle 43
+>>>>>>>>> flit 485 reached to its destination in cycle 43
+
+>>>>>>>>> flit 575 reached to its destination in cycle 43
+
+>>>>>>>>> flit 390 reached to its destination in cycle 43
+
+>>>>>>>>> flit 655 reached to its destination in cycle 43
+
+>>>>>>>>> flit 569 reached to its destination in cycle 43
+
+>>>>>>>>> flit 550 reached to its destination in cycle 43
 
 >>>>>>>>> flit 296 reached to its destination in cycle 43
 
+>>>>>>>>> flit 716 reached to its destination in cycle 44
+
+>>>>>>>>> flit 662 reached to its destination in cycle 44
+
+>>>>>>>>> flit 592 reached to its destination in cycle 44
+
 >>>>>>>>> flit 266 reached to its destination in cycle 44
 
->>>>>>>>> flit 517 reached to its destination in cycle 44
+>>>>>>>>> flit 460 reached to its destination in cycle 44
+
+>>>>>>>>> flit 277 reached to its destination in cycle 44
+
+>>>>>>>>> flit 536 reached to its destination in cycle 44
+
+>>>>>>>>> flit 451 reached to its destination in cycle 44
 
 >>>>>>>>> flit 351 reached to its destination in cycle 44
 
+>>>>>>>>> flit 675 reached to its destination in cycle 44
+
+>>>>>>>>> flit 671 reached to its destination in cycle 44
+
 >>>>>>>>> flit 447 reached to its destination in cycle 44
 
->>>>>>>>> flit 520 reached to its destination in cycle 45
+>>>>>>>>> flit 589 reached to its destination in cycle 44
 
->>>>>>>>> flit 477 reached to its destination in cycle 45
+>>>>>>>>> flit 419 reached to its destination in cycle 44
+
+>>>>>>>>> flit 505 reached to its destination in cycle 44
+
+>>>>>>>>> flit 295 reached to its destination in cycle 45
+
+>>>>>>>>> flit 703 reached to its destination in cycle 45
+
+>>>>>>>>> flit 537 reached to its destination in cycle 45
 
 >>>>>>>>> flit 336 reached to its destination in cycle 45
 
->>>>>>>>> flit 295 reached to its destination in cycle 46
+>>>>>>>>> flit 779 reached to its destination in cycle 45
+
+>>>>>>>>> flit 693 reached to its destination in cycle 45
+
+>>>>>>>>> flit 319 reached to its destination in cycle 45
+
+>>>>>>>>> flit 373 reached to its destination in cycle 45
 
 >>>>>>>>> flit 158 reached to its destination in cycle 46
 
->>>>>>>>> flit 623 reached to its destination in cycle 46
+>>>>>>>>> flit 634 reached to its destination in cycle 46
 
->>>>>>>>> flit 322 reached to its destination in cycle 46
+>>>>>>>>> flit 517 reached to its destination in cycle 46
+
+>>>>>>>>> flit 402 reached to its destination in cycle 46
+
+>>>>>>>>> flit 738 reached to its destination in cycle 46
+
+>>>>>>>>> flit 317 reached to its destination in cycle 46
 
 >>>>>>>>> flit 689 reached to its destination in cycle 46
 
->>>>>>>>> flit 282 reached to its destination in cycle 46
+>>>>>>>>> flit 499 reached to its destination in cycle 46
 
 >>>>>>>>> flit 269 reached to its destination in cycle 46
 
 >>>>>>>>> flit 61 reached to its destination in cycle 47
 
+>>>>>>>>> flit 414 reached to its destination in cycle 47
+
+>>>>>>>>> flit 394 reached to its destination in cycle 47
+
+>>>>>>>>> flit 520 reached to its destination in cycle 47
+
 >>>>>>>>> flit 108 reached to its destination in cycle 47
 
->>>>>>>>> flit 487 reached to its destination in cycle 47
+>>>>>>>>> flit 346 reached to its destination in cycle 47
 
->>>>>>>>> flit 653 reached to its destination in cycle 47
+>>>>>>>>> flit 324 reached to its destination in cycle 47
 
->>>>>>>>> flit 759 reached to its destination in cycle 47
+>>>>>>>>> flit 437 reached to its destination in cycle 47
 
->>>>>>>>> flit 224 reached to its destination in cycle 47
+>>>>>>>>> flit 282 reached to its destination in cycle 47
 
 >>>>>>>>> flit 293 reached to its destination in cycle 47
 
->>>>>>>>> flit 647 reached to its destination in cycle 48
-
->>>>>>>>> flit 220 reached to its destination in cycle 48
-
->>>>>>>>> flit 283 reached to its destination in cycle 48
+>>>>>>>>> flit 563 reached to its destination in cycle 48
 
 >>>>>>>>> flit 365 reached to its destination in cycle 48
 
 >>>>>>>>> flit 651 reached to its destination in cycle 48
 
->>>>>>>>> flit 665 reached to its destination in cycle 48
-
 >>>>>>>>> flit 443 reached to its destination in cycle 48
+
+>>>>>>>>> flit 224 reached to its destination in cycle 48
 
 >>>>>>>>> flit 137 reached to its destination in cycle 49
 
->>>>>>>>> flit 223 reached to its destination in cycle 49
+>>>>>>>>> flit 834 reached to its destination in cycle 49
 
->>>>>>>>> flit 582 reached to its destination in cycle 49
+>>>>>>>>> flit 220 reached to its destination in cycle 49
 
->>>>>>>>> flit 148 reached to its destination in cycle 49
+>>>>>>>>> flit 424 reached to its destination in cycle 49
 
->>>>>>>>> flit 563 reached to its destination in cycle 51
+>>>>>>>>> flit 477 reached to its destination in cycle 49
 
->>>>>>>>> flit 506 reached to its destination in cycle 51
+>>>>>>>>> flit 164 reached to its destination in cycle 49
 
->>>>>>>>> flit 704 reached to its destination in cycle 51
+>>>>>>>>> flit 755 reached to its destination in cycle 50
 
->>>>>>>>> flit 637 reached to its destination in cycle 52
+>>>>>>>>> flit 223 reached to its destination in cycle 50
+
+>>>>>>>>> flit 623 reached to its destination in cycle 50
+
+>>>>>>>>> flit 572 reached to its destination in cycle 50
+
+>>>>>>>>> flit 417 reached to its destination in cycle 50
+
+>>>>>>>>> flit 392 reached to its destination in cycle 50
+
+>>>>>>>>> flit 805 reached to its destination in cycle 51
+
+>>>>>>>>> flit 436 reached to its destination in cycle 52
 
 >>>>>>>>> flit 353 reached to its destination in cycle 53
 
->>>>>>>>> flit 564 reached to its destination in cycle 53
+>>>>>>>>> flit 205 reached to its destination in cycle 53
 
->>>>>>>>> flit 202 reached to its destination in cycle 53
+>>>>>>>>> flit 659 reached to its destination in cycle 53
 
->>>>>>>>> flit 761 reached to its destination in cycle 53
+>>>>>>>>> flit 764 reached to its destination in cycle 53
+
+>>>>>>>>> flit 888 reached to its destination in cycle 53
+
+>>>>>>>>> flit 420 reached to its destination in cycle 53
+
+>>>>>>>>> flit 663 reached to its destination in cycle 53
+
+>>>>>>>>> flit 697 reached to its destination in cycle 54
 
 >>>>>>>>> flit 280 reached to its destination in cycle 54
 
->>>>>>>>> flit 472 reached to its destination in cycle 54
+>>>>>>>>> flit 564 reached to its destination in cycle 54
 
->>>>>>>>> flit 866 reached to its destination in cycle 55
+>>>>>>>>> flit 355 reached to its destination in cycle 54
+
+>>>>>>>>> flit 595 reached to its destination in cycle 54
+
+>>>>>>>>> flit 734 reached to its destination in cycle 55
+
+>>>>>>>>> flit 401 reached to its destination in cycle 55
+
+>>>>>>>>> flit 812 reached to its destination in cycle 55
 
 >>>>>>>>> flit 486 reached to its destination in cycle 56
 
->>>>>>>>> flit 742 reached to its destination in cycle 56
+>>>>>>>>> flit 879 reached to its destination in cycle 56
 
->>>>>>>>> flit 819 reached to its destination in cycle 56
+>>>>>>>>> flit 866 reached to its destination in cycle 56
 
->>>>>>>>> flit 612 reached to its destination in cycle 56
+>>>>>>>>> flit 665 reached to its destination in cycle 56
 
->>>>>>>>> flit 601 reached to its destination in cycle 56
+>>>>>>>>> flit 472 reached to its destination in cycle 56
+
+>>>>>>>>> flit 632 reached to its destination in cycle 57
+
+>>>>>>>>> flit 706 reached to its destination in cycle 57
+
+>>>>>>>>> flit 853 reached to its destination in cycle 58
+
+>>>>>>>>> flit 577 reached to its destination in cycle 59
+
+>>>>>>>>> flit 1034 reached to its destination in cycle 59
 
 >>>>>>>>> flit 804 reached to its destination in cycle 59
 
->>>>>>>>> flit 1080 reached to its destination in cycle 60
+>>>>>>>>> flit 521 reached to its destination in cycle 59
 
->>>>>>>>> flit 579 reached to its destination in cycle 60
+>>>>>>>>> flit 260 reached to its destination in cycle 60
 
->>>>>>>>> flit 620 reached to its destination in cycle 61
+>>>>>>>>> flit 885 reached to its destination in cycle 60
 
->>>>>>>>> flit 870 reached to its destination in cycle 62
+>>>>>>>>> flit 984 reached to its destination in cycle 61
 
->>>>>>>>> flit 872 reached to its destination in cycle 62
+>>>>>>>>> flit 969 reached to its destination in cycle 61
 
->>>>>>>>> flit 997 reached to its destination in cycle 69
+>>>>>>>>> flit 1069 reached to its destination in cycle 62
 
->>>>>>>>> flit 1445 reached to its destination in cycle 83
+>>>>>>>>> flit 822 reached to its destination in cycle 62
+
+>>>>>>>>> flit 926 reached to its destination in cycle 63
+
+>>>>>>>>> flit 1113 reached to its destination in cycle 63
+
+>>>>>>>>> flit 1144 reached to its destination in cycle 63
+
+>>>>>>>>> flit 601 reached to its destination in cycle 64
+
+>>>>>>>>> flit 886 reached to its destination in cycle 64
+
+>>>>>>>>> flit 843 reached to its destination in cycle 66
+
+>>>>>>>>> flit 985 reached to its destination in cycle 66
+
+>>>>>>>>> flit 833 reached to its destination in cycle 67
+
+>>>>>>>>> flit 1122 reached to its destination in cycle 68
+
+>>>>>>>>> flit 1167 reached to its destination in cycle 68
+
+>>>>>>>>> flit 1080 reached to its destination in cycle 69
+
+>>>>>>>>> flit 1184 reached to its destination in cycle 70
+
+>>>>>>>>> flit 1317 reached to its destination in cycle 76
+
+>>>>>>>>> flit 1405 reached to its destination in cycle 76
+
+>>>>>>>>> flit 1103 reached to its destination in cycle 78
+
+>>>>>>>>> flit 1471 reached to its destination in cycle 80
+
+>>>>>>>>> flit 1524 reached to its destination in cycle 87
+
+>>>>>>>>> flit 1553 reached to its destination in cycle 87
+
+>>>>>>>>> flit 1642 reached to its destination in cycle 92
+
+>>>>>>>>> flit 1548 reached to its destination in cycle 92
+
+>>>>>>>>> flit 1645 reached to its destination in cycle 94
+
+>>>>>>>>> flit 1689 reached to its destination in cycle 96
+
+>>>>>>>>> flit 2760 reached to its destination in cycle 149
+
+>>>>>>>>> flit 2761 reached to its destination in cycle 154
+
+>>>>>>>>> flit 3209 reached to its destination in cycle 177
+
+>>>>>>>>> flit 3534 reached to its destination in cycle 190
 
 
 
@@ -881,19 +1121,49 @@ X_destination 5
 Y-destination 7 
 
 
-flit 103 does not reached to its destination
+flit 111 does not reached to its destination
+
+
+X_source 6 
+
+
+Y-source 2 
+
+
+X_destination 1 
+
+
+Y-destination 7 
+
+
+flit 119 does not reached to its destination
+
+
+X_source 8 
+
+
+Y-source 4 
+
+
+X_destination 2 
+
+
+Y-destination 7 
+
+
+flit 148 does not reached to its destination
 
 
 X_source 1 
 
 
-Y-source 8 
+Y-source 6 
 
 
-X_destination 6 
+X_destination 8 
 
 
-Y-destination 5 
+Y-destination 2 
 
 
 flit 163 does not reached to its destination
@@ -909,21 +1179,6 @@ X_destination 8
 
 
 Y-destination 6 
-
-
-flit 164 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 8 
-
-
-X_destination 7 
-
-
-Y-destination 3 
 
 
 flit 171 does not reached to its destination
@@ -986,21 +1241,6 @@ X_destination 8
 Y-destination 8 
 
 
-flit 191 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 4 
-
-
 flit 195 does not reached to its destination
 
 
@@ -1061,19 +1301,19 @@ X_destination 5
 Y-destination 1 
 
 
-flit 205 does not reached to its destination
+flit 202 does not reached to its destination
 
 
-X_source 8 
+X_source 7 
 
 
-Y-source 7 
+Y-source 8 
 
 
-X_destination 1 
+X_destination 3 
 
 
-Y-destination 4 
+Y-destination 2 
 
 
 flit 219 does not reached to its destination
@@ -1106,19 +1346,19 @@ X_destination 4
 Y-destination 7 
 
 
-flit 242 does not reached to its destination
+flit 231 does not reached to its destination
 
 
-X_source 1 
+X_source 4 
 
 
-Y-source 6 
+Y-source 8 
 
 
 X_destination 8 
 
 
-Y-destination 5 
+Y-destination 6 
 
 
 flit 243 does not reached to its destination
@@ -1151,19 +1391,19 @@ X_destination 5
 Y-destination 8 
 
 
-flit 260 does not reached to its destination
+flit 252 does not reached to its destination
 
 
-X_source 8 
+X_source 6 
 
 
-Y-source 7 
+Y-source 2 
 
 
-X_destination 1 
+X_destination 3 
 
 
-Y-destination 4 
+Y-destination 6 
 
 
 flit 261 does not reached to its destination
@@ -1179,66 +1419,6 @@ X_destination 8
 
 
 Y-destination 7 
-
-
-flit 262 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 3 
-
-
-X_destination 3 
-
-
-Y-destination 1 
-
-
-flit 263 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 7 
-
-
-Y-destination 8 
-
-
-flit 265 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 6 
-
-
-X_destination 8 
-
-
-Y-destination 5 
-
-
-flit 268 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 5 
-
-
-X_destination 8 
-
-
-Y-destination 6 
 
 
 flit 273 does not reached to its destination
@@ -1271,36 +1451,6 @@ X_destination 1
 Y-destination 7 
 
 
-flit 277 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 7 
-
-
-X_destination 3 
-
-
-Y-destination 4 
-
-
-flit 279 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 2 
-
-
-Y-destination 5 
-
-
 flit 281 does not reached to its destination
 
 
@@ -1316,19 +1466,19 @@ X_destination 2
 Y-destination 2 
 
 
-flit 284 does not reached to its destination
+flit 283 does not reached to its destination
 
 
 X_source 8 
 
 
-Y-source 5 
+Y-source 2 
 
 
-X_destination 6 
+X_destination 3 
 
 
-Y-destination 2 
+Y-destination 6 
 
 
 flit 285 does not reached to its destination
@@ -1341,6 +1491,21 @@ Y-source 7
 
 
 X_destination 2 
+
+
+Y-destination 3 
+
+
+flit 286 does not reached to its destination
+
+
+X_source 1 
+
+
+Y-source 1 
+
+
+X_destination 7 
 
 
 Y-destination 3 
@@ -1361,21 +1526,6 @@ X_destination 5
 Y-destination 1 
 
 
-flit 299 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 4 
-
-
-Y-destination 2 
-
-
 flit 301 does not reached to its destination
 
 
@@ -1386,21 +1536,6 @@ Y-source 3
 
 
 X_destination 3 
-
-
-Y-destination 1 
-
-
-flit 302 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 2 
-
-
-X_destination 6 
 
 
 Y-destination 1 
@@ -1419,21 +1554,6 @@ X_destination 8
 
 
 Y-destination 6 
-
-
-flit 304 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 5 
-
-
-Y-destination 5 
 
 
 flit 305 does not reached to its destination
@@ -1466,36 +1586,6 @@ X_destination 4
 Y-destination 8 
 
 
-flit 308 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 6 
-
-
-X_destination 3 
-
-
-Y-destination 7 
-
-
-flit 309 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 8 
-
-
-X_destination 4 
-
-
-Y-destination 4 
-
-
 flit 312 does not reached to its destination
 
 
@@ -1506,36 +1596,6 @@ Y-source 6
 
 
 X_destination 8 
-
-
-Y-destination 1 
-
-
-flit 317 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 2 
-
-
-flit 319 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 7 
-
-
-X_destination 6 
 
 
 Y-destination 1 
@@ -1556,6 +1616,21 @@ X_destination 4
 Y-destination 4 
 
 
+flit 322 does not reached to its destination
+
+
+X_source 8 
+
+
+Y-source 4 
+
+
+X_destination 4 
+
+
+Y-destination 1 
+
+
 flit 323 does not reached to its destination
 
 
@@ -1566,51 +1641,6 @@ Y-source 7
 
 
 X_destination 2 
-
-
-Y-destination 2 
-
-
-flit 324 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 6 
-
-
-Y-destination 2 
-
-
-flit 325 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 2 
-
-
-Y-destination 6 
-
-
-flit 326 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 2 
-
-
-X_destination 4 
 
 
 Y-destination 2 
@@ -1631,36 +1661,6 @@ X_destination 8
 Y-destination 6 
 
 
-flit 331 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 8 
-
-
-flit 332 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 7 
-
-
-X_destination 7 
-
-
-Y-destination 5 
-
-
 flit 334 does not reached to its destination
 
 
@@ -1674,21 +1674,6 @@ X_destination 8
 
 
 Y-destination 2 
-
-
-flit 337 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 4 
-
-
-Y-destination 3 
 
 
 flit 338 does not reached to its destination
@@ -1781,51 +1766,6 @@ X_destination 6
 Y-destination 2 
 
 
-flit 344 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 3 
-
-
-Y-destination 8 
-
-
-flit 345 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 6 
-
-
-X_destination 5 
-
-
-Y-destination 6 
-
-
-flit 346 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 3 
-
-
-Y-destination 1 
-
-
 flit 352 does not reached to its destination
 
 
@@ -1841,21 +1781,6 @@ X_destination 1
 Y-destination 8 
 
 
-flit 355 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 8 
-
-
-X_destination 1 
-
-
-Y-destination 5 
-
-
 flit 357 does not reached to its destination
 
 
@@ -1866,21 +1791,6 @@ Y-source 3
 
 
 X_destination 5 
-
-
-Y-destination 3 
-
-
-flit 358 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 5 
-
-
-X_destination 3 
 
 
 Y-destination 3 
@@ -1976,21 +1886,6 @@ X_destination 3
 Y-destination 1 
 
 
-flit 366 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 4 
-
-
-Y-destination 8 
-
-
 flit 367 does not reached to its destination
 
 
@@ -2004,21 +1899,6 @@ X_destination 6
 
 
 Y-destination 2 
-
-
-flit 369 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 4 
-
-
-X_destination 6 
-
-
-Y-destination 4 
 
 
 flit 370 does not reached to its destination
@@ -2141,36 +2021,6 @@ X_destination 4
 Y-destination 5 
 
 
-flit 381 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 4 
-
-
-Y-destination 3 
-
-
-flit 382 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 7 
-
-
-X_destination 4 
-
-
-Y-destination 6 
-
-
 flit 383 does not reached to its destination
 
 
@@ -2201,79 +2051,19 @@ X_destination 4
 Y-destination 2 
 
 
-flit 386 does not reached to its destination
+flit 385 does not reached to its destination
 
 
 X_source 8 
 
 
-Y-source 5 
-
-
-X_destination 7 
-
-
-Y-destination 5 
-
-
-flit 389 does not reached to its destination
-
-
-X_source 1 
-
-
 Y-source 3 
 
 
-X_destination 4 
-
-
-Y-destination 6 
-
-
-flit 390 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 4 
+X_destination 6 
 
 
 Y-destination 3 
-
-
-flit 391 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 4 
-
-
-X_destination 3 
-
-
-Y-destination 6 
-
-
-flit 392 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 7 
-
-
-Y-destination 4 
 
 
 flit 395 does not reached to its destination
@@ -2321,51 +2111,6 @@ X_destination 5
 Y-destination 4 
 
 
-flit 400 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 2 
-
-
-flit 401 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 8 
-
-
-X_destination 1 
-
-
-Y-destination 5 
-
-
-flit 402 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 6 
-
-
-X_destination 5 
-
-
-Y-destination 2 
-
-
 flit 403 does not reached to its destination
 
 
@@ -2409,21 +2154,6 @@ X_destination 1
 
 
 Y-destination 8 
-
-
-flit 407 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 2 
-
-
-Y-destination 3 
 
 
 flit 408 does not reached to its destination
@@ -2471,21 +2201,6 @@ X_destination 8
 Y-destination 8 
 
 
-flit 411 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 5 
-
-
-X_destination 4 
-
-
-Y-destination 7 
-
-
 flit 412 does not reached to its destination
 
 
@@ -2496,36 +2211,6 @@ Y-source 6
 
 
 X_destination 8 
-
-
-Y-destination 3 
-
-
-flit 413 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 6 
-
-
-flit 414 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 8 
-
-
-X_destination 1 
 
 
 Y-destination 3 
@@ -2561,51 +2246,6 @@ X_destination 6
 Y-destination 7 
 
 
-flit 417 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 3 
-
-
-X_destination 6 
-
-
-Y-destination 2 
-
-
-flit 419 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 7 
-
-
-X_destination 7 
-
-
-Y-destination 5 
-
-
-flit 420 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 4 
-
-
 flit 421 does not reached to its destination
 
 
@@ -2616,21 +2256,6 @@ Y-source 4
 
 
 X_destination 8 
-
-
-Y-destination 4 
-
-
-flit 424 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 7 
-
-
-X_destination 3 
 
 
 Y-destination 4 
@@ -2679,21 +2304,6 @@ X_destination 2
 
 
 Y-destination 5 
-
-
-flit 430 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 7 
-
-
-X_destination 8 
-
-
-Y-destination 7 
 
 
 flit 432 does not reached to its destination
@@ -2756,36 +2366,6 @@ X_destination 1
 Y-destination 7 
 
 
-flit 436 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 3 
-
-
-X_destination 7 
-
-
-Y-destination 3 
-
-
-flit 437 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 6 
-
-
 flit 439 does not reached to its destination
 
 
@@ -2799,36 +2379,6 @@ X_destination 6
 
 
 Y-destination 2 
-
-
-flit 440 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 8 
-
-
-Y-destination 7 
-
-
-flit 441 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 3 
-
-
-X_destination 3 
-
-
-Y-destination 6 
 
 
 flit 442 does not reached to its destination
@@ -2906,21 +2456,6 @@ X_destination 8
 Y-destination 5 
 
 
-flit 451 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 7 
-
-
-X_destination 3 
-
-
-Y-destination 7 
-
-
 flit 452 does not reached to its destination
 
 
@@ -2966,36 +2501,6 @@ X_destination 4
 Y-destination 2 
 
 
-flit 455 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 8 
-
-
-X_destination 5 
-
-
-Y-destination 8 
-
-
-flit 456 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 2 
-
-
-X_destination 7 
-
-
-Y-destination 5 
-
-
 flit 457 does not reached to its destination
 
 
@@ -3024,51 +2529,6 @@ X_destination 5
 
 
 Y-destination 4 
-
-
-flit 459 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 3 
-
-
-X_destination 2 
-
-
-Y-destination 6 
-
-
-flit 460 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 3 
-
-
-Y-destination 2 
-
-
-flit 461 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 4 
-
-
-Y-destination 6 
 
 
 flit 462 does not reached to its destination
@@ -3116,21 +2576,6 @@ X_destination 8
 Y-destination 7 
 
 
-flit 465 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 5 
-
-
-X_destination 4 
-
-
-Y-destination 6 
-
-
 flit 466 does not reached to its destination
 
 
@@ -3159,21 +2604,6 @@ X_destination 2
 
 
 Y-destination 2 
-
-
-flit 468 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 2 
-
-
-X_destination 3 
-
-
-Y-destination 6 
 
 
 flit 469 does not reached to its destination
@@ -3266,36 +2696,6 @@ X_destination 4
 Y-destination 7 
 
 
-flit 480 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 6 
-
-
-X_destination 6 
-
-
-Y-destination 4 
-
-
-flit 481 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 3 
-
-
-Y-destination 6 
-
-
 flit 483 does not reached to its destination
 
 
@@ -3326,19 +2726,34 @@ X_destination 4
 Y-destination 8 
 
 
-flit 485 does not reached to its destination
+flit 487 does not reached to its destination
 
 
-X_source 4 
+X_source 6 
 
 
-Y-source 8 
+Y-source 1 
 
 
 X_destination 3 
 
 
-Y-destination 5 
+Y-destination 4 
+
+
+flit 488 does not reached to its destination
+
+
+X_source 6 
+
+
+Y-source 6 
+
+
+X_destination 3 
+
+
+Y-destination 7 
 
 
 flit 489 does not reached to its destination
@@ -3461,36 +2876,6 @@ X_destination 8
 Y-destination 2 
 
 
-flit 498 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 2 
-
-
-Y-destination 7 
-
-
-flit 499 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 7 
-
-
 flit 500 does not reached to its destination
 
 
@@ -3551,19 +2936,19 @@ X_destination 1
 Y-destination 4 
 
 
-flit 505 does not reached to its destination
+flit 506 does not reached to its destination
 
 
-X_source 4 
+X_source 5 
 
 
-Y-source 6 
+Y-source 4 
 
 
-X_destination 7 
+X_destination 3 
 
 
-Y-destination 7 
+Y-destination 8 
 
 
 flit 507 does not reached to its destination
@@ -3579,6 +2964,21 @@ X_destination 5
 
 
 Y-destination 2 
+
+
+flit 508 does not reached to its destination
+
+
+X_source 6 
+
+
+Y-source 1 
+
+
+X_destination 3 
+
+
+Y-destination 1 
 
 
 flit 509 does not reached to its destination
@@ -3716,21 +3116,6 @@ X_destination 7
 Y-destination 7 
 
 
-flit 521 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 6 
-
-
-X_destination 7 
-
-
-Y-destination 1 
-
-
 flit 522 does not reached to its destination
 
 
@@ -3771,21 +3156,6 @@ Y-source 8
 
 
 X_destination 4 
-
-
-Y-destination 3 
-
-
-flit 525 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 2 
-
-
-X_destination 7 
 
 
 Y-destination 3 
@@ -3941,36 +3311,6 @@ X_destination 8
 Y-destination 5 
 
 
-flit 536 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 8 
-
-
-X_destination 3 
-
-
-Y-destination 5 
-
-
-flit 537 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 4 
-
-
-X_destination 4 
-
-
-Y-destination 1 
-
-
 flit 539 does not reached to its destination
 
 
@@ -4106,36 +3446,6 @@ X_destination 3
 Y-destination 3 
 
 
-flit 549 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 8 
-
-
-X_destination 8 
-
-
-Y-destination 8 
-
-
-flit 550 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 6 
-
-
-X_destination 6 
-
-
-Y-destination 8 
-
-
 flit 551 does not reached to its destination
 
 
@@ -4181,21 +3491,6 @@ X_destination 6
 Y-destination 4 
 
 
-flit 554 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 2 
-
-
-X_destination 4 
-
-
-Y-destination 1 
-
-
 flit 555 does not reached to its destination
 
 
@@ -4236,6 +3531,21 @@ Y-source 6
 
 
 X_destination 2 
+
+
+Y-destination 1 
+
+
+flit 559 does not reached to its destination
+
+
+X_source 4 
+
+
+Y-source 4 
+
+
+X_destination 4 
 
 
 Y-destination 1 
@@ -4331,81 +3641,6 @@ X_destination 7
 Y-destination 6 
 
 
-flit 568 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 8 
-
-
-Y-destination 7 
-
-
-flit 569 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 6 
-
-
-flit 570 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 3 
-
-
-X_destination 8 
-
-
-Y-destination 4 
-
-
-flit 571 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 4 
-
-
-X_destination 8 
-
-
-Y-destination 2 
-
-
-flit 572 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 7 
-
-
-X_destination 5 
-
-
-Y-destination 5 
-
-
 flit 573 does not reached to its destination
 
 
@@ -4436,21 +3671,6 @@ X_destination 2
 Y-destination 7 
 
 
-flit 575 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 3 
-
-
-Y-destination 7 
-
-
 flit 576 does not reached to its destination
 
 
@@ -4466,21 +3686,6 @@ X_destination 5
 Y-destination 6 
 
 
-flit 577 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 1 
-
-
-Y-destination 1 
-
-
 flit 578 does not reached to its destination
 
 
@@ -4494,6 +3699,21 @@ X_destination 5
 
 
 Y-destination 8 
+
+
+flit 579 does not reached to its destination
+
+
+X_source 3 
+
+
+Y-source 6 
+
+
+X_destination 6 
+
+
+Y-destination 1 
 
 
 flit 580 does not reached to its destination
@@ -4521,6 +3741,21 @@ Y-source 3
 
 
 X_destination 1 
+
+
+Y-destination 7 
+
+
+flit 582 does not reached to its destination
+
+
+X_source 4 
+
+
+Y-source 4 
+
+
+X_destination 3 
 
 
 Y-destination 7 
@@ -4556,21 +3791,6 @@ X_destination 2
 Y-destination 8 
 
 
-flit 586 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 6 
-
-
-X_destination 5 
-
-
-Y-destination 6 
-
-
 flit 587 does not reached to its destination
 
 
@@ -4601,21 +3821,6 @@ X_destination 6
 Y-destination 5 
 
 
-flit 589 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 4 
-
-
-X_destination 7 
-
-
-Y-destination 2 
-
-
 flit 590 does not reached to its destination
 
 
@@ -4631,36 +3836,6 @@ X_destination 2
 Y-destination 5 
 
 
-flit 591 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 6 
-
-
-X_destination 7 
-
-
-Y-destination 8 
-
-
-flit 592 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 3 
-
-
-X_destination 2 
-
-
-Y-destination 6 
-
-
 flit 593 does not reached to its destination
 
 
@@ -4674,36 +3849,6 @@ X_destination 6
 
 
 Y-destination 3 
-
-
-flit 594 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 4 
-
-
-X_destination 3 
-
-
-Y-destination 4 
-
-
-flit 595 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 7 
-
-
-Y-destination 8 
 
 
 flit 596 does not reached to its destination
@@ -4886,19 +4031,19 @@ X_destination 5
 Y-destination 5 
 
 
-flit 611 does not reached to its destination
+flit 612 does not reached to its destination
 
 
 X_source 6 
 
 
-Y-source 5 
+Y-source 6 
 
 
-X_destination 4 
+X_destination 3 
 
 
-Y-destination 5 
+Y-destination 3 
 
 
 flit 613 does not reached to its destination
@@ -4961,34 +4106,19 @@ X_destination 2
 Y-destination 2 
 
 
-flit 618 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 2 
-
-
-X_destination 3 
-
-
-Y-destination 3 
-
-
-flit 619 does not reached to its destination
+flit 620 does not reached to its destination
 
 
 X_source 3 
 
 
-Y-source 7 
+Y-source 8 
 
 
-X_destination 2 
+X_destination 1 
 
 
-Y-destination 6 
+Y-destination 3 
 
 
 flit 621 does not reached to its destination
@@ -5034,6 +4164,21 @@ X_destination 8
 
 
 Y-destination 8 
+
+
+flit 625 does not reached to its destination
+
+
+X_source 5 
+
+
+Y-source 5 
+
+
+X_destination 4 
+
+
+Y-destination 7 
 
 
 flit 626 does not reached to its destination
@@ -5126,21 +4271,6 @@ X_destination 6
 Y-destination 3 
 
 
-flit 632 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 7 
-
-
-X_destination 5 
-
-
-Y-destination 4 
-
-
 flit 633 does not reached to its destination
 
 
@@ -5154,21 +4284,6 @@ X_destination 8
 
 
 Y-destination 3 
-
-
-flit 634 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 4 
-
-
-X_destination 3 
-
-
-Y-destination 2 
 
 
 flit 635 does not reached to its destination
@@ -5196,6 +4311,21 @@ Y-source 7
 
 
 X_destination 7 
+
+
+Y-destination 2 
+
+
+flit 637 does not reached to its destination
+
+
+X_source 4 
+
+
+Y-source 4 
+
+
+X_destination 3 
 
 
 Y-destination 2 
@@ -5276,21 +4406,6 @@ X_destination 6
 Y-destination 5 
 
 
-flit 643 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 5 
-
-
-Y-destination 5 
-
-
 flit 644 does not reached to its destination
 
 
@@ -5334,6 +4449,21 @@ X_destination 4
 
 
 Y-destination 8 
+
+
+flit 647 does not reached to its destination
+
+
+X_source 2 
+
+
+Y-source 1 
+
+
+X_destination 1 
+
+
+Y-destination 4 
 
 
 flit 648 does not reached to its destination
@@ -5396,6 +4526,21 @@ X_destination 4
 Y-destination 3 
 
 
+flit 653 does not reached to its destination
+
+
+X_source 5 
+
+
+Y-source 5 
+
+
+X_destination 3 
+
+
+Y-destination 6 
+
+
 flit 654 does not reached to its destination
 
 
@@ -5409,21 +4554,6 @@ X_destination 8
 
 
 Y-destination 6 
-
-
-flit 655 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 6 
-
-
-X_destination 6 
-
-
-Y-destination 5 
 
 
 flit 656 does not reached to its destination
@@ -5471,21 +4601,6 @@ X_destination 1
 Y-destination 3 
 
 
-flit 659 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 2 
-
-
-X_destination 1 
-
-
-Y-destination 6 
-
-
 flit 660 does not reached to its destination
 
 
@@ -5511,36 +4626,6 @@ Y-source 5
 
 
 X_destination 4 
-
-
-Y-destination 7 
-
-
-flit 662 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 6 
-
-
-X_destination 2 
-
-
-Y-destination 5 
-
-
-flit 663 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 7 
-
-
-X_destination 7 
 
 
 Y-destination 7 
@@ -5636,21 +4721,6 @@ X_destination 1
 Y-destination 3 
 
 
-flit 671 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 7 
-
-
-X_destination 5 
-
-
-Y-destination 6 
-
-
 flit 672 does not reached to its destination
 
 
@@ -5694,51 +4764,6 @@ X_destination 4
 
 
 Y-destination 6 
-
-
-flit 675 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 5 
-
-
-Y-destination 5 
-
-
-flit 676 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 7 
-
-
-flit 677 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 5 
-
-
-X_destination 7 
-
-
-Y-destination 5 
 
 
 flit 678 does not reached to its destination
@@ -5829,21 +4854,6 @@ X_destination 2
 
 
 Y-destination 2 
-
-
-flit 684 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 2 
-
-
-Y-destination 8 
 
 
 flit 685 does not reached to its destination
@@ -5951,21 +4961,6 @@ X_destination 1
 Y-destination 5 
 
 
-flit 693 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 7 
-
-
-X_destination 5 
-
-
-Y-destination 6 
-
-
 flit 694 does not reached to its destination
 
 
@@ -6009,36 +5004,6 @@ X_destination 3
 
 
 Y-destination 5 
-
-
-flit 697 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 1 
-
-
-Y-destination 1 
-
-
-flit 698 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 6 
-
-
-X_destination 1 
-
-
-Y-destination 7 
 
 
 flit 699 does not reached to its destination
@@ -6101,19 +5066,19 @@ X_destination 6
 Y-destination 2 
 
 
-flit 703 does not reached to its destination
+flit 704 does not reached to its destination
 
 
 X_source 3 
 
 
-Y-source 3 
+Y-source 6 
 
 
-X_destination 3 
+X_destination 6 
 
 
-Y-destination 2 
+Y-destination 5 
 
 
 flit 705 does not reached to its destination
@@ -6129,21 +5094,6 @@ X_destination 5
 
 
 Y-destination 4 
-
-
-flit 706 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 3 
-
-
-X_destination 6 
-
-
-Y-destination 3 
 
 
 flit 707 does not reached to its destination
@@ -6279,21 +5229,6 @@ X_destination 4
 
 
 Y-destination 5 
-
-
-flit 716 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 3 
-
-
-X_destination 1 
-
-
-Y-destination 3 
 
 
 flit 717 does not reached to its destination
@@ -6551,21 +5486,6 @@ X_destination 2
 Y-destination 7 
 
 
-flit 734 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 3 
-
-
-X_destination 1 
-
-
-Y-destination 1 
-
-
 flit 735 does not reached to its destination
 
 
@@ -6611,21 +5531,6 @@ X_destination 7
 Y-destination 6 
 
 
-flit 738 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 1 
-
-
-X_destination 6 
-
-
-Y-destination 1 
-
-
 flit 739 does not reached to its destination
 
 
@@ -6669,6 +5574,21 @@ X_destination 8
 
 
 Y-destination 2 
+
+
+flit 742 does not reached to its destination
+
+
+X_source 5 
+
+
+Y-source 5 
+
+
+X_destination 1 
+
+
+Y-destination 5 
 
 
 flit 743 does not reached to its destination
@@ -6851,21 +5771,6 @@ X_destination 1
 Y-destination 1 
 
 
-flit 755 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 6 
-
-
-X_destination 1 
-
-
-Y-destination 5 
-
-
 flit 756 does not reached to its destination
 
 
@@ -6911,6 +5816,21 @@ X_destination 1
 Y-destination 1 
 
 
+flit 759 does not reached to its destination
+
+
+X_source 3 
+
+
+Y-source 5 
+
+
+X_destination 3 
+
+
+Y-destination 7 
+
+
 flit 760 does not reached to its destination
 
 
@@ -6924,6 +5844,21 @@ X_destination 2
 
 
 Y-destination 7 
+
+
+flit 761 does not reached to its destination
+
+
+X_source 4 
+
+
+Y-source 5 
+
+
+X_destination 3 
+
+
+Y-destination 3 
 
 
 flit 762 does not reached to its destination
@@ -6954,21 +5889,6 @@ X_destination 7
 
 
 Y-destination 8 
-
-
-flit 764 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 4 
-
-
-X_destination 2 
-
-
-Y-destination 4 
 
 
 flit 765 does not reached to its destination
@@ -7179,21 +6099,6 @@ X_destination 8
 
 
 Y-destination 3 
-
-
-flit 779 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 6 
-
-
-X_destination 4 
-
-
-Y-destination 6 
 
 
 flit 780 does not reached to its destination
@@ -7556,21 +6461,6 @@ X_destination 1
 Y-destination 3 
 
 
-flit 805 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 8 
-
-
-X_destination 6 
-
-
-Y-destination 8 
-
-
 flit 806 does not reached to its destination
 
 
@@ -7659,21 +6549,6 @@ X_destination 2
 
 
 Y-destination 2 
-
-
-flit 812 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 2 
-
-
-Y-destination 3 
 
 
 flit 813 does not reached to its destination
@@ -7766,6 +6641,21 @@ X_destination 5
 Y-destination 4 
 
 
+flit 819 does not reached to its destination
+
+
+X_source 4 
+
+
+Y-source 4 
+
+
+X_destination 2 
+
+
+Y-destination 3 
+
+
 flit 820 does not reached to its destination
 
 
@@ -7791,21 +6681,6 @@ Y-source 6
 
 
 X_destination 3 
-
-
-Y-destination 8 
-
-
-flit 822 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 7 
-
-
-X_destination 7 
 
 
 Y-destination 8 
@@ -7961,36 +6836,6 @@ X_destination 6
 Y-destination 4 
 
 
-flit 833 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 5 
-
-
-X_destination 5 
-
-
-Y-destination 3 
-
-
-flit 834 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 8 
-
-
-X_destination 1 
-
-
-Y-destination 8 
-
-
 flit 835 does not reached to its destination
 
 
@@ -8109,21 +6954,6 @@ X_destination 8
 
 
 Y-destination 4 
-
-
-flit 843 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 6 
-
-
-X_destination 5 
-
-
-Y-destination 2 
 
 
 flit 844 does not reached to its destination
@@ -8259,21 +7089,6 @@ X_destination 3
 
 
 Y-destination 3 
-
-
-flit 853 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 1 
-
-
-Y-destination 5 
 
 
 flit 854 does not reached to its destination
@@ -8501,6 +7316,21 @@ X_destination 8
 Y-destination 4 
 
 
+flit 870 does not reached to its destination
+
+
+X_source 5 
+
+
+Y-source 5 
+
+
+X_destination 2 
+
+
+Y-destination 6 
+
+
 flit 871 does not reached to its destination
 
 
@@ -8514,6 +7344,21 @@ X_destination 8
 
 
 Y-destination 3 
+
+
+flit 872 does not reached to its destination
+
+
+X_source 6 
+
+
+Y-source 4 
+
+
+X_destination 7 
+
+
+Y-destination 1 
 
 
 flit 873 does not reached to its destination
@@ -8606,21 +7451,6 @@ X_destination 5
 Y-destination 6 
 
 
-flit 879 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 5 
-
-
-X_destination 1 
-
-
-Y-destination 4 
-
-
 flit 880 does not reached to its destination
 
 
@@ -8696,36 +7526,6 @@ X_destination 5
 Y-destination 7 
 
 
-flit 885 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 6 
-
-
-X_destination 1 
-
-
-Y-destination 5 
-
-
-flit 886 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 7 
-
-
-X_destination 7 
-
-
-Y-destination 7 
-
-
 flit 887 does not reached to its destination
 
 
@@ -8739,21 +7539,6 @@ X_destination 5
 
 
 Y-destination 3 
-
-
-flit 888 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 5 
-
-
-Y-destination 8 
 
 
 flit 889 does not reached to its destination
@@ -9309,21 +8094,6 @@ X_destination 4
 
 
 Y-destination 2 
-
-
-flit 926 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 6 
-
-
-X_destination 1 
-
-
-Y-destination 4 
 
 
 flit 927 does not reached to its destination
@@ -9956,21 +8726,6 @@ X_destination 7
 Y-destination 2 
 
 
-flit 969 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 5 
-
-
-X_destination 6 
-
-
-Y-destination 8 
-
-
 flit 970 does not reached to its destination
 
 
@@ -10181,36 +8936,6 @@ X_destination 6
 Y-destination 4 
 
 
-flit 984 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 7 
-
-
-flit 985 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 7 
-
-
-Y-destination 7 
-
-
 flit 986 does not reached to its destination
 
 
@@ -10374,6 +9099,21 @@ X_destination 3
 
 
 Y-destination 3 
+
+
+flit 997 does not reached to its destination
+
+
+X_source 8 
+
+
+Y-source 8 
+
+
+X_destination 8 
+
+
+Y-destination 4 
 
 
 flit 998 does not reached to its destination
@@ -10916,21 +9656,6 @@ X_destination 1
 Y-destination 7 
 
 
-flit 1034 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 8 
-
-
-X_destination 2 
-
-
-Y-destination 8 
-
-
 flit 1035 does not reached to its destination
 
 
@@ -11441,21 +10166,6 @@ X_destination 4
 Y-destination 4 
 
 
-flit 1069 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 1 
-
-
-Y-destination 4 
-
-
 flit 1070 does not reached to its destination
 
 
@@ -11936,21 +10646,6 @@ X_destination 1
 Y-destination 5 
 
 
-flit 1103 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 6 
-
-
-X_destination 5 
-
-
-Y-destination 2 
-
-
 flit 1104 does not reached to its destination
 
 
@@ -12086,21 +10781,6 @@ X_destination 3
 Y-destination 2 
 
 
-flit 1113 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 1 
-
-
-Y-destination 6 
-
-
 flit 1114 does not reached to its destination
 
 
@@ -12219,21 +10899,6 @@ X_destination 6
 
 
 Y-destination 1 
-
-
-flit 1122 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 8 
-
-
-X_destination 1 
-
-
-Y-destination 8 
 
 
 flit 1123 does not reached to its destination
@@ -12549,21 +11214,6 @@ X_destination 6
 
 
 Y-destination 3 
-
-
-flit 1144 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 5 
-
-
-Y-destination 8 
 
 
 flit 1145 does not reached to its destination
@@ -12896,21 +11546,6 @@ X_destination 6
 Y-destination 4 
 
 
-flit 1167 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 5 
-
-
-X_destination 6 
-
-
-Y-destination 7 
-
-
 flit 1168 does not reached to its destination
 
 
@@ -13149,21 +11784,6 @@ X_destination 4
 
 
 Y-destination 5 
-
-
-flit 1184 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 2 
-
-
-Y-destination 8 
 
 
 flit 1185 does not reached to its destination
@@ -15146,21 +13766,6 @@ X_destination 5
 Y-destination 2 
 
 
-flit 1317 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 2 
-
-
-Y-destination 4 
-
-
 flit 1318 does not reached to its destination
 
 
@@ -16466,21 +15071,6 @@ X_destination 4
 Y-destination 8 
 
 
-flit 1405 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 5 
-
-
-Y-destination 8 
-
-
 flit 1406 does not reached to its destination
 
 
@@ -17066,6 +15656,21 @@ X_destination 3
 Y-destination 7 
 
 
+flit 1445 does not reached to its destination
+
+
+X_source 5 
+
+
+Y-source 7 
+
+
+X_destination 5 
+
+
+Y-destination 5 
+
+
 flit 1446 does not reached to its destination
 
 
@@ -17439,21 +16044,6 @@ X_destination 7
 
 
 Y-destination 3 
-
-
-flit 1471 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 1 
-
-
-Y-destination 8 
 
 
 flit 1472 does not reached to its destination
@@ -18236,21 +16826,6 @@ X_destination 8
 Y-destination 8 
 
 
-flit 1524 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 4 
-
-
-X_destination 4 
-
-
-Y-destination 3 
-
-
 flit 1525 does not reached to its destination
 
 
@@ -18596,21 +17171,6 @@ X_destination 8
 Y-destination 4 
 
 
-flit 1548 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 4 
-
-
-X_destination 8 
-
-
-Y-destination 5 
-
-
 flit 1549 does not reached to its destination
 
 
@@ -18669,21 +17229,6 @@ X_destination 2
 
 
 Y-destination 8 
-
-
-flit 1553 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 5 
-
-
-X_destination 8 
-
-
-Y-destination 4 
 
 
 flit 1554 does not reached to its destination
@@ -20006,21 +18551,6 @@ X_destination 1
 Y-destination 8 
 
 
-flit 1642 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 2 
-
-
-Y-destination 8 
-
-
 flit 1643 does not reached to its destination
 
 
@@ -20049,21 +18579,6 @@ X_destination 2
 
 
 Y-destination 5 
-
-
-flit 1645 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 1 
-
-
-Y-destination 6 
 
 
 flit 1646 does not reached to its destination
@@ -20709,21 +19224,6 @@ X_destination 1
 
 
 Y-destination 2 
-
-
-flit 1689 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 2 
-
-
-Y-destination 8 
 
 
 flit 1690 does not reached to its destination
@@ -36776,36 +35276,6 @@ X_destination 4
 Y-destination 3 
 
 
-flit 2760 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 5 
-
-
-Y-destination 8 
-
-
-flit 2761 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 4 
-
-
-X_destination 5 
-
-
-Y-destination 2 
-
-
 flit 2762 does not reached to its destination
 
 
@@ -43511,21 +41981,6 @@ X_destination 5
 Y-destination 3 
 
 
-flit 3209 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 4 
-
-
-X_destination 5 
-
-
-Y-destination 2 
-
-
 flit 3210 does not reached to its destination
 
 
@@ -48386,21 +46841,6 @@ X_destination 7
 Y-destination 7 
 
 
-flit 3534 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 8 
-
-
-X_destination 5 
-
-
-Y-destination 8 
-
-
 flit 3535 does not reached to its destination
 
 
@@ -52016,229 +50456,4 @@ X_destination 2
 Y-destination 3 
 
 
-flit 3776 does not reached to its destination
-
-
-X_source 4 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 3 
-
-
-flit 3777 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 2 
-
-
-X_destination 3 
-
-
-Y-destination 1 
-
-
-flit 3778 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 6 
-
-
-X_destination 7 
-
-
-Y-destination 3 
-
-
-flit 3779 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 7 
-
-
-X_destination 1 
-
-
-Y-destination 5 
-
-
-flit 3780 does not reached to its destination
-
-
-X_source 5 
-
-
-Y-source 8 
-
-
-X_destination 3 
-
-
-Y-destination 1 
-
-
-flit 3781 does not reached to its destination
-
-
-X_source 6 
-
-
-Y-source 2 
-
-
-X_destination 8 
-
-
-Y-destination 4 
-
-
-flit 3782 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 4 
-
-
-X_destination 8 
-
-
-Y-destination 8 
-
-
-flit 3783 does not reached to its destination
-
-
-X_source 7 
-
-
-Y-source 7 
-
-
-X_destination 4 
-
-
-Y-destination 6 
-
-
-flit 3784 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 2 
-
-
-X_destination 5 
-
-
-Y-destination 8 
-
-
-flit 3785 does not reached to its destination
-
-
-X_source 8 
-
-
-Y-source 6 
-
-
-X_destination 3 
-
-
-Y-destination 5 
-
-
-flit 3786 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 5 
-
-
-X_destination 5 
-
-
-Y-destination 1 
-
-
-flit 3787 does not reached to its destination
-
-
-X_source 1 
-
-
-Y-source 7 
-
-
-X_destination 6 
-
-
-Y-destination 2 
-
-
-flit 3788 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 1 
-
-
-X_destination 4 
-
-
-Y-destination 3 
-
-
-flit 3789 does not reached to its destination
-
-
-X_source 2 
-
-
-Y-source 7 
-
-
-X_destination 7 
-
-
-Y-destination 1 
-
-
-flit 3790 does not reached to its destination
-
-
-X_source 3 
-
-
-Y-source 3 
-
-
-X_destination 7 
-
-
-Y-destination 8 
-
-
-flit 3791 does not reached 
+flit 3776 does not re

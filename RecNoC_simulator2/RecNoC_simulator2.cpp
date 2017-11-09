@@ -490,13 +490,13 @@ string u_to_outport_name(int u)//This function convert outport number to outport
 	return result[u];
 }
 
-int inport_to_neighbor_outport_number_computer_backpressure(int y1)//******************************must be completed for 3D
+int inport_to_neighbor_outport_number_computer_backpressure(int y1)// y1 is inport ******************************must be completed for 3D
 {
 	int result;
-	if (y1 == 1)
+	if (y1 == 1) //inport= N_in
 	{
 		result = 3;//outport S-out
-			return result;
+		return result;
 	}
 	if (y1 == 2)
 	{
@@ -515,7 +515,7 @@ int inport_to_neighbor_outport_number_computer_backpressure(int y1)//***********
 	}
 }
 
-int input_to_outport_computer(int u)
+int input_to_outport_computer(int u)//this function is another code of above function
 {
 	int result[8] = { 100, 3, 4, 1, 2 };////*******************************3D must be completed
 	return result[u];
@@ -758,7 +758,7 @@ void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This 
 {
 	if (is_backpressure_element_router(net, j, k, l, u) == 1) // if backpressure element was router
 	{
-		net[x_of_neighbor_element_in_backpressure(u,net,j,k,l)][y_of_neighbor_element_in_backpressure(u, net, j, k, l)][z_of_neighbor_element_in_backpressure(u, net, j, k, l)].outport_number[inport_to_neighbor_outport_number_computer_backpressure(u)].credit_recived = 1; // In this line we send credit to backpressure router. in other words we place one at credit_receive section in outport of backpressure router
+		net[x_of_neighbor_element(u,net,j,k,l)][y_of_neighbor_element(u, net, j, k, l)][z_of_neighbor_element(u, net, j, k, l)].outport_number[inport_to_neighbor_outport_number_computer_backpressure(u)].credit_recived = 1; // In this line we send credit to backpressure router. in other words we place one at credit_receive section in outport of backpressure router
 	}
 	else // in case of (num_of_corridors>0)
 	{
@@ -1116,9 +1116,11 @@ void main()
 									net[j][k][l].outport_number[temp].f =temp3 ;//put flit of winner inport into outport
 									net[j][k][l].outport_number[temp].is_full = 1;
 									net[j][k][l].outport_number[temp].empty_buffer_slots_of_next_router--;
+									if (u == 5) //if inport is PE_in we do not need credit to be send
+										goto kl;
 									send_credit(net, j, k, l, u); //This function send a one to credit_recived of backpressure router
 									credit_sends_counter++;
-									net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
+								kl: net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
 									if (net[j][k][l].inport_number[u].buffer_display().number == 3413)
 										cout << "\n\nDebug\n";
 								}
