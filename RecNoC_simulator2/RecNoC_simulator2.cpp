@@ -42,7 +42,7 @@ int pl = 1; //pl is a global variable which will be used for counting number of 
 int Minimum_Delay; //Minimum_Delay is a global variable which will be used for computing minimum delay
 int credit_sends_counter = 0; //an integer for counting number of credit_send function calls
 int b[a_size]; //a global variable for indexing elements of flit_path array
-int buffer_full_counter = 0;
+int buffer_full_counter = 0; ////a global variable for counting number of buffer_full errors
 ofstream myfile("Result.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
@@ -989,15 +989,7 @@ void main()
 						}
 						//End of initialization of arbiter_array of all outportd to zero
 						//------------------------------------------------------------------------------------------------------------------------------------
-						for (int t = 1; t < 6; t++)//For all outports TODO: 3D
-						{
-							if  (net[j][k][l].outport_number[t].credit_out == 1)
-							{
-								net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router++;
-								net[j][k][l].outport_number[t].credit_out = 0;
-							}
-						}
-						
+					
 						
 						
 						
@@ -1057,6 +1049,7 @@ void main()
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].l = l; //storing path of flit
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].step = 1; //storing path of flit
 									b[net[j][k][l].outport_number[u].f.number]++;
+									
 									for (int t = 1; t < number_of_flits + 1; t++) ////*****************************************************must be corrected
 									{
 										if (net[j][k][l].outport_number[u].f.number == t)
@@ -1121,7 +1114,7 @@ void main()
 									send_credit(net, j, k, l, u); //This function send a one to credit_recived of backpressure router
 									credit_sends_counter++;
 								kl: net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
-									if (net[j][k][l].inport_number[u].buffer_display().number == 3413)
+									if (net[j][k][l].inport_number[u].buffer_display().number == 3413) //for debugging
 										cout << "\n\nDebug\n";
 								}
 							}
@@ -1161,7 +1154,8 @@ void main()
 							}
 							if ((counter > 0)&&(net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router>0)) //if there is at least one arbitration request credit of this port is greater than one
 							{
-								
+								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router >12) //for debugging
+									cout << "\n\nError accured\n";
 								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == 3413)
@@ -1212,10 +1206,15 @@ void main()
 						for (int t = 1; t < 6; t++)//For all outports TODO: 3D
 						{
 							if (net[j][k][l].outport_number[t].credit_recived == 1)
-						
+							{
+								if(net[j][k][l].outport_number[t].credit_out==1) //for debugging and error control
+									cout<< "\n\nerror accured\n";
 								net[j][k][l].outport_number[t].credit_out = net[j][k][l].outport_number[t].credit_recived;
 								net[j][k][l].outport_number[t].credit_recived = 0;
+								net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router++;
+								net[j][k][l].outport_number[t].credit_out = 0;
 								
+							}
 						}
 						//-------------------------------------------------------------------------------------------
 					}
@@ -1373,7 +1372,7 @@ void main()
 			maximum_delay = a[1][i];
 	}
 	cout << "\n\nnumber of Buffer_is_Full errors = " << buffer_full_counter << "\n\n";
-	myfile << "\n\n flit_path = " << flit_path << " \n";
+	myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint
 	myfile << "\n\n traffic generation duration = " << traffic_generation_duration<< " \n";
 	myfile << "\n\n Injection_Rate = " << injection_rate << " \n";
 	myfile << "\n\n Network_X = " << networkx << " \n";
