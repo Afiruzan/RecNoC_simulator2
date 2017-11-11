@@ -43,6 +43,7 @@ int Minimum_Delay; //Minimum_Delay is a global variable which will be used for c
 int credit_sends_counter = 0; //an integer for counting number of credit_send function calls
 int b[a_size]; //a global variable for indexing elements of flit_path array
 int buffer_full_counter = 0; ////a global variable for counting number of buffer_full errors
+int arbiter_counter[networkx][networky][networkz][5];//TODO: 3D 
 ofstream myfile("Result.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
@@ -122,8 +123,8 @@ public:
 
 	void enQueue(flit f2) {
 		if (isFull()) {
-			cout << "\n\nError: Buffer is full\n";
-			buffer_full_counter++;
+			//cout << "\n\nError: Buffer is full\n";
+			//buffer_full_counter++;
 		}
 		else {
 			if (front == -1) front = 0;
@@ -725,23 +726,33 @@ int buffer_backpressure_inportnumber_computer(int u, element net[100][100][2], i
 	net[j][k][l].port_number[10].f = net[j][k][l].port_number[4].f;
 }*/
 
-int outport_arbiter_function(bool arbitration_array[5])//This function returns index of winner inport. priority Arbiter function: in this arbiter For an example, The port one have priority to port two
+int outport_arbiter_function(bool arbitration_array[5], int j, int k, int l, int t)//This function returns index of winner inport. priority Arbiter function: in this arbiter For an example, The port one have priority to port two
 {
 	//priority arbiter
-	int checker=0; // if arbiter_array does not have any 1 in it then 
-	for (int i = 1; i < 6; i++)//For all input ports************************************ 3D must be completed
-	{
-		if (arbitration_array[i] == 1)//For an example, The port one have priority to port two
-		{
-			return i; //
-			checker++;
-		}
-	}
-	if (checker == 0)
-	{
-		cout << "\n" << "Error accured at arbitration. Arbitration_array does not contains any one\n";
-		return 7;
-	}
+	int checker = 0; // if arbiter_array does not have any 1 in it then 
+	//for (int i = 1; i < 6; i++)//For all input ports************************************ 3D must be completed
+	//{
+hg:if ((arbitration_array[arbiter_counter[j][k][l][t]]) == 1)//For an example, The port one have priority to port two
+{
+	
+	checker++;
+	return arbiter_counter[j][k][l][t];
+}
+   if (arbiter_counter[j][k][l][t] <5)
+   {
+	   (arbiter_counter[j][k][l][t])++;
+	   goto hg;
+   }
+   else
+   {
+	   arbiter_counter[j][k][l][t] = 1;
+	   goto hg;
+   }
+   if (checker == 0)
+   {
+	   cout << "\n" << "Error accured at arbitration. Arbitration_array does not contains any one\n";
+	   return 7;
+   }
 }
 int is_backpressure_element_router(element net[100][100][2], int j, int k, int l, int u) //This function gives inport of this router and if backpressure element was router it returns 1
 {
@@ -776,6 +787,19 @@ void main()
 	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
 	int a[6][a_size]; //an array for storing the specification of flits such as when it reaches its destination and producing statistics //must be completed
 	store flit_path[a_size][500]; // An array for storing path of flits;
+	for (int i = 0; i < networkx; i++) //initialization of b[] array
+	{
+		for (int j = 0; j < networky; j++)
+		{
+			for (int k = 0; k < networkz; k++)
+			{
+				for (int z = 0; z < 6;z++)
+				{
+					arbiter_counter[i][j][k][z] =1;
+				}
+			}
+		}
+	}
 	for (int i = 0; i < a_size; i++) //initialization of b[] array
 	{
 		b[i] = 1;
@@ -1021,11 +1045,13 @@ void main()
 									//myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination after cycle " << net[j][k][l].outport_number[u].f.time << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
 									{
-										myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
+										int temp;
+										temp = net[j][k][l].outport_number[u].f.number;
+										//myfile << ">>>>>>>>> flit " << temp << " reached to its destination in cycle " << i << "\n\n";
 										a[1][net[j][k][l].outport_number[u].f.number]=(i- net[j][k][l].outport_number[u].f.injection_time); //storing flit latency
 										a[0][net[j][k][l].outport_number[u].f.number]++; //increment by one, we use this for evaluating the when reached to its destination
 										// TODO: flit must be deleted once reached to destination
-										net[j][k][l].outport_number[u].is_full == 0;
+										net[j][k][l].outport_number[u].is_full =0;
 									}
 									net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination = 1; // For not to double cout myfile 
 								}
@@ -1154,15 +1180,15 @@ void main()
 							}
 							if ((counter > 0)&&(net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router>0)) //if there is at least one arbitration request credit of this port is greater than one
 							{
-								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router >12) //for debugging
-									cout << "\n\nError accured\n";
-								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array);//Right side of this equation, is index of winner inport. winner inport will send to outport
+								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router >buffer_size) //for debugging
+									cout << "\n\nError accured: empty_buffer_slots_of_next_router >12\n";
+								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == 3413)
 								{
 									cout<<"\n\n3413\n";
 								}
-								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array)] = 0; //This line is not necessery
+								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t)] = 0; //This line is not necessery
 								//net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router--;
 							}
 						}
@@ -1205,6 +1231,8 @@ void main()
 						//for all outports copy credit_recived to credit_out
 						for (int t = 1; t < 6; t++)//For all outports TODO: 3D
 						{
+
+
 							if (net[j][k][l].outport_number[t].credit_recived == 1)
 							{
 								if(net[j][k][l].outport_number[t].credit_out==1) //for debugging and error control
@@ -1213,7 +1241,8 @@ void main()
 								net[j][k][l].outport_number[t].credit_recived = 0;
 								net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router++;
 								net[j][k][l].outport_number[t].credit_out = 0;
-								
+								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router > buffer_size)
+									cout << "\nError accured";
 							}
 						}
 						//-------------------------------------------------------------------------------------------
