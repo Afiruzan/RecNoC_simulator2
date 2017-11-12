@@ -481,7 +481,7 @@ int k_computer(int i, int j)//crossbar matrix for outputs of recswitch
 
 string u_to_inport_name(int u)//This function convert inport number to inport name for best readability
 {
-	string result[10] = { "Error occured", "North_in", "West_in", "South_in", "East_in",  "PE_in",  "TSV_UP_in",  "TSV_DOWN_in" };
+	string result[10] = { "Error occurred", "North_in", "West_in", "South_in", "East_in",  "PE_in",  "TSV_UP_in",  "TSV_DOWN_in" };
 	return result[u];
 }
 
@@ -730,29 +730,19 @@ int outport_arbiter_function(bool arbitration_array[5], int j, int k, int l, int
 {
 	//priority arbiter
 	int checker = 0; // if arbiter_array does not have any 1 in it then 
-	//for (int i = 1; i < 6; i++)//For all input ports************************************ 3D must be completed
-	//{
-hg:if ((arbitration_array[arbiter_counter[j][k][l][t]]) == 1)//For an example, The port one have priority to port two
-{
-	
-	checker++;
-	return arbiter_counter[j][k][l][t];
-}
-   if (arbiter_counter[j][k][l][t] <5)
-   {
-	   (arbiter_counter[j][k][l][t])++;
-	   goto hg;
-   }
-   else
-   {
-	   arbiter_counter[j][k][l][t] = 1;
-	   goto hg;
-   }
-   if (checker == 0)
-   {
-	   cout << "\n" << "Error accured at arbitration. Arbitration_array does not contains any one\n";
-	   return 7;
-   }
+	for (int i = 1; i < 6; i++)//For all input ports************************************ 3D must be completed
+	{
+		if (arbitration_array[i] == 1)//For an example, The port one have priority to port two
+		{
+			return i; //
+			checker++;
+		}
+	}
+	if (checker == 0)
+	{
+		cout << "\n" << "Error occurred at arbitration. Arbitration_array does not contains any one\n";
+		return 7;
+	}
 }
 int is_backpressure_element_router(element net[100][100][2], int j, int k, int l, int u) //This function gives inport of this router and if backpressure element was router it returns 1
 {
@@ -787,19 +777,6 @@ void main()
 	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
 	int a[6][a_size]; //an array for storing the specification of flits such as when it reaches its destination and producing statistics //must be completed
 	store flit_path[a_size][500]; // An array for storing path of flits;
-	for (int i = 0; i < networkx; i++) //initialization of b[] array
-	{
-		for (int j = 0; j < networky; j++)
-		{
-			for (int k = 0; k < networkz; k++)
-			{
-				for (int z = 0; z < 6;z++)
-				{
-					arbiter_counter[i][j][k][z] =1;
-				}
-			}
-		}
-	}
 	for (int i = 0; i < a_size; i++) //initialization of b[] array
 	{
 		b[i] = 1;
@@ -857,7 +834,7 @@ void main()
 	}
 	//End of Cluster-based RecNoC constructor
 	//###################################################################################################################################
-	//for test the program and writing result in output txt file
+	//for testing location of routers the program and writing result in output txt file
 	myfile << "Cluster-based RecNoC result:\n\n";
 	for (int i = 1; i < (networkz + 1); i++)
 	{
@@ -1042,7 +1019,7 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
-									//myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination after cycle " << net[j][k][l].outport_number[u].f.time << "\n\n";
+									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination after cycle " << net[j][k][l].outport_number[u].f.time << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
 									{
 										int temp;
@@ -1181,7 +1158,7 @@ void main()
 							if ((counter > 0)&&(net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router>0)) //if there is at least one arbitration request credit of this port is greater than one
 							{
 								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router >buffer_size) //for debugging
-									cout << "\n\nError accured: empty_buffer_slots_of_next_router >12\n";
+									cout << "\n\nError occurred in arbitration phase: empty_buffer_slots_of_next_router > buffer_size\n";
 								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == 3413)
@@ -1231,18 +1208,16 @@ void main()
 						//for all outports copy credit_recived to credit_out
 						for (int t = 1; t < 6; t++)//For all outports TODO: 3D
 						{
-
-
 							if (net[j][k][l].outport_number[t].credit_recived == 1)
 							{
-								if(net[j][k][l].outport_number[t].credit_out==1) //for debugging and error control
-									cout<< "\n\nerror accured\n";
+								if (net[j][k][l].outport_number[t].credit_out == 1) //for debugging and error control
+									cout << "\n\nError occurred: credit_out==1 before copying credit_recived to credit_out\n";
 								net[j][k][l].outport_number[t].credit_out = net[j][k][l].outport_number[t].credit_recived;
 								net[j][k][l].outport_number[t].credit_recived = 0;
 								net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router++;
 								net[j][k][l].outport_number[t].credit_out = 0;
 								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router > buffer_size)
-									cout << "\nError accured";
+									cout << "\nError occurred:( empty_buffer_slots_of_next_router > buffer_size ) when copying copy credit_recived to credit_out";
 							}
 						}
 						//-------------------------------------------------------------------------------------------
@@ -1367,7 +1342,7 @@ void main()
 		}
 		if( (a[0][i] > 2) ||(a[0][i]<1))
 		{
-			cout << "\n\n Error accoured in a[i] array\n";
+			cout << "\n\n Error occurred in a[i] array\n";
 			E_counter++;
 		}
 	}
