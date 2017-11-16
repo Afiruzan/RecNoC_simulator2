@@ -28,7 +28,7 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define a_size 25000 //25,000 estimation of number of generated flits
+#define a_size 5000 //5,000 estimation of number of generated flits
 int simulation_time = 300; //simulation time by cycle unit
 int traffic_generation_duration =200; //traffic_generation_duration by cycle unit
 float injection_rate = 0.3;
@@ -424,10 +424,6 @@ int inlinknumber_computer_for_neighbor_element(int u)//converts out port of this
 	{
 		result = 3;//inlink of neighbor router
 	}
-	if (u==6)//out port of this router
-	{
-		result = 0;//inlink of neighbor router
-	}
 	return result;
 }
 
@@ -499,23 +495,20 @@ int inport_to_neighbor_outport_number_computer_backpressure(int y1)// y1 is inpo
 	if (y1 == 1) //inport= N_in
 	{
 		result = 3;//outport S-out
-		return result;
 	}
 	if (y1 == 2)
 	{
 		result = 4;//outport E-out
-		return result;
 	}
 	if (y1 ==3)
 	{
 		result = 1;//outport N-out
-		return result;
 	}
 	if (y1 == 4)
 	{
 		result = 2;//outport W-out
-		return result;
 	}
+	return result;
 }
 
 int input_to_outport_computer(int u)//this function is another code of above function
@@ -643,7 +636,7 @@ int z_of_neighbor_element_in_backpressure(int u,element net[100][100][2], int j,
 	return 1; ////*******************************3D must be completed
 }
 
-int x_of_neighbor_element(int u, element net[100][100][2], int j, int k, int l) //x_of_neighbor_element in back pressure
+int x_of_neighbor_element(int u, element net[100][100][2], int j, int k, int l) //x_of_neighbor_element in back pressure , u is inport
 {
 	int result;
 	if ((u == 1) || (u==3))
@@ -674,7 +667,7 @@ int y_of_neighbor_element(int u, element net[100][100][2], int j, int k, int l)
 	}
 	if (u == 3)
 	{
-		result = k + 1;
+		result = k - 1;
 	}
 	return result;///*******************************3D must be completed
 }
@@ -757,14 +750,22 @@ int outport_arbiter_function(bool arbitration_array[5], int j, int k, int l, int
 }
 int is_backpressure_element_router(element net[100][100][2], int j, int k, int l, int u) //This function gives inport of this router and if backpressure element was router it returns 1
 {
-	if ((u == 1)&&(net[j][k + 1][l].router == 1))
-			return 1;
+	if ((u == 1) && (net[j][k + 1][l].router == 1))
+	{
+		return 1;
+	}
 	if ((u == 2) && (net[j - 1][k][l].router == 1))
+	{
 		return 1;
-	if ((u == 3) && (net[j][k-1][l].router == 1))
+	}
+	if ((u == 3) && (net[j][k - 1][l].router == 1))
+	{
 		return 1;
+	}
 	if ((u == 4) && (net[j + 1][k][l].router == 1))
+	{
 		return 1;
+	}
 }
 void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This function sends a credit to the first backpressure router. u is inport number
 {
@@ -1030,7 +1031,7 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
-									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination after cycle " << net[j][k][l].outport_number[u].f.time << "\n\n";
+									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
 									{
 										int temp;
@@ -1046,7 +1047,7 @@ void main()
 								//----------
 								else //for all out ports if there is a flit send outport flit to in-link of neighbor element
 								{
-									int j1, k1, l1, inlinknumber;
+									int j1, k1, l1, inlinknumber; //computing in-link of neighbor element
 									j1 = j_at_next_router(j, k, l, net, u);//x of neighbor element ************************************ 3D must be completed
 									k1 = k_at_next_router(j, k, l, net, u);//y of neighbor element
 									inlinknumber = inlinknumber_computer_for_neighbor_element(u);
