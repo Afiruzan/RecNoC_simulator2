@@ -2,7 +2,7 @@
 3D Reconfigurable Cluster-based Network-on-Chip Simulator
 ----------------------------------
 
-This project is a C++ code written by MS Visual Studio 2013 (in win32 console application mode) which can simulate a 3-dimensional Cluster-based Reconfigurable Network_on_Chip.
+This project is a C++ code written by MS Visual Studio 2013 (in win32 console application mode) which can simulate a 3-dimensional Cluster-based Reconfigurable Network-on-Chip.
 This project is under construction, so additional details will be presented soon in this file.
 If you want to obtain more information about a Cluster-based Reconfigurable Network-on-Chip please study below paper:
 
