@@ -46,6 +46,7 @@ int b[a_size]; //a global variable for indexing elements of flit_path array
 int buffer_full_counter = 0; ////a global variable for counting number of buffer_full errors
 int arbiter_counter[networkx][networky][networkz][5];//TODO: 3D 
 int number_of_errors = 0;
+int win_in_arbitration[networkx][networky][networkz][5];//TODO: 3D 
 ofstream myfile("Result.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
@@ -253,7 +254,7 @@ element::element() //constructor for recswitch matrix, by default North connecte
 	crossbar_in_recswitch[1][0] = 1;
 	crossbar_in_recswitch[2][3] = 1;
 	crossbar_in_recswitch[3][2] = 1;
-	if (router == 0) ///////*****************************************************must be completed
+	if (router == 0) ///////***************************************************** TODO: must be completed
 	{
 		
 	}
@@ -373,7 +374,7 @@ int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])
 	return outputport;
 }
 
-int j_at_next_router(int j, int k, int l, element(&net)[100][100][2], int u)//computes location of next router in x_dimension
+int j_at_next_router(int j, int k, int l, element(&net)[100][100][2], int u)//computes location of next router in x_dimension. u is outport
 {
 	int result;
 	if (u == 4)
@@ -389,7 +390,7 @@ int j_at_next_router(int j, int k, int l, element(&net)[100][100][2], int u)//co
 	else return j;
 }
 
-int k_at_next_router(int j, int k, int l, element(&net)[100][100][2], int u)//computes location of next router in y_dimension
+int k_at_next_router(int j, int k, int l, element(&net)[100][100][2], int u)//computes location of next router in y_dimension. u is outport
 {
 	int result;
 	if (u== 1)
@@ -723,22 +724,27 @@ int buffer_backpressure_inportnumber_computer(int u, element net[100][100][2], i
 
 int outport_arbiter_function(bool arbitration_array[5], int j, int k, int l, int t, int counter)//This function returns index of winner inport. priority Arbiter function: in this arbiter For an example, The port one have priority to port two
 {
-	//random arbiter
-	int az=0;//for numbering elements of arbiter array which are one
-	dn:int u;
-	srand(time(NULL));
-	u = rand() % counter + 1;//u is the range of 1 to 5
+	int az = 0;//for numbering elements of arbiter array which are one	
+	int u;
+	u = 1;//initializing for next for
+	
 	int checker = 0; // if arbiter_array does not have any 1 in it then 
 	for (int i = 1; i < 6; i++)//For all input ports************************************ 3D must be completed
 	{
 		if (arbitration_array[i] == 1)//For an example, The port one have priority to port two
 		{
-			az++;
-			if(az==u)
-			{
-				return i; 
-			}
 			checker++;
+			int p;
+			p = i;
+			while (arbitration_array[p] == 1)
+			{
+				p++;
+			}
+			if (win_in_arbitration[j][k][l][p] < win_in_arbitration[j][k][l][i])
+			{
+				u = p;
+			}
+			//now u is index of winner inport with minimum win_in_arbitration
 		}
 	}
 	if (checker == 0)
@@ -747,6 +753,7 @@ int outport_arbiter_function(bool arbitration_array[5], int j, int k, int l, int
 		number_of_errors++;
 		return 7;
 	}
+	return u;
 }
 int is_backpressure_element_router(element net[100][100][2], int j, int k, int l, int u) //This function gives inport of this router and if backpressure element was router it returns 1
 {
@@ -798,6 +805,19 @@ void main()
 		for (int j = 0; j < a_size; j++)
 		{
 			a[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < networkx; i++) //initialization of arbiter_counter array
+	{
+		for (int j = 0; j < networky; j++)
+		{
+			for (int k = 0; k < networkz; k++)
+			{
+				for (int z = 0; z < 6; z++)
+				{
+					arbiter_counter[i][j][k][z] = 1;
+				}
+			}
 		}
 	}
 	element net[100][100][2]; //creates a 3D cluster-based Reconfigurable NoC
@@ -962,7 +982,7 @@ void main()
 							flit temp_flit;
 							if (R <= (injection_rate * 10))
 							{
-								temp_flit = TF1.generate_flit(j, k, l, a, i); //This line generate a flit
+								temp_flit = TF1.generate_flit(j, k, l, a, i); //This line generates a flit
 								NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
 							}
 							//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
@@ -1031,7 +1051,9 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
-									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
+									int yfg;
+									yfg = net[j][k][l].outport_number[u].f.number;
+									//myfile << ">>>>>>>>> flit " << yfg << " reached to its destination in cycle " << i << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
 									{
 										int temp;
@@ -1183,6 +1205,12 @@ void main()
 								}
 								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
+								int temp;
+								temp = win_in_arbitration[j][k][l][net[j][k][l].outport_number[t].winner_inport_in_arbitration];
+								if (temp< 0)//because does not initialized
+									win_in_arbitration[j][k][l][net[j][k][l].outport_number[t].winner_inport_in_arbitration] = 1;//we use this statistics for arbitration
+								if (temp == 1)
+									win_in_arbitration[j][k][l][net[j][k][l].outport_number[t].winner_inport_in_arbitration]++;
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == 3413)
 								{
 									cout<<"\n\n3413\n";
@@ -1404,7 +1432,7 @@ void main()
 			maximum_delay = a[1][i];
 	}
 	cout << "\n\nnumber of Buffer_is_Full errors = " << buffer_full_counter << "\n\n";
-	myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint
+	myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint. flit number is starting from 1.
 	myfile << "\n\n traffic generation duration = " << traffic_generation_duration<< " \n";
 	myfile << "\n\n Injection_Rate = " << injection_rate << " \n";
 	myfile << "\n\n Network_X = " << networkx << " \n";
