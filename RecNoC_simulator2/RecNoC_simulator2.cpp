@@ -28,6 +28,7 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
+#define NI_buffer_size 8
 #define a_size 5000 //5,000 estimation of number of generated flits
 int simulation_time = 300; //simulation time by cycle unit
 int traffic_generation_duration =200; //traffic_generation_duration by cycle unit
@@ -95,6 +96,87 @@ public:
 	bool credit_out = 0;
 	bool credit_recived=0;
 	int winner_inport_in_arbitration;
+};
+
+class NI_Queue //buffer is a circular queue
+{
+public:
+	bool credit;//for credit-based flowcontrol
+	bool credit_is_received = 0;
+	flit f[NI_buffer_size];
+	int front, rear;
+	NI_Queue() {
+		front = -1;
+		rear = -1;
+	}
+
+	bool isFull() {
+		if (front == 0 && rear == buffer_size - 1) {
+			return true;
+		}
+		if (front == rear + 1) {
+			return true;
+		}
+		return false;
+	}
+
+	bool isEmpty() {
+		if (front == -1) return true;
+		else return false;
+	}
+
+	void enQueue(flit f2) {
+		if (isFull()) {
+			//cout << "\n\nError: Buffer is full\n";
+			//buffer_full_counter++;
+		}
+		else {
+			if (front == -1) front = 0;
+			rear = (rear + 1) % buffer_size;
+			f[rear] = f2;
+			//cout << endl << "Inserted Flit " << f2.number << endl;
+		}
+	}
+
+	flit deQueue() {
+		flit f2;
+		//flit errorflit;
+		//errorflit.number = -1;
+		if (isEmpty()) {
+			//cout << "Queue is empty" << endl;
+			//return(errorflit);
+		}
+		else {
+			f2 = f[front];
+			if (front == rear) {
+				front = -1;
+				rear = -1;
+			} /* Q has only one element, so we reset the queue after deleting it. */
+			else {
+				front = (front + 1) % buffer_size;
+			}
+			return(f2);
+		}
+	}
+	void display() /* Function to display inside status of Circular Queue */
+	{
+		myfile << "\n";
+		int i;
+		if (isEmpty()) {
+			myfile << endl << "Empty Queue" << endl;
+		}
+		else
+		{
+			myfile << " ++++++++++++++ Index of Front -> " << front;
+			myfile << endl << " ++++++++++++++ Items -> ";
+			for (i = front; i != rear; i = (i + 1) % buffer_size)
+			{
+				myfile << f[i].number << " , ";
+			}
+			myfile << f[i].number;
+			myfile << endl << " ++++++++++++++ Index of Rear -> " << rear << "\n";
+		}
+	}
 };
 
 class Queue //buffer is a circular queue
@@ -262,7 +344,7 @@ element::element() //constructor for recswitch matrix, by default North connecte
 class NI
 {
 public:
-	Queue queue[networkx+1][networky+1];//TODO: 3D must be completed
+	NI_Queue queue[networkx+1][networky+1];//TODO: 3D must be completed
 };
 class trafficmanager
 {
