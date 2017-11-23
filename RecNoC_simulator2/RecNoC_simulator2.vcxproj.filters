@@ -24,12 +24,24 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="random_arbiter_function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="priority_arbiter_function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RecNoC_simulator2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="random_arbiter_function.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="priority_arbiter_function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

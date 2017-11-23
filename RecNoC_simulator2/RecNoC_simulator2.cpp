@@ -23,15 +23,18 @@ int _tmain(int argc, _TCHAR* argv[])
 #include<typeinfo>
 #include <vector>
 #include<time.h>
+//#include "random_arbiter_function.h"
+#include "priority_arbiter_function.h"
 using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define a_size 5000 //5,000 estimation of number of generated flits
-int simulation_time = 300; //simulation time by cycle unit
+#define NI_buffer_size 8
+#define a_size 70000 //7,000 estimation of number of generated flits
+int simulation_time = 500; //simulation time by cycle unit
 int traffic_generation_duration =200; //traffic_generation_duration by cycle unit
-float injection_rate = 0.3;
+float injection_rate = 0.6;
 int cluster_size = 1;
 int num_of_corridors = 0;
 const int networkx = 8; //networkx=networky
@@ -40,13 +43,19 @@ const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx/cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky/cluster_size) - 1)*num_of_corridors);
 int pl = 1; //pl is a global variable which will be used for counting number of flits
+int pu = 1; //pl is a global variable which will be used for counting number of flits starting from PE_in Buffer
 int Minimum_Delay; //Minimum_Delay is a global variable which will be used for computing minimum delay
 int credit_sends_counter = 0; //an integer for counting number of credit_send function calls
 int b[a_size]; //a global variable for indexing elements of flit_path array
 int buffer_full_counter = 0; ////a global variable for counting number of buffer_full errors
 int arbiter_counter[networkx][networky][networkz][5];//TODO: 3D 
 int number_of_errors = 0;
+int number_of_flit_number_missed_errors = 0;
+int number_of_flit_number_missed_errors_section1 = 0;
+int number_of_flit_number_missed_errors_section2 = 0;
+int number_of_flit_number_missed_errors_section3 = 0;
 ofstream myfile("Result.txt");
+ofstream myfile2("path_of_flits.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
 //Begin of class definitions
@@ -96,14 +105,14 @@ public:
 	int winner_inport_in_arbitration;
 };
 
-class Queue //buffer is a circular queue
+class NI_Queue //buffer is a circular queue
 {
 public:
 	bool credit;//for credit-based flowcontrol
 	bool credit_is_received = 0;
-	flit f[buffer_size];
+	flit f[NI_buffer_size];
 	int front, rear;
-	Queue() {
+	NI_Queue() {
 		front = -1;
 		rear = -1;
 	}
@@ -177,6 +186,93 @@ public:
 	}
 };
 
+
+class Queue //buffer is a circular queue
+{
+public:
+	bool credit;//for credit-based flowcontrol
+	bool credit_is_received = 0;
+	flit f[buffer_size];
+	int front, rear;
+	Queue() {
+		front = -1;
+		rear = -1;
+	}
+
+	bool isFull() {
+		if (front == 0 && rear == buffer_size - 1) {
+			return true;
+		}
+		if (front == rear + 1) {
+			return true;
+		}
+		return false;
+	}
+
+	bool isEmpty() {
+		if (front == -1) return true;
+		else return false;
+	}
+
+	void enQueue(flit f2) {
+		if (isFull()) {
+			//cout << "\n\nError: Buffer is full\n";
+			//buffer_full_counter++;
+		}
+		else {
+			if (front == -1) front = 0;
+			rear = (rear + 1) % buffer_size;
+			f[rear] = f2;
+			//cout << endl << "Inserted Flit " << f2.number << endl;
+		}
+	}
+
+	flit deQueue()
+	{
+		flit f2;
+		//flit errorflit;
+		//errorflit.number = -1;
+		if (isEmpty()) 
+		{
+			cout << "Error occured: Queue is empty" << endl;
+			
+		}
+		else 
+		{
+			f2 = f[front];
+			if (front == rear) 
+			{
+				front = -1;
+				rear = -1;
+			} /* Q has only one element, so we reset the queue after deleting it. */
+			else 
+			{
+				front = (front + 1) % buffer_size;
+			}
+			return(f2);
+		}
+	}
+	void display() /* Function to display inside status of Circular Queue */
+	{
+		myfile << "\n";
+		int i;
+		if (isEmpty()) {
+			myfile << endl << "Empty Queue" << endl;
+		}
+		else
+		{
+			myfile << " ++++++++++++++ Index of Front -> " << front;
+			myfile << endl << " ++++++++++++++ Items -> ";
+			for (i = front; i != rear; i = (i + 1) % buffer_size)
+			{
+				myfile << f[i].number << " , ";
+			}
+			myfile << f[i].number;
+			myfile << endl << " ++++++++++++++ Index of Rear -> " << rear << "\n";
+		}
+	}
+};
+
 class inport
 {
 public:
@@ -193,7 +289,7 @@ public:
 	//int read_pointer=-1;// equal to front initializing read pointer
 	void buffer_read_increase_time();
 	bool grant=0;//for arbitration section
-	int outport_computed_by_routing_function; //This member is use for storing routing step computed outport
+	int outport_computed_by_routing_function; //This member is use for storing computed outport in routing step
 };
 flit inport::buffer_display() //this function returns front flit of queue
 {
@@ -352,23 +448,23 @@ int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])
 	y_offset = f.y_dest - k;
 	if (x_offset < 0)
 	{
-		outputport = 2;
+		outputport = 2; //outputport = W_out
 	}
 	if (x_offset > 0)
 	{
-		outputport = 4;
+		outputport = 4; //outputport = E_out
 	}
 	if ((x_offset == 0) && (y_offset<0))
 	{
-		outputport = 3;
+		outputport = 3; //outputport = S_out
 	}
 	if ((x_offset == 0) && (y_offset>0))
 	{
-		outputport = 1;
+		outputport = 1; //outputport = N_out
 	}
 	if ((x_offset == 0) && (y_offset==0))
 	{
-		outputport = 5;
+		outputport = 5; //outputport = PE_out
 	}
 	return outputport;
 }
@@ -721,33 +817,7 @@ int buffer_backpressure_inportnumber_computer(int u, element net[100][100][2], i
 	net[j][k][l].port_number[10].f = net[j][k][l].port_number[4].f;
 }*/
 
-int outport_arbiter_function(bool arbitration_array[5], int j, int k, int l, int t, int counter)//This function returns index of winner inport. priority Arbiter function: in this arbiter For an example, The port one have priority to port two
-{
-	//random arbiter
-	int az=0;//for numbering elements of arbiter array which are one
-	dn:int u;
-	srand(time(NULL));
-	u = rand() % counter + 1;//u is the range of 1 to 5
-	int checker = 0; // if arbiter_array does not have any 1 in it then 
-	for (int i = 1; i < 6; i++)//For all input ports************************************ 3D must be completed
-	{
-		if (arbitration_array[i] == 1)//For an example, The port one have priority to port two
-		{
-			az++;
-			if(az==u)
-			{
-				return i; 
-			}
-			checker++;
-		}
-	}
-	if (checker == 0)
-	{
-		cout << "\n" << "Error occurred at arbitration. Arbitration_array does not contains any one\n";
-		number_of_errors++;
-		return 7;
-	}
-}
+
 int is_backpressure_element_router(element net[100][100][2], int j, int k, int l, int u) //This function gives inport of this router and if backpressure element was router it returns 1
 {
 	if ((u == 1) && (net[j][k + 1][l].router == 1))
@@ -974,6 +1044,7 @@ void main()
 									flit temp4;
 									temp4 = NI_1.queue[j][k].deQueue(); //deQueue from NI router
 									net[j][k][l].inport_number[5].buffer.enQueue(temp4); //inject flit from NI to inport buffer
+									pu++;
 								}
 							}
 						}
@@ -1031,6 +1102,12 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
+									if (net[j][k][l].outport_number[u].f.number == -858993460)
+									{
+										cout << "error occured: f.number= -858993460";
+										number_of_flit_number_missed_errors++;
+										number_of_flit_number_missed_errors_section1++;
+									}
 									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
 									{
@@ -1057,6 +1134,12 @@ void main()
 									net[j1][k1][l].inlink_number[inlinknumber].is_full = 1;
 									net[j1][k1][l].inlink_number[inlinknumber].f = net[j][k][l].outport_number[u].f;
 									net[j][k][l].outport_number[u].empty_buffer_slots_of_next_router--; //credit-based flow control
+									if (net[j][k][l].outport_number[u].f.number == -858993460) //for debugging
+									{
+										cout << "Error occured: f.number == -858993460";
+										number_of_flit_number_missed_errors++;
+										number_of_flit_number_missed_errors_section2++;
+									}
 									if (net[j][k][l].outport_number[u].f.number == 3413) //for debugging
 										cout << "\n1024 &&&&&&&&&&&&&&\n";
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].j = j; //storing path of flit
@@ -1106,18 +1189,26 @@ void main()
 						
 						for (int u = 1; u < 6; u++) //for all inports if grant=1 then traverse to outport which computed by routing function in previous section
 						{
-							if (net[j][k][l].inport_number[u].grant == 1)//if grant=1 then send input to output which computed by routing function 
+							if (net[j][k][l].inport_number[u].grant == 1) //if grant=1 then send input to output which computed by routing function 
 							{
 								int temp;
 								temp = net[j][k][l].inport_number[u].outport_computed_by_routing_function;// we use outport_computed by_routing_function for storing route which computed in prevoius cycle
-								if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0) //if buffer of inport is not empty
-								{
+								//if (net[j][k][l].inport_number[u].buffer.isEmpty() == 0) //if buffer of inport is not empty
+								//{
+								flit temp2;
+								temp2=net[j][k][l].inport_number[u].buffer_display();
+								if (net[j][k][l].inport_number[u].buffer_display().number == -858993460) //for debugging
+									{
+										cout << "Error occured: f.number == -858993460";
+										number_of_flit_number_missed_errors++;
+										number_of_flit_number_missed_errors_section3++;
+									}
 									if(net[j][k][l].inport_number[u].buffer_display().number==3413) //For debugging
 										cout << "\n 1078 &&&&&&&&&&&&&&&&&&&&&&&&";
-									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].j = j; //storing path of flit
-									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].k = k; //storing path of flit
-									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].l = l; //storing path of flit
-									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].step = 2; //storing path of flit
+									flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
+									flit_path[temp2.number][b[temp2.number]].k = k; //storing path of flit
+									flit_path[temp2.number][b[temp2.number]].l = l; //storing path of flit
+									flit_path[temp2.number][b[temp2.number]].step = 2; //storing path of flit
 									b[net[j][k][l].outport_number[u].f.number]++;
 									flit temp3;
 									temp3 = net[j][k][l].inport_number[u].buffer.deQueue();
@@ -1128,10 +1219,10 @@ void main()
 										goto kl;
 									send_credit(net, j, k, l, u); //This function send a one to credit_recived of backpressure router
 									credit_sends_counter++;
-								kl:// net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
+								kl: net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
 									if (net[j][k][l].inport_number[u].buffer_display().number == 3413) //for debugging
 										cout << "\n\nDebug\n";
-								}
+								//}
 							}
 						}
 						
@@ -1143,9 +1234,9 @@ void main()
 								int outport;
 								flit temp, temp2;
 								temp = net[j][k][l].inport_number[u].buffer_display(); //front element of buffer
-								outport = xy_routing_function(temp, j, k, l, net);//outport is computed by routing function
+								outport = xy_routing_function(temp, j, k, l, net); //outport is computed by routing function
 								net[j][k][l].inport_number[u].outport_computed_by_routing_function = outport; //result of routing unit must be store for next use
-								temp2 = net[j][k][l].inport_number[u].buffer_display();
+								temp2 = net[j][k][l].inport_number[u].buffer_display(); //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].k = k; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].l = l; //storing path of flit
@@ -1181,13 +1272,15 @@ void main()
 									cout << "\n\nError occurred in arbitration phase: empty_buffer_slots_of_next_router > buffer_size\n\n";
 									number_of_errors++;
 								}
-								net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter);//Right side of this equation, is index of winner inport. winner inport will send to outport
+								//net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter);// srand random arbiter function. Right side of this equation, is index of winner inport. winner inport will send to outport
+								net[j][k][l].outport_number[t].winner_inport_in_arbitration = outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array, j, k, l, t);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == 3413)
 								{
 									cout<<"\n\n3413\n";
 								}
-								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter)] = 0; //This line is not necessery
+								//net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter)] = 0; 
+								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array, j, k, l, t)] = 0; //This line is not necessery
 								//net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router--;
 							}
 						}
@@ -1382,6 +1475,7 @@ void main()
 	myfile << "\n\n percent of flits which reached to destination = "<<((float)y_counter/(y_counter+r_counter))*100<<"\n";
 	cout << "\n\n percent of flits which reached to destination = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
 	cout << "\n\nnumber of generated flits = " << pl-1 << "\n\n";
+	cout << "\n\nnumber of generated flits in PE_in buffers = " << pu - 1 << "\n\n";
 	int sum_of_flit_latencies = 0;
 	int maximum_delay;
 	for (int i = 0; i < (pl - 1); i++)
@@ -1404,6 +1498,10 @@ void main()
 			maximum_delay = a[1][i];
 	}
 	cout << "\n\nnumber of Buffer_is_Full errors = " << buffer_full_counter << "\n\n";
+	cout << "\n\nnumber_of_flit_number_missed_errors = " << number_of_flit_number_missed_errors << "\n\n";
+	cout << "\n\nnumber_of_flit_number_missed_errors_section1 = " << number_of_flit_number_missed_errors_section1 << "\n\n";
+	cout << "\n\nnumber_of_flit_number_missed_errors_section2 = " << number_of_flit_number_missed_errors_section2 << "\n\n";
+	cout << "\n\nnumber_of_flit_number_missed_errors_section3 = " << number_of_flit_number_missed_errors_section3 << "\n\n";
 	myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint
 	myfile << "\n\n traffic generation duration = " << traffic_generation_duration<< " \n";
 	myfile << "\n\n Injection_Rate = " << injection_rate << " \n";
@@ -1419,6 +1517,21 @@ void main()
 	float temp7;
 	temp7 = ((float)sum_of_flit_latencies / (y_counter));
 	myfile << "\n\n Average Flit latency = " << temp7<< " cycle\n";
+	myfile2 << "\n Path of all flits:\n\n"<<" flit [flit number][step number]\n\n";
+	for (int i = 1; i < a_size; i++)
+	{
+		for (int j = 1; j < 500; j++)
+		{
+			if ((flit_path[i][j].j != -858993460) || (flit_path[i][j].k != -858993460) || (flit_path[i][j].l != -858993460))
+			{
+				myfile2 << "\n\n Flit[" << i << "][" << j << "] : (" << flit_path[i][j].j << "," << flit_path[i][j].k << "," << flit_path[i][j].l << ")" << "--> step "<< flit_path[i][j].step<<"\n";
+			}
+			if ((flit_path[i][j].j == a[2][i]) && (flit_path[i][j].k == a[3][i]))
+			{
+				myfile2 << "\n\n flit " << i << " reached to its destination";
+			}
+		}
+	}
 	cout << "Simulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	getchar();
 }
