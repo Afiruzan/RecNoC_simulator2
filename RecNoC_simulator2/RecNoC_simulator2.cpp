@@ -30,15 +30,15 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define NI_buffer_size 8
-#define a_size 70000 //7,000 estimation of number of generated flits
-int simulation_time = 500; //simulation time by cycle unit
-int traffic_generation_duration =200; //traffic_generation_duration by cycle unit
-float injection_rate = 0.6;
+#define NI_buffer_size 50
+#define a_size 9990000 //300,000 estimation of number of generated flits
+int simulation_time = 5000; //simulation time by cycle unit
+int traffic_generation_duration =4800; //traffic_generation_duration by cycle unit
+float injection_rate = 0.3;
 int cluster_size = 1;
 int num_of_corridors = 0;
-const int networkx = 8; //networkx=networky
-const int networky = 8;
+const int networkx =30; //networkx=networky
+const int networky = 30;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx/cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky/cluster_size) - 1)*num_of_corridors);
@@ -59,14 +59,7 @@ ofstream myfile2("path_of_flits.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
 //Begin of class definitions
-class store
-{
-public:
-	int j;
-	int k;
-	int l;
-	int step;
-};
+
 class flit
 {
 public:
@@ -363,7 +356,7 @@ class trafficmanager
 {
 public:
 	flit generate_flit(int j, int k, int l,int(&a)[6][a_size],int i);
-	void retire_flit();
+	//void retire_flit();
 };
 flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[6][a_size],int i)//This function generates flit and i is clock cycle******************must be completd (int (&a))
 {
@@ -858,7 +851,7 @@ void main()
 	cout << "number_of_elements_in_x_direction= " << number_of_elements_in_x_direction << "\n";
 	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
 	int a[6][a_size]; //An array for storing the specification of flits such as when it reaches its destination and producing statistics //must be completed
-	store flit_path[a_size][500]; // An array for storing path of flits;
+	//store flit_path[a_size][500]; // An array for storing path of flits;
 	for (int i = 0; i < a_size; i++) //initialization of b[] array (b[]=a global variable for indexing elements of flit_path array)
 	{
 		b[i] = 1;
@@ -1108,7 +1101,7 @@ void main()
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section1++;
 									}
-									myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
+									//myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
 									{
 										int temp;
@@ -1142,12 +1135,12 @@ void main()
 									}
 									if (net[j][k][l].outport_number[u].f.number == 3413) //for debugging
 										cout << "\n1024 &&&&&&&&&&&&&&\n";
-									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].j = j; //storing path of flit
+									/*flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].j = j; //storing path of flit
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].k = k; //storing path of flit
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].l = l; //storing path of flit
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].step = 1; //storing path of flit
 									b[net[j][k][l].outport_number[u].f.number]++;
-									
+									*/
 									for (int t = 1; t < number_of_flits + 1; t++) ////*****************************************************must be corrected
 									{
 										if (net[j][k][l].outport_number[u].f.number == t)
@@ -1205,11 +1198,11 @@ void main()
 									}
 									if(net[j][k][l].inport_number[u].buffer_display().number==3413) //For debugging
 										cout << "\n 1078 &&&&&&&&&&&&&&&&&&&&&&&&";
-									flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
+									/*flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
 									flit_path[temp2.number][b[temp2.number]].k = k; //storing path of flit
 									flit_path[temp2.number][b[temp2.number]].l = l; //storing path of flit
 									flit_path[temp2.number][b[temp2.number]].step = 2; //storing path of flit
-									b[net[j][k][l].outport_number[u].f.number]++;
+									b[net[j][k][l].outport_number[u].f.number]++;*/
 									flit temp3;
 									temp3 = net[j][k][l].inport_number[u].buffer.deQueue();
 									net[j][k][l].outport_number[temp].f =temp3 ;//put flit of winner inport into outport
@@ -1237,11 +1230,11 @@ void main()
 								outport = xy_routing_function(temp, j, k, l, net); //outport is computed by routing function
 								net[j][k][l].inport_number[u].outport_computed_by_routing_function = outport; //result of routing unit must be store for next use
 								temp2 = net[j][k][l].inport_number[u].buffer_display(); //storing path of flit
-								flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
+								/*flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].k = k; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].l = l; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].step = 3; //storing path of flit
-								b[temp2.number]++;
+								b[temp2.number]++;*/
 								net[j][k][l].outport_number[outport].arbiter_array[u] = 1; //Arbitration Request sent to outport
 								net[j][k][l].inport_number[u].buffer_read_increase_time();//This operation requires one cycle and flit time must be added by one
 							}
@@ -1307,11 +1300,11 @@ void main()
 								temp = temp6.number;
 								if (temp == 3413) //for debugging
 									cout << "\n 1261 &&&&&&&&&&&&&&&&&&&&&&&&";
-								flit_path[temp][b[temp]].j = j; //storing path of flit
+								/*flit_path[temp][b[temp]].j = j; //storing path of flit
 								flit_path[temp][b[temp]].k = k; //storing path of flit
 								flit_path[temp][b[temp]].l = l; //storing path of flit
 								flit_path[temp][b[temp]].step = 4; //storing path of flit
-								b[temp]++;
+								b[temp]++;*/
 								//send_credit(net, j, k, l, inport_number); //This function send a one to credit_recived of backpressure router
 								//credit_sends_counter++;
 							}
@@ -1449,11 +1442,11 @@ void main()
 		if (a[0][i] == 1)
 		{
 			r_counter++;
-			myfile << "\n\nflit " << i << " does not reached to its destination\n";
+			/*myfile << "\n\nflit " << i << " does not reached to its destination\n";
 			myfile << "\n\nX_source " << a[4][i] << " \n";
 			myfile << "\n\nY-source " << a[5][i] << " \n";
 			myfile << "\n\nX_destination " << a[2][i] << " \n";
-			myfile << "\n\nY-destination " << a[3][i] << " \n";
+			myfile << "\n\nY-destination " << a[3][i] << " \n";*/
 
 		}
 		if (a[0][i] == 2)
@@ -1502,7 +1495,7 @@ void main()
 	cout << "\n\nnumber_of_flit_number_missed_errors_section1 = " << number_of_flit_number_missed_errors_section1 << "\n\n";
 	cout << "\n\nnumber_of_flit_number_missed_errors_section2 = " << number_of_flit_number_missed_errors_section2 << "\n\n";
 	cout << "\n\nnumber_of_flit_number_missed_errors_section3 = " << number_of_flit_number_missed_errors_section3 << "\n\n";
-	myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint
+	//myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint
 	myfile << "\n\n traffic generation duration = " << traffic_generation_duration<< " \n";
 	myfile << "\n\n Injection_Rate = " << injection_rate << " \n";
 	myfile << "\n\n Network_X = " << networkx << " \n";
@@ -1518,7 +1511,7 @@ void main()
 	temp7 = ((float)sum_of_flit_latencies / (y_counter));
 	myfile << "\n\n Average Flit latency = " << temp7<< " cycle\n";
 	myfile2 << "\n Path of all flits:\n\n"<<" flit [flit number][step number]\n\n";
-	for (int i = 1; i < a_size; i++)
+	/*for (int i = 1; i < a_size; i++) //Storing path of flits in a file (myflie2)
 	{
 		for (int j = 1; j < 500; j++)
 		{
@@ -1531,7 +1524,7 @@ void main()
 				myfile2 << "\n\n flit " << i << " reached to its destination";
 			}
 		}
-	}
-	cout << "Simulation finished press enter to exit\nResults are written in result.txt file in code directory";
+	}*/
+	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	getchar();
 }
