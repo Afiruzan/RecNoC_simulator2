@@ -1527,4 +1527,5 @@ void main()
 	}*/
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	getchar();
+	//End of code
 }
