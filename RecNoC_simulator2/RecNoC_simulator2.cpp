@@ -31,10 +31,10 @@ using namespace std;
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
 #define NI_buffer_size 50
-#define a_size 9990000 //300,000 estimation of number of generated flits
-int simulation_time = 5000; //simulation time by cycle unit
-int traffic_generation_duration =4800; //traffic_generation_duration by cycle unit
-float injection_rate = 0.3;
+#define a_size 30000000 //30,000,000 estimation of number of generated flits
+int simulation_time = 100000; //100k cycle. simulation time by cycle unit
+int traffic_generation_duration=(simulation_time-200); //traffic_generation_duration by cycle unit
+float injection_rate = 0.09;
 int cluster_size = 1;
 int num_of_corridors = 0;
 const int networkx =30; //networkx=networky
@@ -1021,9 +1021,9 @@ void main()
 						if (net[j][k][l].router == 1)//////////////////////////////////////
 						{
 							int R;
-							R = rand() % 10 + 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
+							R = rand() % 100 + 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
 							flit temp_flit;
-							if (R <= (injection_rate * 10))
+							if (R <= (injection_rate * 100))
 							{
 								temp_flit = TF1.generate_flit(j, k, l, a, i); //This line generate a flit
 								NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
@@ -1526,6 +1526,6 @@ void main()
 		}
 	}*/
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
-	getchar();
-	//End of code
+	//getchar();
+	//End of simulator code
 }
