@@ -30,15 +30,15 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define NI_buffer_size 50
-#define a_size 30000000 //30,000,000 estimation of number of generated flits
-int simulation_time = 100000; //100k cycle. simulation time by cycle unit
+#define NI_buffer_size 8
+#define a_size 3000 // estimation of number of generated flits
+int simulation_time = 500; //100k cycle. simulation time by cycle unit
 int traffic_generation_duration=(simulation_time-200); //traffic_generation_duration by cycle unit
 float injection_rate = 0.09;
 int cluster_size = 1;
-int num_of_corridors = 0;
-const int networkx =30; //networkx=networky
-const int networky = 30;
+int num_of_corridors = 1;
+const int networkx =8; //networkx=networky
+const int networky = 8;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx/cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky/cluster_size) - 1)*num_of_corridors);
@@ -1097,7 +1097,7 @@ void main()
 								{
 									if (net[j][k][l].outport_number[u].f.number == -858993460)
 									{
-										cout << "error occured: f.number= -858993460";
+										cout << "\nerror occured: f.number= -858993460\n";
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section1++;
 									}
@@ -1129,7 +1129,7 @@ void main()
 									net[j][k][l].outport_number[u].empty_buffer_slots_of_next_router--; //credit-based flow control
 									if (net[j][k][l].outport_number[u].f.number == -858993460) //for debugging
 									{
-										cout << "Error occured: f.number == -858993460";
+										cout << "\nError occured: f.number == -858993460\n";
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section2++;
 									}
@@ -1192,7 +1192,7 @@ void main()
 								temp2=net[j][k][l].inport_number[u].buffer_display();
 								if (net[j][k][l].inport_number[u].buffer_display().number == -858993460) //for debugging
 									{
-										cout << "Error occured: f.number == -858993460";
+										cout << "\nError occured: f.number == -858993460\n";
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section3++;
 									}
@@ -1526,6 +1526,6 @@ void main()
 		}
 	}*/
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
-	//getchar();
+	getchar();
 	//End of simulator code
 }
