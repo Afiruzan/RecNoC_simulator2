@@ -30,7 +30,7 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define NI_buffer_size 8
+#define NI_buffer_size 50
 #define a_size 3000 // estimation of number of generated flits
 int simulation_time = 500; //100k cycle. simulation time by cycle unit
 int traffic_generation_duration=(simulation_time-200); //traffic_generation_duration by cycle unit
@@ -989,6 +989,7 @@ void main()
 
 	f4.x_dest = 2;
 	f4.y_dest = 1;*/
+	
 	//injection location of flits into PE input ports
 	//net[1][1][1].inport_number[5].buffer.enQueue(f1);
 	/*net[2][2][1].inport_number[4].buffer.enQueue(f2);
@@ -1432,6 +1433,7 @@ void main()
 								}
 							}
 					}
+					//End of code for recswitches
 				}
 			}
 		}

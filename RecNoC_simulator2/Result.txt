@@ -1,0 +1,72 @@
+Cluster-based RecNoC result:
+
+R=1 (z, y, x)= 1	1	  1      
+R=0 (z, y, x)= 1	1	  2      
+R=1 (z, y, x)= 1	1	  3      
+R=0 (z, y, x)= 1	2	  1      
+R=0 (z, y, x)= 1	2	  2      
+R=0 (z, y, x)= 1	2	  3      
+R=1 (z, y, x)= 1	3	  1      
+R=0 (z, y, x)= 1	3	  2      
+R=1 (z, y, x)= 1	3	  3      
+
+shape of RecNoC:
+
+ *  .  * 
+ .  .  . 
+ *  .  * 
+
+buffer_size= 8
+
+#################################################################
+
+traffic manager result:
+
+
+ ----------------------------------------------
+Statistics of 3D ReCNoC: 
+
+
+ Number of send_credit function calls = 55
+
+
+ 34 flits reached to destionation
+
+
+ 64 flits not reached to destination
+
+
+ percent of flits which reached to destination = 34.6939
+
+
+ traffic generation duration = 300 
+
+
+ Injection_Rate = 0.09 
+
+
+ Network_X = 2 
+ Network_Y = 2 
+ Network_Z = 1 
+
+
+ Buffer size = 8 
+
+
+ simulation time = 500 cycle
+
+
+ minimum delay = 5 cycle
+
+
+ maximum delay = 10 cycle
+
+
+ number of generated flits = 99
+
+
+
+ Sum of all flit latencies = 239 cycle
+
+
+ Average Flit latency = 7.02941 cycle
