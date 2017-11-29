@@ -37,8 +37,8 @@ int traffic_generation_duration=(simulation_time-200); //traffic_generation_dura
 float injection_rate = 0.09;
 int cluster_size = 1;
 int num_of_corridors = 1;
-const int networkx =8; //networkx=networky
-const int networky = 8;
+const int networkx =2; //networkx=networky
+const int networky = 2;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx/cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky/cluster_size) - 1)*num_of_corridors);
