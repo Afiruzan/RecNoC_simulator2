@@ -355,18 +355,24 @@ public:
 class trafficmanager
 {
 public:
-	flit generate_flit(int j, int k, int l,int(&a)[6][a_size],int i);
+	flit generate_flit(int j, int k, int l,int(&a)[6][a_size],int i,element net[100][100][2] );
 	//void retire_flit();
 };
-flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[6][a_size],int i)//This function generates flit and i is clock cycle******************must be completd (int (&a))
+flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[6][a_size],int i,element net[100][100][2])//This function generates flit and i is clock cycle******************must be completd (int (&a))
 {
 	flit Temp_Flit;
 	int x;
 	int y;
-	LI:x = rand() % networkx + 1; //x in the range 1 to networkx
-	y= rand() % networky + 1; //y in the range 1 to networky
-	if ((x == j) && (y == k)) //Generated flit`s destination cannot be on itself //3D must be completed
+	LI:x = rand() % number_of_elements_in_x_direction + 1; //x in the range 1 to networkx
+	y= rand() % number_of_elements_in_y_direction + 1; //y in the range 1 to networky. //TODO: 3D must be completed
+	if ((x == j) && (y == k)) //Generated flit`s destination cannot be on itself //TODO: 3D must be completed
+	{
 		goto LI;
+	}
+	if (net[x][y][1].router != 1) //Generated flit`s destination cannot be on a reconfigurable switch. TODO: 3D must be completed
+	{
+		goto LI;
+	}
 	Temp_Flit.x_dest = x;
 	Temp_Flit.y_dest = y;
 	Temp_Flit.number = pl;
@@ -376,7 +382,7 @@ flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[6][a_size],int i)/
 	a[2][pl] = x; //stroing x_dest of flit for future statistics
 	a[3][pl] = y; //stroing x_dest of flit for future statistics
 	a[4][pl] = j;
-	a[5][pl] = k; //3D must be completed
+	a[5][pl] = k; //TODO: 3D must be completed
 	//myfile << "\n At cycle " << i << " Flit " << pl << " generated with X-dest = " << a[2][pl] << " and Y_dest = " << a[3][pl] << "\n\n";
 	pl++;
 	return Temp_Flit;
@@ -1025,7 +1031,7 @@ void main()
 							flit temp_flit;
 							if (R <= (injection_rate * 100))
 							{
-								temp_flit = TF1.generate_flit(j, k, l, a, i); //This line generate a flit
+								temp_flit = TF1.generate_flit(j, k, l, a, i,net); //This line generate a flit
 								NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
 							}
 							//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
