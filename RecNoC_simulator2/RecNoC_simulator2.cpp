@@ -30,11 +30,11 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define NI_buffer_size 50
+#define NI_buffer_size 8
 #define a_size 3000 // estimation of number of generated flits
-int simulation_time = 500; //100k cycle. simulation time by cycle unit
+int simulation_time = 500; //500 cycle. simulation time by cycle unit
 int traffic_generation_duration=(simulation_time-200); //traffic_generation_duration by cycle unit
-float injection_rate = 0.09;
+float injection_rate = 0.01;
 int cluster_size = 1;
 int num_of_corridors = 1;
 const int networkx =2; //networkx=networky
@@ -270,8 +270,8 @@ class inport
 {
 public:
 	//flit f[buffer_size];//buffersize=10
-	flit inport_of_recswitch; //because inport of recswitch does not have buffer
-	bool is_full_for_recswitch;
+	flit flit_of_inport_of_recswitch; //because inport of recswitch does not have buffer
+	bool is_full_for_recswitch; //because input of router has buffer and does not need is_full, but inport of a reconfigurable switch have only a flit and needs this.
 	Queue buffer; //buffer is a circular queue
 //	bool is_full;//if is_full=1 means that buffer is full
 	//bool buffer_full, buffer_empty;//if buffer is full then buffer_full is 1 and if buffer is empty then buffer_empty is 1;
@@ -344,7 +344,7 @@ element::element() //constructor for recswitch matrix, by default North connecte
 	crossbar_in_recswitch[3][2] = 1;
 	if (router == 0) ///////*****************************************************must be completed
 	{
-		
+		// do nothing
 	}
 }
 class NI
@@ -1255,7 +1255,7 @@ void main()
 
 
 						//++++++++++++++++++++++++++++++++++++++++++++++
-						//Below lines are arbitration:
+						//Below lines are arbitration: For all outports we have arbitration
 						for (int t = 1; t < 6; t++)//For all outports we have arbitration. index of winner will be stored in an integer member of outport function
 						{
 							int counter = 0;
@@ -1265,7 +1265,7 @@ void main()
 								if (net[j][k][l].outport_number[t].arbiter_array[i] == 1)
 									counter++;
 							}
-							if ((counter > 0)&&(net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router>0)) //if there is at least one arbitration request credit of this port is greater than one
+							if ((counter > 0)&&(net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router>0)) //if there is at least one arbitration request and credit of this port is greater than one
 							{
 								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router > buffer_size) //for debugging
 								{
@@ -1275,9 +1275,10 @@ void main()
 								//net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter);// srand random arbiter function. Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].outport_number[t].winner_inport_in_arbitration = outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array, j, k, l, t);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
-								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == 3413)
+								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == -858993460)
 								{
-									cout<<"\n\n3413\n";
+									cout<< "\nError occured: f.number == -858993460 in arbitration\n";
+									number_of_flit_number_missed_errors++;
 								}
 								//net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter)] = 0; 
 								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array, j, k, l, t)] = 0; //This line is not necessery
@@ -1384,7 +1385,7 @@ void main()
 								{
 									int inport_number;
 									inport_number = inlink_to_inport_computer(i);
-									net[j][k][l].inport_number[inport_number].inport_of_recswitch = net[j][k][l].inlink_number[i].f;//????????????????????????????????
+									net[j][k][l].inport_number[inport_number].flit_of_inport_of_recswitch = net[j][k][l].inlink_number[i].f;//????????????????????????????????
 									net[j][k][l].inlink_number[i].is_full = 0;
 									net[j][k][l].inport_number[inport_number].is_full_for_recswitch = 1;
 								}
@@ -1402,7 +1403,7 @@ void main()
 										k2 = k_computer(i1, j1); //k=output port
 										if (net[j][k][l].inport_number[y1].is_full_for_recswitch == 1)
 										{
-											net[j][k][l].outport_number[k2].f = net[j][k][l].inport_number[y1].inport_of_recswitch;
+											net[j][k][l].outport_number[k2].f = net[j][k][l].inport_number[y1].flit_of_inport_of_recswitch;
 											net[j][k][l].inport_number[y1].is_full_for_recswitch = 0;
 											net[j][k][l].outport_number[k2].is_full = 1;
 										}
@@ -1418,7 +1419,7 @@ void main()
 									int j1, k1, l1, inlinknumber;
 									j1 = j_at_next_router(j, k, l, net, u);
 									k1 = k_at_next_router(j, k, l, net, u);
-									inlinknumber = inlinknumber_computer_for_neighbor_element(u); //inlinknumber_computer_for_neighbor_element
+									inlinknumber = inlinknumber_computer_for_neighbor_element(u); //inlinknumber computer for neighbor element
 									net[j][k][l].outport_number[u].is_full = 0; //send out to in-link of neighbor element
 									net[j1][k1][l].inlink_number[inlinknumber].is_full = 1;
 									net[j1][k1][l].inlink_number[inlinknumber].f = net[j][k][l].outport_number[u].f; //send out to in-link of neighbor element
