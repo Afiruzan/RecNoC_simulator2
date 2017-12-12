@@ -187,7 +187,7 @@ public:
 	bool credit_is_received = 0;
 	flit f[buffer_size];
 	int front, rear;
-	Queue() {
+	Queue() {	//Constructor for class Queue
 		front = -1;
 		rear = -1;
 	}
@@ -228,7 +228,6 @@ public:
 		if (isEmpty()) 
 		{
 			cout << "Error occured: Queue is empty" << endl;
-			
 		}
 		else 
 		{
@@ -1295,6 +1294,10 @@ void main()
 								//net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter);// srand random arbiter function. Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].outport_number[t].winner_inport_in_arbitration = outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array, j, k, l, t);//Right side of this equation, is index of winner inport. winner inport will send to outport
 								net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].grant = 1;	
+								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer.isEmpty() == 1)
+								{
+									cout << "\nError occured: Buffer Empty in line 1299\n";
+								}
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == -858993460)
 								{
 									cout<< "\nError occured: f.number == -858993460 in arbitration\n";
