@@ -373,6 +373,11 @@ flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[6][a_size],int i,e
 	{
 		goto LI;
 	}
+	if (pl == -858993460)
+	{
+		cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+		number_of_flit_number_missed_errors++;	
+	}
 	Temp_Flit.x_dest = x;
 	Temp_Flit.y_dest = y;
 	Temp_Flit.number = pl;
@@ -385,6 +390,11 @@ flit trafficmanager::generate_flit(int j,int k,int l,int (&a)[6][a_size],int i,e
 	a[5][pl] = k; //TODO: 3D must be completed
 	//myfile << "\n At cycle " << i << " Flit " << pl << " generated with X-dest = " << a[2][pl] << " and Y_dest = " << a[3][pl] << "\n\n";
 	pl++;
+	if (Temp_Flit.number == -858993460)
+	{
+		cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+		number_of_flit_number_missed_errors++;
+	}
 	return Temp_Flit;
 }
 //End of class definitions
@@ -1033,7 +1043,17 @@ void main()
 							if (R <= (injection_rate * 100))
 							{
 								temp_flit = TF1.generate_flit(j, k, l, a, i,net); //This line generate a flit
+								if (temp_flit.number == -858993460)
+								{
+									cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+									number_of_flit_number_missed_errors++;
+								}
 								NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
+								if (temp_flit.number == -858993460)
+								{
+									cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+									number_of_flit_number_missed_errors++;
+								}
 							}
 							//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
 
