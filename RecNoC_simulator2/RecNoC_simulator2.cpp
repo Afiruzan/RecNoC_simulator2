@@ -31,7 +31,7 @@ using namespace std;
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
 #define NI_buffer_size 8
-#define a_size 3000 // estimation of number of generated flits
+#define a_size 300 // estimation of number of generated flits
 int simulation_time = 500; //500 cycle. simulation time by cycle unit
 int traffic_generation_duration=(simulation_time-200); //traffic_generation_duration by cycle unit
 float injection_rate = 0.01;
@@ -98,13 +98,14 @@ public:
 	int winner_inport_in_arbitration;
 };
 
-class NI_Queue //buffer is a circular queue
+class NI_Queue //buffer of Network Interface (NI) is a circular queue
 {
-public:
+private:
 	bool credit;//for credit-based flowcontrol
 	bool credit_is_received = 0;
 	flit f[NI_buffer_size];
 	int front, rear;
+public:
 	NI_Queue() {
 		front = -1;
 		rear = -1;
@@ -187,7 +188,8 @@ public:
 	bool credit_is_received = 0;
 	flit f[buffer_size];
 	int front, rear;
-	Queue() {	//Constructor for class Queue
+	Queue()  //Constructor for class Queue
+	{	
 		front = -1;
 		rear = -1;
 	}
@@ -349,7 +351,7 @@ element::element() //constructor for recswitch matrix, by default North connecte
 class NI
 {
 public:
-	Queue queue[networkx+1][networky+1];//TODO: 3D must be completed
+	NI_Queue queue[networkx+1][networky+1];//NI_buffer for all routers. TODO: 3D must be completed
 };
 class trafficmanager
 {
