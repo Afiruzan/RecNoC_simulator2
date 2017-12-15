@@ -35,8 +35,8 @@ using namespace std;
 int simulation_time = 500; //500 cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 200); //traffic_generation_duration by cycle unit
 float injection_rate = 0.01;
-int cluster_size = 1;
-int num_of_corridors = 1;
+int const cluster_size = 1;
+int const num_of_corridors = 1;
 const int networkx = 2; //networkx=networky
 const int networky = 2;
 const int networkz = 1;
@@ -350,7 +350,7 @@ element::element() //constructor for recswitch matrix, by default North connecte
 class NI
 {
 public:
-	NI_Queue queue[networkx + 1][networky + 1];//NI_buffer for all routers. TODO: 3D must be completed
+	NI_Queue queue[(networkx +((networkx-1)*num_of_corridors))+ 1][(networky + ((networky - 1)*num_of_corridors)) + 1];//NI_buffer for all routers. TODO: 3D must be completed
 };
 class trafficmanager
 {
@@ -1043,19 +1043,19 @@ void main()
 							if (R <= (injection_rate * 100))
 							{
 								temp_flit = TF1.generate_flit(j, k, l, a, i, net); //This line generate a flit
-																				   /*if (temp_flit.number == -858993460)
-																				   {
-																				   cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
-																				   number_of_flit_number_missed_errors++;
-																				   }*/
+								if (temp_flit.number == -858993460)
+								{
+									cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+									number_of_flit_number_missed_errors++;
+								}
 								if (NI_1.queue[j][k].isFull() == 0) //if buffer of NI is not full and have at least one empty slot
 								{
 									NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
-																		 /*if (temp_flit.number == -858993460)
-																		 {
-																		 cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
-																		 number_of_flit_number_missed_errors++;
-																		 }*/
+									if (temp_flit.number == -858993460)
+									{
+										cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+										number_of_flit_number_missed_errors++;
+									}
 								}
 							}
 							//Below lines: if there is an empty slot in buffer then Dequeue from NI buffer and then Enqueue to PE_in port of router
