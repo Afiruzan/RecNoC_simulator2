@@ -30,20 +30,21 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define NI_buffer_size 50
-#define a_size 3000 // estimation of number of generated flits
-int simulation_time = 500; //500 cycle. simulation time by cycle unit
-int traffic_generation_duration = (simulation_time - 200); //traffic_generation_duration by cycle unit
-float injection_rate = 0.01;
-int const cluster_size = 1;
-int const num_of_corridors = 1;
-const int networkx = 2; //networkx=networky
-const int networky = 2;
+#define NI_buffer_size 8
+#define a_size 30000000 // estimation of number of generated flits
+int simulation_time = 100000; //100k cycle. simulation time by cycle unit
+int traffic_generation_duration = (simulation_time - 5000); //traffic_generation_duration by cycle unit
+float injection_rate = 0.001;
+int const cluster_size = 1; //cluster size must be related with networkx and networky
+int const num_of_corridors = 3;
+const int networkx = 5; //networkx=networky
+const int networky = 5;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
-int pl = 1; //pl is a global variable which will be used for counting number of flits
-int pu = 1; //pl is a global variable which will be used for counting number of flits starting from PE_in Buffer
+int pl = 0; //pl is a global variable which will be used for counting number of flits
+int pu = 0; //pl is a global variable which will be used for counting number of flits starting from PE_in Buffer
+int pk = 0; //pk for debugging
 int Minimum_Delay; //Minimum_Delay is a global variable which will be used for computing minimum delay
 int credit_sends_counter = 0; //an integer for counting number of credit_send function calls
 int b[a_size]; //a global variable for indexing elements of flit_path array
@@ -143,7 +144,7 @@ public:
 		//flit errorflit;
 		//errorflit.number = -1;
 		if (isEmpty()) {
-			//cout << "Queue is empty" << endl;
+			cout << "Queue is empty" << endl;
 			//return(errorflit);
 		}
 		else {
@@ -210,7 +211,7 @@ public:
 
 	void enQueue(flit f2) {
 		if (isFull()) {
-			//cout << "\n\nError: Buffer is full\n";
+			cout << "\n\nError: Buffer is full\n";
 			//buffer_full_counter++;
 		}
 		else {
@@ -1040,7 +1041,7 @@ void main()
 							int R;
 							R = rand() % 100 + 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
 							flit temp_flit;
-							if (R <= (injection_rate * 100))
+							if (R <= (injection_rate * 1000))
 							{
 								temp_flit = TF1.generate_flit(j, k, l, a, i, net); //This line generate a flit
 								if (temp_flit.number == -858993460)
@@ -1062,12 +1063,13 @@ void main()
 
 							if (net[j][k][l].inport_number[5].buffer.isFull() == 0) //if buffer of PE_in is not full and have at least one empty slot
 							{
+								pk++; //Debugging
 								if (NI_1.queue[j][k].isEmpty() == 0) //if Network Interface buffer is not empty
 								{
 									flit temp4;
 									temp4 = NI_1.queue[j][k].deQueue(); //deQueue from NI router
 									net[j][k][l].inport_number[5].buffer.enQueue(temp4); //inject flit from NI to inport buffer
-									pu++;
+									pu++; //increasing number of generated flits in PE_in buffer
 								}
 							}
 						}
@@ -1503,6 +1505,7 @@ void main()
 	myfile << "\n\n " << r_counter << " flits not reached to destination\n";
 	myfile << "\n\n percent of flits which reached to destination = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
 	cout << "\n\n percent of flits which reached to destination = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
+	cout << "\n\n percent of flits which reached to destination (based on Genereated Flits in PE_In buffers) = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
 	cout << "\n\nnumber of generated flits = " << pl - 1 << "\n\n";
 	cout << "\n\nnumber of generated flits in PE_in buffers = " << pu - 1 << "\n\n";
 	int sum_of_flit_latencies = 0;
@@ -1542,6 +1545,7 @@ void main()
 	myfile << "\n\n minimum delay = " << Minimum_Delay << " cycle\n";
 	myfile << "\n\n maximum delay = " << maximum_delay << " cycle\n";
 	myfile << "\n\n number of generated flits = " << pl - 1 << "\n\n";
+	myfile << "\n\n number of generated flits in PE_in buffers = " << pu - 1 << "\n\n";
 	myfile << "\n\n Sum of all flit latencies = " << sum_of_flit_latencies << " cycle\n";
 	float temp7;
 	temp7 = ((float)sum_of_flit_latencies / (y_counter));
@@ -1562,6 +1566,7 @@ void main()
 	}
 	}*/
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
+	cout << "\n\n pk= " << pk << "\n";
 	getchar();
 	//End of simulator code
 }
