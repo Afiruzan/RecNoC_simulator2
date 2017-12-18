@@ -30,15 +30,15 @@ using namespace std;
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
-#define NI_buffer_size 8
-#define a_size 30000000 // estimation of number of generated flits
-int simulation_time = 100000; //100k cycle. simulation time by cycle unit
-int traffic_generation_duration = (simulation_time - 5000); //traffic_generation_duration by cycle unit
-float injection_rate = 0.001;
+#define NI_buffer_size 50
+#define a_size 30000 // estimation of number of generated flits
+int simulation_time = 50000; //10k cycle. simulation time by cycle unit
+int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
+float injection_rate = 0.04;
 int const cluster_size = 1; //cluster size must be related with networkx and networky
-int const num_of_corridors = 3;
-const int networkx = 5; //networkx=networky
-const int networky = 5;
+int const num_of_corridors = 1;
+const int networkx = 2; //networkx=networky
+const int networky = 2;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
@@ -1008,14 +1008,12 @@ void main()
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
 
 	//modified recswitch matrix must be placed below
-	/*net[2][3][1].crossbar_in_recswitch[3][2] = 0;
+	net[2][3][1].crossbar_in_recswitch[3][2] = 0;
 	net[2][3][1].crossbar_in_recswitch[3][1] = 1;
-	net[2][3][1].crossbar_in_recswitch[0][1] = 0;
-
+	
 	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
 	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
-	net[2][1][1].crossbar_in_recswitch[2][3] = 1;
-	net[2][1][1].crossbar_in_recswitch[3][2] = 1;*/
+	
 	//--------------------------------------------------------------------------------
 
 	NI NI_1;
@@ -1024,7 +1022,7 @@ void main()
 	//--------------------------------------------------------------------------------
 	cout << "\n" << "simulation duration = " << simulation_time << "\n";
 
-	for (int i = 1; i < simulation_time; i++) //i shows clock cycle.In other words it shows time. This simulator is a cycle-accurate simulator and this line is the main line of simulator
+	for (int i = 1; i < simulation_time; i++) //i shows clock cycle. In other words it shows time. This simulator is a cycle-accurate simulator and this line is the main line of simulator
 	{
 		//--------------------------------------------------------------------------------
 		//Generating Traffic
@@ -1039,9 +1037,9 @@ void main()
 						if (net[j][k][l].router == 1)//////////////////////////////////////
 						{
 							int R;
-							R = rand() % 100 + 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
+							R = rand() % 100+ 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
 							flit temp_flit;
-							if (R <= (injection_rate * 1000))
+							if (R <= (injection_rate * 100))
 							{
 								temp_flit = TF1.generate_flit(j, k, l, a, i, net); //This line generate a flit
 								if (temp_flit.number == -858993460)
@@ -1504,8 +1502,9 @@ void main()
 	myfile << "\n\n " << y_counter << " flits reached to destionation\n";
 	myfile << "\n\n " << r_counter << " flits not reached to destination\n";
 	myfile << "\n\n percent of flits which reached to destination = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
+	cout << "\n\n Injection Rate= " << injection_rate << "\n";
 	cout << "\n\n percent of flits which reached to destination = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
-	cout << "\n\n percent of flits which reached to destination (based on Genereated Flits in PE_In buffers) = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
+	//cout << "\n\n percent of flits which reached to destination (based on Genereated Flits in PE_In buffers) = " << ((float)y_counter / (y_counter + r_counter)) * 100 << "\n";
 	cout << "\n\nnumber of generated flits = " << pl - 1 << "\n\n";
 	cout << "\n\nnumber of generated flits in PE_in buffers = " << pu - 1 << "\n\n";
 	int sum_of_flit_latencies = 0;
@@ -1566,7 +1565,7 @@ void main()
 	}
 	}*/
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
-	cout << "\n\n pk= " << pk << "\n";
+	cout << "\n\n pk= " << pk << "\n"; //pk is for debugging
 	getchar();
 	//End of simulator code
 }
