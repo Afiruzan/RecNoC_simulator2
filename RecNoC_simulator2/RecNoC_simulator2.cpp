@@ -31,10 +31,10 @@ using namespace std;
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
 #define NI_buffer_size 50
-#define a_size 30000 // estimation of number of generated flits
+#define a_size 30000000 // estimation of number of generated flits
 int simulation_time = 50000; //10k cycle. simulation time by cycle unit
-int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
-float injection_rate = 0.04;
+int traffic_generation_duration = (simulation_time - 200); //traffic_generation_duration by cycle unit
+float injection_rate = 0.2;
 int const cluster_size = 1; //cluster size must be related with networkx and networky
 int const num_of_corridors = 1;
 const int networkx = 2; //networkx=networky
@@ -656,6 +656,30 @@ int buffer_backpressure_outportnumber_computer(int u, element net[100][100][2], 
 	return result;
 }
 
+int recswitch_outportnumber_to_inport_computer_without_change_of_j_k_l(int u, element net[100][100][2], int j, int k, int l)//This function gives outport of this recswitch and then computes output port of neghibor element in credit_based back pressure buffer mechanism
+{
+	int y1, k1, i1, j1, result;
+	//for (int u = 1; u < 8; u++)// for all output ports of recswitch//////*******************************3D must be completed
+	//{
+	for (int i1 = 0; i1 < 4; i1++) //crossbar in recswitch matrix
+	{
+		for (int j1 = 0; j1 < 4; j1++)
+		{
+			if (net[j][k][l].crossbar_in_recswitch[i1][j1] == 1)
+			{
+				int y1, k2;
+				y1 = y_computer(i1, j1); //y= input port
+				k2 = k_computer(i1, j1); //k=output port
+				if (u == k2)
+				{
+					result = y1;
+					goto awd;
+				}
+			}
+		}
+	}
+	awd:return result;
+}
 int x_of_neighbor_element_in_backpressure(int u, element net[100][100][2], int j, int k, int l)//This function gives outport of this recswitch as input, and then computes x of neighbor element in credit_based back pressure buffer mechanism
 {
 	//for (int u = 1; u < 8; u++)// for all output ports of recswitch//////*******************************3D must be completed
@@ -855,10 +879,24 @@ void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This 
 	}
 	else // in case of (num_of_corridors>0)
 	{
-		while (net[j][k][l].router == 0) // while we reach to the first router we must gone back untill reach router
+		int hj,j1,k1;
+		j1 = j;
+		hj = inport_to_neighbor_outport_number_computer_backpressure(u);
+		j = x_of_neighbor_element_in_backpressure(hj, net, j, k, l);
+		k = y_of_neighbor_element_in_backpressure(hj, net, j1, k, l); //TODO: 3D must be complete
+		goto asd;
+		while (net[j][k][l].router == 0) // TODO: while we reach to the first router we must gone back untill reach router
 		{
-			buffer_backpressure_outportnumber_computer(inport_to_neighbor_outport_number_computer_backpressure(u), net, j, k, l);
+			asd:
+			int yh,j2,k2;
+			j2 = j; k2 = k;
+			hj = recswitch_outportnumber_to_inport_computer_without_change_of_j_k_l(hj, net, j, k, l);
+			yh=inport_to_neighbor_outport_number_computer_backpressure(hj);
+			j=x_of_neighbor_element(hj, net, j2, k2, l);
+			k=y_of_neighbor_element(hj, net, j2, k2, l); //TODO: 3D must be complete
+			hj = yh;
 		}
+		net[j][k][l].outport_number[hj].credit_recived = 1;
 	}
 }
 //End of required functions definitions
@@ -1009,10 +1047,16 @@ void main()
 
 	//modified recswitch matrix must be placed below
 	net[2][3][1].crossbar_in_recswitch[3][2] = 0;
+	net[2][3][1].crossbar_in_recswitch[2][3] = 0;
+	net[2][3][1].crossbar_in_recswitch[0][1] = 0;
+	net[2][3][1].crossbar_in_recswitch[1][0] = 0;
 	net[2][3][1].crossbar_in_recswitch[3][1] = 1;
+	net[2][3][1].crossbar_in_recswitch[1][3] = 1;
 	
 	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
+	net[2][1][1].crossbar_in_recswitch[1][0] = 0;
 	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
+	net[2][1][1].crossbar_in_recswitch[2][0] = 1;
 	
 	//--------------------------------------------------------------------------------
 
@@ -1037,9 +1081,9 @@ void main()
 						if (net[j][k][l].router == 1)//////////////////////////////////////
 						{
 							int R;
-							R = rand() % 100+ 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
+							R = rand() % 10+ 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
 							flit temp_flit;
-							if (R <= (injection_rate * 100))
+							if (R <= (injection_rate * 10))
 							{
 								temp_flit = TF1.generate_flit(j, k, l, a, i, net); //This line generate a flit
 								if (temp_flit.number == -858993460)
