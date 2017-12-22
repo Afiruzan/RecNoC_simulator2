@@ -32,13 +32,14 @@ using namespace std;
 #define buffer_size 8
 #define NI_buffer_size 50
 #define a_size 30000000 // estimation of number of generated flits
+#define flit_trace_number 500 //trace an errori flit
 int simulation_time = 50000; //10k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 200); //traffic_generation_duration by cycle unit
-float injection_rate = 0.2;
+float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
 int const cluster_size = 1; //cluster size must be related with networkx and networky
-int const num_of_corridors = 1;
-const int networkx = 2; //networkx=networky
-const int networky = 2;
+int const num_of_corridors = 3;
+const int networkx = 4; //networkx=networky
+const int networky = 4;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
@@ -55,12 +56,21 @@ int number_of_flit_number_missed_errors = 0;
 int number_of_flit_number_missed_errors_section1 = 0;
 int number_of_flit_number_missed_errors_section2 = 0;
 int number_of_flit_number_missed_errors_section3 = 0;
+int last_cycle_which_flit_seen = 0; //last_cycle_which_flit_seen
+
 ofstream myfile("Result.txt");
 ofstream myfile2("path_of_flits.txt");
 //ofstream myfile2("Result2.txt");
 //---------------------------------------------------------------------------------------------------------------
 //Begin of class definitions
 
+class last_location_which_flit_seen // a class for tracing flits
+{
+public:
+	string name = "N/A"; //flit location name
+	int j, k,l; //coordinates of flit location
+	string line_number = "N/A";
+};
 class flit
 {
 public:
@@ -871,7 +881,7 @@ int is_backpressure_element_router(element net[100][100][2], int j, int k, int l
 		return 1;
 	}
 }
-void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This function sends a credit to the first backpressure router. u is inport number
+void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This function sends a credit to the first backpressure router. u is inport number.
 {
 	if (is_backpressure_element_router(net, j, k, l, u) == 1) // if backpressure element was router
 	{
@@ -880,10 +890,11 @@ void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This 
 	else // in case of (num_of_corridors>0)
 	{
 		int hj,j1,k1;
-		j1 = j;
+		j1 = j; //storing value of j
+		k1 = k;
 		hj = inport_to_neighbor_outport_number_computer_backpressure(u);
-		j = x_of_neighbor_element_in_backpressure(hj, net, j, k, l);
-		k = y_of_neighbor_element_in_backpressure(hj, net, j1, k, l); //TODO: 3D must be complete
+		j = x_of_neighbor_element_in_backpressure(hj, net, j1, k1, l);
+		k = y_of_neighbor_element_in_backpressure(hj, net, j1, k1, l); //TODO: 3D must be complete
 		goto asd;
 		while (net[j][k][l].router == 0) // TODO: while we reach to the first router we must gone back untill reach router
 		{
@@ -903,6 +914,7 @@ void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This 
 //##########################################################################################################################
 void main()
 {
+	last_location_which_flit_seen last_place_which_flit_seen;
 	cout << "number_of_elements_in_x_direction= " << number_of_elements_in_x_direction << "\n";
 	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
 	int a[6][a_size]; //An array for storing the specification of flits such as when it reaches its destination and producing statistics //must be completed
@@ -966,6 +978,10 @@ void main()
 	//###################################################################################################################################
 	//for testing location of routers the program and writing result in output txt file
 	myfile << "Cluster-based RecNoC result:\n\n";
+	cout << "\nnetwork x = "<<networkx<<"\n"; //TODO: 3D must be completed
+	myfile << "\nnetwork x = " << networkx << "\n";
+	cout << "\nnetwork y = " << networky << "\n";
+	myfile << "\nnetwork y = " << networky << "\n";
 	for (int i = 1; i < (networkz + 1); i++)
 	{
 		for (int j = 1; j < number_of_elements_in_y_direction + 1; j++)
@@ -1046,7 +1062,7 @@ void main()
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
 
 	//modified recswitch matrix must be placed below
-	net[2][3][1].crossbar_in_recswitch[3][2] = 0;
+	/*net[2][3][1].crossbar_in_recswitch[3][2] = 0;
 	net[2][3][1].crossbar_in_recswitch[2][3] = 0;
 	net[2][3][1].crossbar_in_recswitch[0][1] = 0;
 	net[2][3][1].crossbar_in_recswitch[1][0] = 0;
@@ -1056,7 +1072,7 @@ void main()
 	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
 	net[2][1][1].crossbar_in_recswitch[1][0] = 0;
 	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
-	net[2][1][1].crossbar_in_recswitch[2][0] = 1;
+	net[2][1][1].crossbar_in_recswitch[2][0] = 1;*/
 	
 	//--------------------------------------------------------------------------------
 
@@ -1088,16 +1104,42 @@ void main()
 								temp_flit = TF1.generate_flit(j, k, l, a, i, net); //This line generate a flit
 								if (temp_flit.number == -858993460)
 								{
-									cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
+									cout << "\nerror occured: f.number= -858993460 at generate_flit function\n";
 									number_of_flit_number_missed_errors++;
+								}
+								if (temp_flit.number == flit_trace_number) // for debugging
+								{
+									cout << "\nerror occured: f.number= " << flit_trace_number << " at generate_flit function\n";
+									if (i > last_cycle_which_flit_seen)
+									{
+										last_cycle_which_flit_seen = i;
+										last_place_which_flit_seen.name = "generate_flit function";
+										last_place_which_flit_seen.j = j;
+										last_place_which_flit_seen.k = k;
+										last_place_which_flit_seen.l = l;
+										last_place_which_flit_seen.line_number = "1110";
+									}
 								}
 								if (NI_1.queue[j][k].isFull() == 0) //if buffer of NI is not full and have at least one empty slot
 								{
 									NI_1.queue[j][k].enQueue(temp_flit); //put generated flit at NI buffer
-									if (temp_flit.number == -858993460)
+									if (temp_flit.number == -858993460) // for debugging
 									{
 										cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
 										number_of_flit_number_missed_errors++;
+									}
+									if (temp_flit.number == flit_trace_number)// for debugging
+									{
+										cout << "\nerror occured: f.number= "<< flit_trace_number<<" at NI_buffer\n";
+										if (i > last_cycle_which_flit_seen)
+										{
+											last_cycle_which_flit_seen = i;
+											last_place_which_flit_seen.name = "NI_buffer";
+											last_place_which_flit_seen.j = j;
+											last_place_which_flit_seen.k = k;
+											last_place_which_flit_seen.l = l;
+											last_place_which_flit_seen.line_number = "1130";
+										}
 									}
 								}
 							}
@@ -1169,11 +1211,24 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
-									if (net[j][k][l].outport_number[u].f.number == -858993460)
+									if (net[j][k][l].outport_number[u].f.number == -858993460)//for debugging
 									{
 										cout << "\nerror occured: f.number= -858993460\n";
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section1++;
+									}
+									if (net[j][k][l].outport_number[u].f.number == flit_trace_number)//for debugging
+									{
+										cout << "\nerror occured: f.number= " << flit_trace_number << " \n";
+										if (i > last_cycle_which_flit_seen)
+										{
+											last_cycle_which_flit_seen = i;
+											last_place_which_flit_seen.name = "PE_out";
+											last_place_which_flit_seen.j = j;
+											last_place_which_flit_seen.k = k;
+											last_place_which_flit_seen.l = l;
+											last_place_which_flit_seen.line_number = "1220";
+										}
 									}
 									//myfile << ">>>>>>>>> flit " << net[j][k][l].outport_number[u].f.number << " reached to its destination in cycle " << i << "\n\n";
 									if (net[j][k][l].outport_number[u].f.is_flit_reached_to_its_destination == 0)
@@ -1206,6 +1261,19 @@ void main()
 										cout << "\nError occured: f.number == -858993460\n";
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section2++;
+									}
+									if (net[j][k][l].outport_number[u].f.number ==flit_trace_number) //for debugging
+									{
+										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+										if (i > last_cycle_which_flit_seen)
+										{
+											last_cycle_which_flit_seen = i;
+											last_place_which_flit_seen.name = u_to_outport_name(u);
+											last_place_which_flit_seen.j = j;
+											last_place_which_flit_seen.k = k;
+											last_place_which_flit_seen.l = l;
+											last_place_which_flit_seen.line_number = "1265";
+										}
 									}
 									if (net[j][k][l].outport_number[u].f.number == 3413) //for debugging
 										cout << "\n1024 &&&&&&&&&&&&&&\n";
@@ -1270,8 +1338,19 @@ void main()
 									number_of_flit_number_missed_errors++;
 									number_of_flit_number_missed_errors_section3++;
 								}
-								if (net[j][k][l].inport_number[u].buffer_display().number == 3413) //For debugging
-									cout << "\n 1078 &&&&&&&&&&&&&&&&&&&&&&&&";
+								if (net[j][k][l].inport_number[u].buffer_display().number == flit_trace_number) //for debugging
+								{
+									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+									if (i > last_cycle_which_flit_seen)
+									{
+										last_cycle_which_flit_seen = i;
+										last_place_which_flit_seen.name = u_to_inport_name(u);
+										last_place_which_flit_seen.j = j;
+										last_place_which_flit_seen.k = k;
+										last_place_which_flit_seen.l = l;
+										last_place_which_flit_seen.line_number = "1341";
+									}
+								}
 								/*flit_path[temp2.number][b[temp2.number]].j = j; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].k = k; //storing path of flit
 								flit_path[temp2.number][b[temp2.number]].l = l; //storing path of flit
@@ -1336,7 +1415,7 @@ void main()
 							{
 								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router > buffer_size) //for debugging
 								{
-									cout << "\n\nError occurred in arbitration phase: empty_buffer_slots_of_next_router > buffer_size\n\n";
+									//cout << "\n\nError occurred in arbitration phase: empty_buffer_slots_of_next_router > buffer_size\n\n";
 									number_of_errors++;
 								}
 								//net[j][k][l].outport_number[t] .winner_inport_in_arbitration= outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter);// srand random arbiter function. Right side of this equation, is index of winner inport. winner inport will send to outport
@@ -1350,6 +1429,19 @@ void main()
 								{
 									cout << "\nError occured: f.number == -858993460 in arbitration\n";
 									number_of_flit_number_missed_errors++;
+								}
+								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == flit_trace_number)
+								{
+									cout << "\nError occured: f.number == " << flit_trace_number << " in arbitration\n";
+									if (i > last_cycle_which_flit_seen)
+									{
+										last_cycle_which_flit_seen = i;
+										last_place_which_flit_seen.name = u_to_outport_name(net[j][k][l].outport_number[t].winner_inport_in_arbitration);
+										last_place_which_flit_seen.j = j;
+										last_place_which_flit_seen.k = k;
+										last_place_which_flit_seen.l = l;
+										last_place_which_flit_seen.line_number = "1434";
+									}
 								}
 								//net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array,j,k,l,t,counter)] = 0; 
 								net[j][k][l].outport_number[t].arbiter_array[outport_arbiter_function(net[j][k][l].outport_number[t].arbiter_array, j, k, l, t)] = 0; //This line is not necessery
@@ -1399,7 +1491,7 @@ void main()
 							{
 								if (net[j][k][l].outport_number[t].credit_out == 1) //for debugging and error control
 								{
-									cout << "\n\nError occurred: credit_out==1 before copying credit_recived to credit_out\n\n";
+									//cout << "\n\nError occurred: credit_out==1 before copying credit_recived to credit_out\n\n";
 									number_of_errors++;
 								}
 								net[j][k][l].outport_number[t].credit_out = net[j][k][l].outport_number[t].credit_recived;
@@ -1408,7 +1500,7 @@ void main()
 								net[j][k][l].outport_number[t].credit_out = 0;
 								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router > buffer_size)
 								{
-									cout << "\nError occurred:( empty_buffer_slots_of_next_router > buffer_size ) when copying copy credit_recived to credit_out\n\n";
+									//cout << "\nError occurred:( empty_buffer_slots_of_next_router > buffer_size ) when copying copy credit_recived to credit_out\n\n";
 									number_of_errors++;
 								}
 							}
@@ -1459,6 +1551,19 @@ void main()
 								net[j][k][l].inport_number[inport_number].flit_of_inport_of_recswitch = net[j][k][l].inlink_number[i].f;//????????????????????????????????
 								net[j][k][l].inlink_number[i].is_full = 0;
 								net[j][k][l].inport_number[inport_number].is_full_for_recswitch = 1;
+								if (net[j][k][l].inlink_number[i].f.number == flit_trace_number) //for debugging
+								{
+									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+									if (i > last_cycle_which_flit_seen)
+									{
+										last_cycle_which_flit_seen = i;
+										last_place_which_flit_seen.name = to_string(i);
+										last_place_which_flit_seen.j = j;
+										last_place_which_flit_seen.k = k;
+										last_place_which_flit_seen.l = l;
+										last_place_which_flit_seen.line_number = "1265";
+									}
+								}
 							}
 						}
 						// *********************************************************************************
@@ -1478,6 +1583,19 @@ void main()
 										net[j][k][l].inport_number[y1].is_full_for_recswitch = 0;
 										net[j][k][l].outport_number[k2].is_full = 1;
 									}
+									if (net[j][k][l].inport_number[y1].flit_of_inport_of_recswitch.number == flit_trace_number) //for debugging
+									{
+										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+										if (i > last_cycle_which_flit_seen)
+										{
+											last_cycle_which_flit_seen = i;
+											last_place_which_flit_seen.name = u_to_inport_name(y1);
+											last_place_which_flit_seen.j = j;
+											last_place_which_flit_seen.k = k;
+											last_place_which_flit_seen.l = l;
+											last_place_which_flit_seen.line_number = "1265";
+										}
+									}
 								}
 							}
 						}
@@ -1494,7 +1612,20 @@ void main()
 								net[j][k][l].outport_number[u].is_full = 0; //send out to in-link of neighbor element
 								net[j1][k1][l].inlink_number[inlinknumber].is_full = 1;
 								net[j1][k1][l].inlink_number[inlinknumber].f = net[j][k][l].outport_number[u].f; //send out to in-link of neighbor element
-								for (int t = 1; t < number_of_flits + 1; t++)///////*****************************************************must be corrected
+								if (net[j][k][l].outport_number[u].f.number == flit_trace_number) //for debugging
+								{
+									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+									if (i > last_cycle_which_flit_seen)
+									{
+										last_cycle_which_flit_seen = i;
+										last_place_which_flit_seen.name = u_to_outport_name(u);
+										last_place_which_flit_seen.j = j;
+										last_place_which_flit_seen.k = k;
+										last_place_which_flit_seen.l = l;
+										last_place_which_flit_seen.line_number = "1265";
+									}
+								}
+								for (int t = 1; t < number_of_flits + 1; t++)// for debugging /////*****************************************************must be corrected
 								{
 									if (net[j][k][l].outport_number[u].f.number == t)
 									{
@@ -1577,6 +1708,7 @@ void main()
 	cout << "\n\nnumber_of_flit_number_missed_errors_section1 = " << number_of_flit_number_missed_errors_section1 << "\n\n";
 	cout << "\n\nnumber_of_flit_number_missed_errors_section2 = " << number_of_flit_number_missed_errors_section2 << "\n\n";
 	cout << "\n\nnumber_of_flit_number_missed_errors_section3 = " << number_of_flit_number_missed_errors_section3 << "\n\n";
+	cout << "\n\nnumber_of_errors = " << number_of_errors << "\n\n";
 	//myfile << "\n\n flit_path = " << flit_path << " \n"; //for evaluating path of flits by using a breakpoint
 	myfile << "\n\n traffic generation duration = " << traffic_generation_duration << " \n";
 	myfile << "\n\n Injection_Rate = " << injection_rate << " \n";
@@ -1608,6 +1740,7 @@ void main()
 	}
 	}
 	}*/
+	cout << "\n\n Last cycle which flit " << flit_trace_number << " seen was in cycle " << last_cycle_which_flit_seen << " in "<<last_place_which_flit_seen.name<<" of element "<< last_place_which_flit_seen.j<<" "<< last_place_which_flit_seen.k<<" "<< last_place_which_flit_seen.l<<" in line number "<<last_place_which_flit_seen.line_number<<"\n";
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	cout << "\n\n pk= " << pk << "\n"; //pk is for debugging
 	getchar();

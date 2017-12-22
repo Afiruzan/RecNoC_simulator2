@@ -1,0 +1,5 @@
+
+ Path of all flits:
+
+ flit [flit number][step number]
+
