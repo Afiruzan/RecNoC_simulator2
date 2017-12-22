@@ -1082,11 +1082,11 @@ void main()
 	//--------------------------------------------------------------------------------
 	cout << "\n" << "simulation duration = " << simulation_time << "\n";
 
-	for (int i = 1; i < simulation_time; i++) //i shows clock cycle. In other words it shows time. This simulator is a cycle-accurate simulator and this line is the main line of simulator
+	for (int ii = 1; ii < simulation_time; ii++) // ii shows clock cycle. In other words it shows time. This simulator is a cycle-accurate simulator and this line is the main line of simulator
 	{
 		//--------------------------------------------------------------------------------
 		//Generating Traffic
-		if (i < traffic_generation_duration)
+		if (ii < traffic_generation_duration)
 		{
 			for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 			{
@@ -1101,7 +1101,7 @@ void main()
 							flit temp_flit;
 							if (R <= (injection_rate * 10))
 							{
-								temp_flit = TF1.generate_flit(j, k, l, a, i, net); //This line generate a flit
+								temp_flit = TF1.generate_flit(j, k, l, a, ii, net); //This line generate a flit
 								if (temp_flit.number == -858993460)
 								{
 									cout << "\nerror occured: f.number= -858993460 at generate_flit function\n";
@@ -1110,9 +1110,9 @@ void main()
 								if (temp_flit.number == flit_trace_number) // for debugging
 								{
 									cout << "\nerror occured: f.number= " << flit_trace_number << " at generate_flit function\n";
-									if (i > last_cycle_which_flit_seen)
+									if (ii >= last_cycle_which_flit_seen)
 									{
-										last_cycle_which_flit_seen = i;
+										last_cycle_which_flit_seen = ii;
 										last_place_which_flit_seen.name = "generate_flit function";
 										last_place_which_flit_seen.j = j;
 										last_place_which_flit_seen.k = k;
@@ -1131,9 +1131,9 @@ void main()
 									if (temp_flit.number == flit_trace_number)// for debugging
 									{
 										cout << "\nerror occured: f.number= "<< flit_trace_number<<" at NI_buffer\n";
-										if (i > last_cycle_which_flit_seen)
+										if (ii >= last_cycle_which_flit_seen)
 										{
-											last_cycle_which_flit_seen = i;
+											last_cycle_which_flit_seen = ii;
 											last_place_which_flit_seen.name = "NI_buffer";
 											last_place_which_flit_seen.j = j;
 											last_place_which_flit_seen.k = k;
@@ -1220,9 +1220,9 @@ void main()
 									if (net[j][k][l].outport_number[u].f.number == flit_trace_number)//for debugging
 									{
 										cout << "\nerror occured: f.number= " << flit_trace_number << " \n";
-										if (i > last_cycle_which_flit_seen)
+										if (ii >= last_cycle_which_flit_seen)
 										{
-											last_cycle_which_flit_seen = i;
+											last_cycle_which_flit_seen = ii;
 											last_place_which_flit_seen.name = "PE_out";
 											last_place_which_flit_seen.j = j;
 											last_place_which_flit_seen.k = k;
@@ -1236,7 +1236,7 @@ void main()
 										int temp;
 										temp = net[j][k][l].outport_number[u].f.number;
 										//myfile << ">>>>>>>>> flit " << temp << " reached to its destination in cycle " << i << "\n\n";
-										a[1][net[j][k][l].outport_number[u].f.number] = (i - net[j][k][l].outport_number[u].f.injection_time); //storing flit latency
+										a[1][net[j][k][l].outport_number[u].f.number] = (ii - net[j][k][l].outport_number[u].f.injection_time); //storing flit latency
 										a[0][net[j][k][l].outport_number[u].f.number]++; //increment by one, we use this for evaluating the when reached to its destination
 																						 // TODO: flit must be deleted once reached to destination
 										net[j][k][l].outport_number[u].is_full = 0;
@@ -1265,9 +1265,9 @@ void main()
 									if (net[j][k][l].outport_number[u].f.number ==flit_trace_number) //for debugging
 									{
 										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
-										if (i > last_cycle_which_flit_seen)
+										if (ii >= last_cycle_which_flit_seen)
 										{
-											last_cycle_which_flit_seen = i;
+											last_cycle_which_flit_seen = ii;
 											last_place_which_flit_seen.name = u_to_outport_name(u);
 											last_place_which_flit_seen.j = j;
 											last_place_which_flit_seen.k = k;
@@ -1288,7 +1288,7 @@ void main()
 										if (net[j][k][l].outport_number[u].f.number == t)
 										{
 											//myfile << "\n At cycle " << net[j][k][l].outport_number[u].f.time << " flit " << net[j][k][l].outport_number[u].f.number << " is in   router ( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
-											myfile << "\n At cycle " << i << " flit " << net[j][k][l].outport_number[u].f.number << " is in   router ( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
+											myfile << "\n At cycle " << ii << " flit " << net[j][k][l].outport_number[u].f.number << " is in   router ( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
 										}
 									}
 								}
@@ -1341,9 +1341,9 @@ void main()
 								if (net[j][k][l].inport_number[u].buffer_display().number == flit_trace_number) //for debugging
 								{
 									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
-									if (i > last_cycle_which_flit_seen)
+									if (ii >= last_cycle_which_flit_seen)
 									{
-										last_cycle_which_flit_seen = i;
+										last_cycle_which_flit_seen = ii;
 										last_place_which_flit_seen.name = u_to_inport_name(u);
 										last_place_which_flit_seen.j = j;
 										last_place_which_flit_seen.k = k;
@@ -1433,9 +1433,9 @@ void main()
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == flit_trace_number)
 								{
 									cout << "\nError occured: f.number == " << flit_trace_number << " in arbitration\n";
-									if (i > last_cycle_which_flit_seen)
+									if (ii >= last_cycle_which_flit_seen)
 									{
-										last_cycle_which_flit_seen = i;
+										last_cycle_which_flit_seen = ii;
 										last_place_which_flit_seen.name = u_to_outport_name(net[j][k][l].outport_number[t].winner_inport_in_arbitration);
 										last_place_which_flit_seen.j = j;
 										last_place_which_flit_seen.k = k;
@@ -1469,8 +1469,19 @@ void main()
 								net[j][k][l].inlink_number[i].is_full = 0;
 								int temp;
 								temp = temp6.number;
-								if (temp == 3413) //for debugging
-									cout << "\n 1261 &&&&&&&&&&&&&&&&&&&&&&&&";
+								if (temp == flit_trace_number)
+								{
+									cout << "\nError occured: f.number == " << flit_trace_number << " in copy inlink to inport of that element\n";
+									if (ii >= last_cycle_which_flit_seen)
+									{
+										last_cycle_which_flit_seen = ii;
+										last_place_which_flit_seen.name = u_to_inport_name(inport_number);
+										last_place_which_flit_seen.j = j;
+										last_place_which_flit_seen.k = k;
+										last_place_which_flit_seen.l = l;
+										last_place_which_flit_seen.line_number = "1472";
+									}
+								}
 								/*flit_path[temp][b[temp]].j = j; //storing path of flit
 								flit_path[temp][b[temp]].k = k; //storing path of flit
 								flit_path[temp][b[temp]].l = l; //storing path of flit
@@ -1554,14 +1565,14 @@ void main()
 								if (net[j][k][l].inlink_number[i].f.number == flit_trace_number) //for debugging
 								{
 									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
-									if (i > last_cycle_which_flit_seen)
+									if (ii >= last_cycle_which_flit_seen)
 									{
-										last_cycle_which_flit_seen = i;
+										last_cycle_which_flit_seen = ii;
 										last_place_which_flit_seen.name = to_string(i);
 										last_place_which_flit_seen.j = j;
 										last_place_which_flit_seen.k = k;
 										last_place_which_flit_seen.l = l;
-										last_place_which_flit_seen.line_number = "1265";
+										last_place_which_flit_seen.line_number = "1555";
 									}
 								}
 							}
@@ -1586,14 +1597,14 @@ void main()
 									if (net[j][k][l].inport_number[y1].flit_of_inport_of_recswitch.number == flit_trace_number) //for debugging
 									{
 										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
-										if (i > last_cycle_which_flit_seen)
+										if (ii >= last_cycle_which_flit_seen)
 										{
-											last_cycle_which_flit_seen = i;
+											last_cycle_which_flit_seen = ii;
 											last_place_which_flit_seen.name = u_to_inport_name(y1);
 											last_place_which_flit_seen.j = j;
 											last_place_which_flit_seen.k = k;
 											last_place_which_flit_seen.l = l;
-											last_place_which_flit_seen.line_number = "1265";
+											last_place_which_flit_seen.line_number = "1586";
 										}
 									}
 								}
@@ -1615,14 +1626,14 @@ void main()
 								if (net[j][k][l].outport_number[u].f.number == flit_trace_number) //for debugging
 								{
 									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
-									if (i > last_cycle_which_flit_seen)
+									if (ii >= last_cycle_which_flit_seen)
 									{
-										last_cycle_which_flit_seen = i;
+										last_cycle_which_flit_seen = ii;
 										last_place_which_flit_seen.name = u_to_outport_name(u);
 										last_place_which_flit_seen.j = j;
 										last_place_which_flit_seen.k = k;
 										last_place_which_flit_seen.l = l;
-										last_place_which_flit_seen.line_number = "1265";
+										last_place_which_flit_seen.line_number = "1619";
 									}
 								}
 								for (int t = 1; t < number_of_flits + 1; t++)// for debugging /////*****************************************************must be corrected
@@ -1630,7 +1641,7 @@ void main()
 									if (net[j][k][l].outport_number[u].f.number == t)
 									{
 										//myfile << "\n At cycle " << net[j][k][l].outport_number[u].f.time << " flit " << net[j][k][l].outport_number[u].f.number << " is in recswitch( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
-										myfile << "\n At cycle " << i << " flit " << net[j][k][l].outport_number[u].f.number << " is in recswitch( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
+										myfile << "\n At cycle " << ii << " flit " << net[j][k][l].outport_number[u].f.number << " is in recswitch( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
 									}
 								}
 							}
