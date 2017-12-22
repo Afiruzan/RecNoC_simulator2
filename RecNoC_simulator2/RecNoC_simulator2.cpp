@@ -34,12 +34,12 @@ using namespace std;
 #define a_size 30000000 // estimation of number of generated flits
 #define flit_trace_number 500 //trace an errori flit
 int simulation_time = 50000; //10k cycle. simulation time by cycle unit
-int traffic_generation_duration = (simulation_time - 200); //traffic_generation_duration by cycle unit
+int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
 float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
 int const cluster_size = 1; //cluster size must be related with networkx and networky
-int const num_of_corridors = 3;
-const int networkx = 4; //networkx=networky
-const int networky = 4;
+int const num_of_corridors = 9;
+const int networkx = 6; //networkx=networky
+const int networky = 6;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
