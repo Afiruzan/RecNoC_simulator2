@@ -1246,6 +1246,7 @@ void main()
 								//----------
 								else //for all out ports if there is a flit send outport flit to in-link of neighbor element
 								{
+
 									int j1, k1, l1, inlinknumber; //computing in-link of neighbor element
 									j1 = j_at_next_router(j, k, l, net, u);//x of neighbor element ************************************ 3D must be completed
 									k1 = k_at_next_router(j, k, l, net, u);//y of neighbor element
@@ -1262,7 +1263,7 @@ void main()
 										number_of_flit_number_missed_errors++;
 										number_of_flit_number_missed_errors_section2++;
 									}
-									if (net[j][k][l].outport_number[u].f.number ==flit_trace_number) //for debugging
+									if (net[j][k][l].outport_number[u].f.number == flit_trace_number) //for debugging
 									{
 										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
 										if (ii >= last_cycle_which_flit_seen)
@@ -1291,6 +1292,7 @@ void main()
 											myfile << "\n At cycle " << ii << " flit " << net[j][k][l].outport_number[u].f.number << " is in   router ( " << j << " " << k << " " << l << " ) at port[" << u_to_outport_name(u) << "]\n\n";
 										}
 									}
+
 								}
 							}
 						}
@@ -1411,7 +1413,7 @@ void main()
 								if (net[j][k][l].outport_number[t].arbiter_array[i] == 1)
 									counter++;
 							}
-							if ((counter > 0) && (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router>0)) //if there is at least one arbitration request and credit of this port is greater than one
+							if ((counter > 0) ) //if there is at least one arbitration request and credit of this port is greater than one
 							{
 								if (net[j][k][l].outport_number[t].empty_buffer_slots_of_next_router > buffer_size) //for debugging
 								{

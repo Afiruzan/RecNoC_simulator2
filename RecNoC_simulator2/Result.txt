@@ -201,16 +201,16 @@ traffic manager result:
 Statistics of 3D ReCNoC: 
 
 
- Number of send_credit function calls = 858
+ Number of send_credit function calls = 1061481
 
 
- 320 flits reached to destionation
+ 398348 flits reached to destionation
 
 
- 398448 flits not reached to destination
+ 420 flits not reached to destination
 
 
- percent of flits which reached to destination = 0.0802472
+ percent of flits which reached to destination = 99.8947
 
 
  traffic generation duration = 49800 
@@ -233,18 +233,18 @@ Statistics of 3D ReCNoC:
  minimum delay = 5 cycle
 
 
- maximum delay = 44 cycle
+ maximum delay = 60 cycle
 
 
  number of generated flits = 398769
 
 
 
- number of generated flits in PE_in buffers = 555
+ number of generated flits in PE_in buffers = 398758
 
 
 
- Sum of all flit latencies = 5079 cycle
+ Sum of all flit latencies = 7049033 cycle
 
 
- Average Flit latency = 15.8719 cycle
+ Average Flit latency = 17.6957 cycle
