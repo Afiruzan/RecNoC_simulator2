@@ -32,7 +32,7 @@ using namespace std;
 #define buffer_size 8
 #define NI_buffer_size 50
 #define a_size 30000000 // estimation of number of generated flits
-#define flit_trace_number 500 //trace an errori flit
+#define flit_trace_number 1 //trace an errori flit
 int simulation_time = 50000; //10k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
 float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
@@ -1062,21 +1062,21 @@ void main()
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
 
 	//modified recswitch matrix must be placed below
-	net[1][26][1].crossbar_in_recswitch[3][2] = 0;
-	net[1][26][1].crossbar_in_recswitch[2][3] = 0;
-	net[1][26][1].crossbar_in_recswitch[0][1] = 0;
-	net[1][26][1].crossbar_in_recswitch[1][0] = 0;
-	net[1][26][1].crossbar_in_recswitch[3][1] = 1;
-	net[1][26][1].crossbar_in_recswitch[1][3] = 1;
+	net[2][26][1].crossbar_in_recswitch[3][2] = 0;
+	net[2][26][1].crossbar_in_recswitch[2][3] = 0;
+	net[2][26][1].crossbar_in_recswitch[0][1] = 0;
+	net[2][26][1].crossbar_in_recswitch[1][0] = 0;
+	net[2][26][1].crossbar_in_recswitch[3][1] = 1;
+	net[2][26][1].crossbar_in_recswitch[1][3] = 1;
 	
-	net[6][1][1].crossbar_in_recswitch[3][2] = 0;
-	net[6][1][1].crossbar_in_recswitch[2][3] = 0;
-	net[6][1][1].crossbar_in_recswitch[0][1] = 0;
-	net[6][1][1].crossbar_in_recswitch[1][0] = 0;
-	net[6][1][1].crossbar_in_recswitch[0][2] = 1;
-	net[6][1][1].crossbar_in_recswitch[2][0] = 1;
-	net[6][1][1].crossbar_in_recswitch[3][2] = 0;
-	net[6][1][1].crossbar_in_recswitch[2][3] = 0;
+	net[2][1][1].crossbar_in_recswitch[3][2] = 0;
+	net[2][1][1].crossbar_in_recswitch[2][3] = 0;
+	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
+	net[2][1][1].crossbar_in_recswitch[1][0] = 0;
+	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
+	net[2][1][1].crossbar_in_recswitch[2][0] = 1;
+	net[2][1][1].crossbar_in_recswitch[3][2] = 0;
+	net[2][1][1].crossbar_in_recswitch[2][3] = 0;
 	
 	//--------------------------------------------------------------------------------
 
