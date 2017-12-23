@@ -37,7 +37,7 @@ int simulation_time = 50000; //10k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
 float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
 int const cluster_size = 1; //cluster size must be related with networkx and networky
-int const num_of_corridors = 9;
+int const num_of_corridors = 4;
 const int networkx = 6; //networkx=networky
 const int networky = 6;
 const int networkz = 1;
@@ -942,7 +942,7 @@ void main()
 		}
 	}
 	//###################################################################################################################################
-	//Cluster-based Reconfigurable Network-on-Chip constructor. This section of code initialize net[j][k][l] array as a recswitch.
+	//Cluster-based Reconfigurable Network-on-Chip constructor. This section of code initialize net[j][k][l] array as a 3d Cluster-based Reconfigurable Network-on-Chip
 	//cout <<"&net"<< &net << "\n";
 	for (int z = 1; z < (networkz + 1); z++)
 	{
@@ -991,12 +991,12 @@ void main()
 				//cout << &net << " final2\n\n";
 				if (net[k][j][i].router == 1)
 				{
-					myfile << "R=1 (z, y, x)= " << i << "	" << j << "	  " << k << "      \n";
+					myfile << "R=1 (x, y, z)= " << k << "	" << j << "	  " <<i << "      \n";
 					//cout << "(i, j, k)=" << i << "	" << j << "	  " << k << "      \n";
 				}
 				else
 				{
-					myfile << "R=0 (z, y, x)= " << i << "	" << j << "	  " << k << "      \n";
+					myfile << "R=0 (x, y, z)= " << k << "	" << j << "	  " << i << "      \n";
 					//cout << "(i, j, k)=" << i << "	" << j << "	  " << k << "      \n";
 				}
 			}
@@ -1030,10 +1030,10 @@ void main()
 	myfile << "\n\n#################################################################\n\ntraffic manager result:\n\n";
 	//information of input flits is in below:
 	//number_of_flits = networkx*networky;
-	flit f1;
+	flit f1,f2;
 	int number_of_flits = pl - 1;
-	//f1.number = 1;
-	//f2.number = 2;
+	f1.number = 1;
+	f2.number = 2;
 	//f3.number = 3;
 	//f4.number = 4;
 
@@ -1043,36 +1043,40 @@ void main()
 	//f4.time = 0;
 
 	//Destination of flits
-	//f1.x_dest =3;
-	//f1.y_dest = 3;
+	f1.x_dest =1;
+	f1.y_dest = 26;
 
-	/*f2.x_dest = 2;
-	f2.y_dest = 1;
+//	f2.x_dest = 1;
+	//f2.y_dest = 26;
 
-	f3.x_dest = 2;
+	/*f3.x_dest = 2;
 	f3.y_dest = 1;
 
 	f4.x_dest = 2;
 	f4.y_dest = 1;*/
 
 	//injection location of flits into PE input ports
-	//net[1][1][1].inport_number[5].buffer.enQueue(f1);
+	net[1][6][1].inport_number[5].buffer.enQueue(f1);
 	/*net[2][2][1].inport_number[4].buffer.enQueue(f2);
 	net[2][2][1].inport_number[3].buffer.enQueue(f3);
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
 
 	//modified recswitch matrix must be placed below
-	/*net[2][3][1].crossbar_in_recswitch[3][2] = 0;
-	net[2][3][1].crossbar_in_recswitch[2][3] = 0;
-	net[2][3][1].crossbar_in_recswitch[0][1] = 0;
-	net[2][3][1].crossbar_in_recswitch[1][0] = 0;
-	net[2][3][1].crossbar_in_recswitch[3][1] = 1;
-	net[2][3][1].crossbar_in_recswitch[1][3] = 1;
+	net[1][26][1].crossbar_in_recswitch[3][2] = 0;
+	net[1][26][1].crossbar_in_recswitch[2][3] = 0;
+	net[1][26][1].crossbar_in_recswitch[0][1] = 0;
+	net[1][26][1].crossbar_in_recswitch[1][0] = 0;
+	net[1][26][1].crossbar_in_recswitch[3][1] = 1;
+	net[1][26][1].crossbar_in_recswitch[1][3] = 1;
 	
-	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
-	net[2][1][1].crossbar_in_recswitch[1][0] = 0;
-	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
-	net[2][1][1].crossbar_in_recswitch[2][0] = 1;*/
+	net[6][1][1].crossbar_in_recswitch[3][2] = 0;
+	net[6][1][1].crossbar_in_recswitch[2][3] = 0;
+	net[6][1][1].crossbar_in_recswitch[0][1] = 0;
+	net[6][1][1].crossbar_in_recswitch[1][0] = 0;
+	net[6][1][1].crossbar_in_recswitch[0][2] = 1;
+	net[6][1][1].crossbar_in_recswitch[2][0] = 1;
+	net[6][1][1].crossbar_in_recswitch[3][2] = 0;
+	net[6][1][1].crossbar_in_recswitch[2][3] = 0;
 	
 	//--------------------------------------------------------------------------------
 
@@ -1086,7 +1090,7 @@ void main()
 	{
 		//--------------------------------------------------------------------------------
 		//Generating Traffic
-		if (ii < traffic_generation_duration)
+		/*if (ii < traffic_generation_duration)
 		{
 			for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 			{
@@ -1160,7 +1164,7 @@ void main()
 					}
 				}
 			}
-		}
+		}*/
 		//End of traffic generation
 		//--------------------------------------------------------------------------------
 
@@ -1276,8 +1280,6 @@ void main()
 											last_place_which_flit_seen.line_number = "1265";
 										}
 									}
-									if (net[j][k][l].outport_number[u].f.number == 3413) //for debugging
-										cout << "\n1024 &&&&&&&&&&&&&&\n";
 									/*flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].j = j; //storing path of flit
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].k = k; //storing path of flit
 									flit_path[net[j][k][l].outport_number[u].f.number][b[net[j][k][l].outport_number[u].f.number]].l = l; //storing path of flit
