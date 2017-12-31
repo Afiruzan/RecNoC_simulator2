@@ -372,25 +372,17 @@ public:
 flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int i, element net[100][100][2])//This function generates flit and i is clock cycle******************must be completd (int (&a))
 {
 	flit Temp_Flit;
-	int x;
-	int y;
-LI:x = rand() % number_of_elements_in_x_direction + 1; //x in the range 1 to networkx
-	y = rand() % number_of_elements_in_y_direction + 1; //y in the range 1 to networky. //TODO: 3D must be completed
-	if ((x == j) && (y == k)) //Generated flit`s destination cannot be on itself //TODO: 3D must be completed
-	{
-		goto LI;
-	}
-	if (net[x][y][1].router != 1) //Generated flit`s destination cannot be on a reconfigurable switch. TODO: 3D must be completed
-	{
-		goto LI;
-	}
+	int x=1;
+	int y=26;
+	
+	
 	if (pl == -858993460)
 	{
 		cout << "\nerror occured: f.number= -858993460 at NI_buffer\n";
 		number_of_flit_number_missed_errors++;
 	}
-	Temp_Flit.x_dest = x;
-	Temp_Flit.y_dest = y;
+	Temp_Flit.x_dest = 1;
+	Temp_Flit.y_dest = 26;
 	Temp_Flit.number = pl;
 	Temp_Flit.injection_time = i;
 	//myfile << "\n At cycle " << i << " Flit " << pl << " generated with X-dest = " << a[2][pl] << " and Y_dest = " << a[3][pl] << "\n\n";
@@ -460,6 +452,11 @@ void x_placement_recswitch(element(&net)[100][100][2], int &x, int y, int z)
 	}
 }
 
+int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])
+{
+	int outputport;
+	int a[4][7]; //a table for storing routing information
+}
 int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])//This function computes routing for front element of buffer **********************************must be completed
 {
 	int outputport;
@@ -1030,10 +1027,10 @@ void main()
 	myfile << "\n\n#################################################################\n\ntraffic manager result:\n\n";
 	//information of input flits is in below:
 	//number_of_flits = networkx*networky;
-	flit f1,f2;
+	//flit f1,f2;
 	int number_of_flits = pl - 1;
-	f1.number = 1;
-	f2.number = 2;
+	//f1.number = 1;
+	//f2.number = 2;
 	//f3.number = 3;
 	//f4.number = 4;
 
@@ -1043,10 +1040,10 @@ void main()
 	//f4.time = 0;
 
 	//Destination of flits
-	f1.x_dest =1;
-	f1.y_dest = 26;
+	//f1.x_dest =1;
+	//f1.y_dest = 26;
 
-//	f2.x_dest = 1;
+	//f2.x_dest = 1;
 	//f2.y_dest = 26;
 
 	/*f3.x_dest = 2;
@@ -1056,7 +1053,7 @@ void main()
 	f4.y_dest = 1;*/
 
 	//injection location of flits into PE input ports
-	net[1][6][1].inport_number[5].buffer.enQueue(f1);
+	//net[1][6][1].inport_number[5].buffer.enQueue(f1);
 	/*net[2][2][1].inport_number[4].buffer.enQueue(f2);
 	net[2][2][1].inport_number[3].buffer.enQueue(f3);
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
@@ -1090,7 +1087,7 @@ void main()
 	{
 		//--------------------------------------------------------------------------------
 		//Generating Traffic
-		/*if (ii < traffic_generation_duration)
+		if (ii < traffic_generation_duration)
 		{
 			for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 			{
@@ -1098,7 +1095,7 @@ void main()
 				{
 					for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
 					{
-						if (net[j][k][l].router == 1)//////////////////////////////////////
+						if ((net[j][k][l].router == 1)&&(j==6)&&(k==1))//////////////////////////////////////
 						{
 							int R;
 							R = rand() % 10+ 1; //R in the range 1 to 10. In rand() function For example, probability of generation number 3 is equal to probability of producing number 4
@@ -1164,7 +1161,7 @@ void main()
 					}
 				}
 			}
-		}*/
+		}
 		//End of traffic generation
 		//--------------------------------------------------------------------------------
 
@@ -1370,9 +1367,6 @@ void main()
 								send_credit(net, j, k, l, u); //This function send a one to credit_recived of backpressure router
 								credit_sends_counter++;
 							kl: net[j][k][l].inport_number[u].grant = 0; //If do not set grant to zero, in next cycle next flit will send to 
-								if (net[j][k][l].inport_number[u].buffer_display().number == 3413) //for debugging
-									cout << "\n\nDebug\n";
-								//}
 							}
 						}
 
