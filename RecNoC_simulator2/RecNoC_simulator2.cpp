@@ -455,7 +455,7 @@ void x_placement_recswitch(element(&net)[100][100][2], int &x, int y, int z)
 int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])
 {
 	int outputport;
-	int a[4][7]; //a table for storing routing information
+	int a[networkx][networky][networkz][1]; //a table for storing routing information. this matrix stores routing table.
 }
 int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])//This function computes routing for front element of buffer **********************************must be completed
 {
