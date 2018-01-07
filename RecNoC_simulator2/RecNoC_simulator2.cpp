@@ -64,6 +64,11 @@ ofstream myfile2("path_of_flits.txt");
 //---------------------------------------------------------------------------------------------------------------
 //Begin of class definitions
 
+class location
+{
+public:
+	int j, k, l;//for storing j,k,l
+};
 class last_location_which_flit_seen // a class for tracing flits
 {
 public:
@@ -455,7 +460,7 @@ void x_placement_recswitch(element(&net)[100][100][2], int &x, int y, int z)
 int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])
 {
 	int outputport;
-	int a[networkx][networky][networkz][1]; //a table for storing routing information. this matrix stores routing table.
+	int a[networkx + (((networkx / cluster_size) - 1)*num_of_corridors)][networky + (((networky / cluster_size) - 1)*num_of_corridors)][networkz][1]; //a table for storing routing information. this matrix stores routing table. TODO: 3D must be complete.
 }
 int xy_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])//This function computes routing for front element of buffer **********************************must be completed
 {
@@ -905,6 +910,43 @@ void send_credit(element(&net)[100][100][2], int j, int k, int l, int u) //This 
 			hj = yh;
 		}
 		net[j][k][l].outport_number[hj].credit_recived = 1;
+	}
+}
+location which_is_at_the_end_of_long_link(element(&net)[100][100][2], int j, int k, int l, int u) //This function is used for creating matrix of routing table.
+{
+	location loc;
+	if (is_backpressure_element_router(net, j, k, l, u) == 1) // if backpressure element was router
+	{
+		net[x_of_neighbor_element(u, net, j, k, l)][y_of_neighbor_element(u, net, j, k, l)][z_of_neighbor_element(u, net, j, k, l)].outport_number[inport_to_neighbor_outport_number_computer_backpressure(u)].credit_recived = 1; // In this line we send credit to backpressure router. in other words we place one at credit_receive section in outport of backpressure router
+		loc.j = x_of_neighbor_element(u, net, j, k, l);
+		loc.k = y_of_neighbor_element(u, net, j, k, l);
+		loc.l = z_of_neighbor_element(u, net, j, k, l);
+	}
+	else // in case of (num_of_corridors>0)
+	{
+		int hj, j1, k1;
+		j1 = j; //storing value of j
+		k1 = k;
+		hj = inport_to_neighbor_outport_number_computer_backpressure(u);
+		j = x_of_neighbor_element_in_backpressure(hj, net, j1, k1, l);
+		k = y_of_neighbor_element_in_backpressure(hj, net, j1, k1, l); //TODO: 3D must be complete
+		goto asd;
+		while (net[j][k][l].router == 0) // TODO: while we reach to the first router we must gone back untill reach router
+		{
+		asd:
+			int yh, j2, k2;
+			j2 = j; k2 = k;
+			hj = recswitch_outportnumber_to_inport_computer_without_change_of_j_k_l(hj, net, j, k, l);
+			yh = inport_to_neighbor_outport_number_computer_backpressure(hj);
+			j = x_of_neighbor_element(hj, net, j2, k2, l);
+			k = y_of_neighbor_element(hj, net, j2, k2, l); //TODO: 3D must be complete
+			hj = yh;
+		}
+		//net[j][k][l].outport_number[hj].credit_recived = 1;
+		
+		loc.j = j;
+		loc.k = k;
+		loc.l = l;
 	}
 }
 //End of required functions definitions
