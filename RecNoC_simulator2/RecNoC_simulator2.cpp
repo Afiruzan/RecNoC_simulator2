@@ -31,15 +31,15 @@ using namespace std;
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
 #define buffer_size 8
 #define NI_buffer_size 50
-#define a_size 30000000 // estimation of number of generated flits
+#define a_size 30000000 // 30,000,000 estimation of number of generated flits
 #define flit_trace_number 1 //trace an errori flit
-int simulation_time = 50000; //10k cycle. simulation time by cycle unit
+int simulation_time = 50000; //50k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
 float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
 int const cluster_size = 1; //cluster size must be related with networkx and networky
-int const num_of_corridors = 4;
-const int networkx = 6; //networkx=networky
-const int networky = 6;
+int const num_of_corridors = 2;
+const int networkx = 3; //networkx=networky
+const int networky = 3;
 const int networkz = 1;
 int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
 int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
@@ -1116,22 +1116,87 @@ void main()
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
 
 	//modified recswitch matrix must be placed below
-	net[2][26][1].crossbar_in_recswitch[3][2] = 0;
-	net[2][26][1].crossbar_in_recswitch[2][3] = 0;
-	net[2][26][1].crossbar_in_recswitch[0][1] = 0;
-	net[2][26][1].crossbar_in_recswitch[1][0] = 0;
-	net[2][26][1].crossbar_in_recswitch[3][1] = 1;
-	net[2][26][1].crossbar_in_recswitch[1][3] = 1;
+	//(1,5) recswitch
+	net[1][5][1].crossbar_in_recswitch[0][1] = 0; 
+	net[1][5][1].crossbar_in_recswitch[1][0] = 0;
+	net[1][5][1].crossbar_in_recswitch[0][2] = 1;
+	net[1][5][1].crossbar_in_recswitch[2][0] = 1;
 	
-	net[2][1][1].crossbar_in_recswitch[3][2] = 0;
-	net[2][1][1].crossbar_in_recswitch[2][3] = 0;
+	//(2,1) recswitch
+	net[2][1][1].crossbar_in_recswitch[0][2] = 0;
+	net[2][1][1].crossbar_in_recswitch[2][0] = 0;
 	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
 	net[2][1][1].crossbar_in_recswitch[1][0] = 0;
-	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
-	net[2][1][1].crossbar_in_recswitch[2][0] = 1;
-	net[2][1][1].crossbar_in_recswitch[3][2] = 0;
-	net[2][1][1].crossbar_in_recswitch[2][3] = 0;
-	
+
+	//(2,7) recswitch
+	net[2][7][1].crossbar_in_recswitch[0][2] = 0;
+	net[2][7][1].crossbar_in_recswitch[2][0] = 0;
+	net[2][7][1].crossbar_in_recswitch[1][3] = 0;
+	net[2][7][1].crossbar_in_recswitch[3][1] = 0;
+
+	//(3,4) recswitch
+	net[3][4][1].crossbar_in_recswitch[0][1] = 0;
+	net[3][4][1].crossbar_in_recswitch[1][0] = 0;
+	net[3][4][1].crossbar_in_recswitch[0][3] = 0;
+	net[3][4][1].crossbar_in_recswitch[3][0] = 0;
+
+	//(3,7) recswitch
+	net[3][7][1].crossbar_in_recswitch[0][1] = 0;
+	net[3][7][1].crossbar_in_recswitch[1][0] = 0;
+	net[3][7][1].crossbar_in_recswitch[1][2] = 0;
+	net[3][7][1].crossbar_in_recswitch[2][1] = 0;
+
+	//(4,3) recswitch
+	net[4][3][1].crossbar_in_recswitch[0][1] = 0;
+	net[4][3][1].crossbar_in_recswitch[1][0] = 0;
+	net[4][3][1].crossbar_in_recswitch[0][2] = 0;
+	net[4][3][1].crossbar_in_recswitch[2][0] = 0;
+
+	//(4,6) recswitch
+	net[4][6][1].crossbar_in_recswitch[0][1] = 0;
+	net[4][6][1].crossbar_in_recswitch[1][0] = 0;
+	net[4][6][1].crossbar_in_recswitch[0][2] = 0;
+	net[4][6][1].crossbar_in_recswitch[2][0] = 0;
+
+	//(5,4) recswitch
+	net[5][4][1].crossbar_in_recswitch[0][1] = 0;
+	net[5][4][1].crossbar_in_recswitch[1][0] = 0;
+	net[5][4][1].crossbar_in_recswitch[0][3] = 0;
+	net[5][4][1].crossbar_in_recswitch[3][0] = 0;
+
+	//(5,7) recswitch
+	net[5][7][1].crossbar_in_recswitch[0][1] = 0;
+	net[5][7][1].crossbar_in_recswitch[1][0] = 0;
+	net[5][7][1].crossbar_in_recswitch[1][2] = 0;
+	net[5][7][1].crossbar_in_recswitch[2][1] = 0;
+
+	//(6,1) recswitch
+	net[6][1][1].crossbar_in_recswitch[0][1] = 0;
+	net[6][1][1].crossbar_in_recswitch[1][0] = 0;
+	net[6][1][1].crossbar_in_recswitch[0][2] = 0;
+	net[6][1][1].crossbar_in_recswitch[2][0] = 0;
+
+	//(6,6) recswitch
+	net[6][6][1].crossbar_in_recswitch[0][1] = 0;
+	net[6][6][1].crossbar_in_recswitch[1][0] = 0;
+	net[6][6][1].crossbar_in_recswitch[3][1] = 0;
+	net[6][6][1].crossbar_in_recswitch[1][3] = 0;
+
+	//(7,3) recswitch
+	net[7][3][1].crossbar_in_recswitch[0][1] = 0;
+	net[7][3][1].crossbar_in_recswitch[1][0] = 0;
+	net[7][3][1].crossbar_in_recswitch[3][1] = 0;
+	net[7][3][1].crossbar_in_recswitch[1][3] = 0;
+
+	//(7,5) recswitch
+	net[7][5][1].crossbar_in_recswitch[0][1] = 0;
+	net[7][5][1].crossbar_in_recswitch[1][0] = 0;
+	net[7][5][1].crossbar_in_recswitch[3][1] = 0;
+	net[7][5][1].crossbar_in_recswitch[1][3] = 0;
+
+
+
+
 	//--------------------------------------------------------------------------------
 
 	NI NI_1;
