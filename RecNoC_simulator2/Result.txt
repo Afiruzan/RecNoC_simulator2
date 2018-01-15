@@ -75,7 +75,7 @@ traffic manager result:
 Statistics of 3D ReCNoC: 
 
 
- Number of send_credit function calls = 0
+ Number of send_credit function calls = 7
 
 
  0 flits reached to destionation

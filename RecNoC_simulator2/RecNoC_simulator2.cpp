@@ -32,7 +32,7 @@ using namespace std;
 #define buffer_size 8
 #define NI_buffer_size 50
 #define a_size 30000000 // 30,000,000 estimation of number of generated flits
-#define flit_trace_number 1 //trace an errori flit
+#define flit_trace_number 100 //trace an errori flit
 int simulation_time = 50000; //50k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
 float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
@@ -1084,12 +1084,16 @@ void main()
 	myfile << "\n\n#################################################################\n\ntraffic manager result:\n\n";
 	//information of input flits is in below:
 	//number_of_flits = networkx*networky;
-	//flit f1,f2;
+	flit f1, f2, f3, f4, f5, f6;
 	int number_of_flits = pl - 1;
-	//f1.number = 1;
-	//f2.number = 2;
-	//f3.number = 3;
-	//f4.number = 4;
+	
+	f1.number = 1;
+	f2.number = 2;
+	f3.number = 3;
+	f4.number = 4;
+	f5.number = 5;
+	f6.number = 6;
+	
 
 	//f1.time = 0;//the time which flit is injected into network
 	//f2.time = 0;//the time which flit is injected into network
@@ -1097,11 +1101,23 @@ void main()
 	//f4.time = 0;
 
 	//Destination of flits
-	//f1.x_dest =1;
-	//f1.y_dest = 26;
+	f1.x_dest =4;
+	f1.y_dest = 7;
 
-	//f2.x_dest = 1;
-	//f2.y_dest = 26;
+	f2.x_dest = 4;
+	f2.y_dest = 1;
+
+	f3.x_dest = 7;
+	f3.y_dest = 1;
+
+	f4.x_dest = 7;
+	f4.y_dest = 4;
+
+	f5.x_dest = 4;
+	f5.y_dest = 7;
+
+	f6.x_dest = 7;
+	f6.y_dest = 7;
 
 	/*f3.x_dest = 2;
 	f3.y_dest = 1;
@@ -1114,6 +1130,12 @@ void main()
 	/*net[2][2][1].inport_number[4].buffer.enQueue(f2);
 	net[2][2][1].inport_number[3].buffer.enQueue(f3);
 	net[2][2][1].inport_number[2].buffer.enQueue(f4);*/
+	net[1][1][1].inport_number[5].buffer.enQueue(f1);
+	net[1][7][1].inport_number[5].buffer.enQueue(f2);
+	net[4][4][1].inport_number[5].buffer.enQueue(f3);
+	net[1][4][1].inport_number[5].buffer.enQueue(f4);
+	net[7][1][1].inport_number[5].buffer.enQueue(f5);
+	net[4][4][1].inport_number[5].buffer.enQueue(f6);
 
 	//modified recswitch matrix must be placed below
 	//(1,5) recswitch
@@ -1209,7 +1231,7 @@ void main()
 	{
 		//--------------------------------------------------------------------------------
 		//Generating Traffic
-		if (ii < traffic_generation_duration)
+		/*if (ii < traffic_generation_duration)
 		{
 			for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 			{
@@ -1284,7 +1306,7 @@ void main()
 				}
 			}
 		}
-		//End of traffic generation
+		//End of traffic generation*/
 		//--------------------------------------------------------------------------------
 
 		for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
@@ -1334,6 +1356,12 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
+									for (int o = 1; o < 8; o++) //we use this section when flits handy defined
+									{
+										if (net[j][k][l].outport_number[u].f.number == o)
+											cout << "\n flit " << o << " reached to its destination\n";
+									}
+									
 									if (net[j][k][l].outport_number[u].f.number == -858993460)//for debugging
 									{
 										cout << "\nerror occured: f.number= -858993460\n";
@@ -1775,10 +1803,10 @@ void main()
 		// one bracket
 	}
 	//--------------------------------------------------------------------------------
-	int r_counter = 0;//does not reach to destination
-	int y_counter = 0;//reach to destination
+	int r_counter = 0; //does not reach to destination
+	int y_counter = 0; //reach to destination
 	int E_counter = 0; // for debug
-					   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	for (int i = 1; i < (pl - 1); i++)
 	{
 		if (a[0][i] == 1)
