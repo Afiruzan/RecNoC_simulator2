@@ -67,7 +67,7 @@ ofstream myfile2("path_of_flits.txt");
 class location
 {
 public:
-	int j, k, l;//for storing j,k,l
+	int j, k, l;//for storing location in a 3D NoC we need (j,k,l)
 };
 class last_location_which_flit_seen // a class for tracing flits
 {
@@ -83,8 +83,8 @@ public:
 	int x_dest;
 	int y_dest; //TODO: 3D must be complete (z_dest) must be added.
 	int data;
-	int time; //time which flit comes to cluster-based RecNoC and reached to its destination
-	int injection_time;
+	int time; //time which flit comes to cluster-based RecNoC and reached to its destination. may not needed.
+	int injection_time; //The time which flit injected into network.
 	bool is_flit_reached_to_its_destination = 0; // if flit reaches to its destination then this flag being one
 };
 
@@ -946,7 +946,7 @@ location which_is_at_the_end_of_long_link(element(&net)[100][100][2], int j, int
 	return loc;
 }
 
-int table_based_routing_function_automatic(flit f, int j, int k, int l, element(&net)[100][100][2])
+int table_based_routing_function_automatic(flit f, int j, int k, int l, element(&net)[100][100][2]) //Table-based routing which in this function Table of routing automatically build. TODO: fix algorithm of this function.
 {
 	int outputport;
 	location a[networkx + (((networkx / cluster_size) - 1)*num_of_corridors)][networky + (((networky / cluster_size) - 1)*num_of_corridors)][5][networkz]; //a table for storing routing information. this matrix stores routing table. a[] is as below: a[x-dest][y-dest][outportnumber] TODO: 3D must be complete.
@@ -968,7 +968,7 @@ int table_based_routing_function_manually(flit f, int j, int k, int l, element(&
 {
 	int outputport;
 	int a[number_of_elements_in_x_direction][number_of_elements_in_y_direction][networkz][number_of_elements_in_x_direction][number_of_elements_in_y_direction][networkz]; //a table for storing routing information for each router. This matrix stores routing table for each router and data must be entered handy. a[] is as below: a[x-dest][y-dest][outportnumber] TODO: 3D must be complete.
-	a[1][4][1][4][7][1]=4; // in router (1,4,1)  for going to router(4,7,1) must send to outport 4 (E_out)
+	a[1][4][1][4][7][1]=4; // Means in router (1,4,1)  for going to router(4,7,1) must send flit to outport 4 (E_out)
 	return a[j][k][l][f.x_dest][f.y_dest][1];
 }
 
@@ -1262,7 +1262,7 @@ void main()
 								}
 								if (temp_flit.number == flit_trace_number) // for debugging
 								{
-									cout << "\nerror occured: f.number= " << flit_trace_number << " at generate_flit function\n";
+									//cout << "\nFlit trace: f.number= " << flit_trace_number << " at generate_flit function\n";
 									if (ii >= last_cycle_which_flit_seen)
 									{
 										last_cycle_which_flit_seen = ii;
@@ -1283,7 +1283,7 @@ void main()
 									}
 									if (temp_flit.number == flit_trace_number)// for debugging
 									{
-										cout << "\nerror occured: f.number= "<< flit_trace_number<<" at NI_buffer\n";
+										//cout << "\nFlit trace: f.number= "<< flit_trace_number<<" at NI_buffer\n";
 										if (ii >= last_cycle_which_flit_seen)
 										{
 											last_cycle_which_flit_seen = ii;
@@ -1370,7 +1370,7 @@ void main()
 											cout << "\n flit " << o << " reached to its destination\n";
 									}
 									
-									if (net[j][k][l].outport_number[u].f.number == -858993460)//for debugging
+									if (net[j][k][l].outport_number[u].f.number == -858993460) //for debugging
 									{
 										cout << "\nerror occured: f.number= -858993460\n";
 										number_of_flit_number_missed_errors++;
@@ -1378,7 +1378,7 @@ void main()
 									}
 									if (net[j][k][l].outport_number[u].f.number == flit_trace_number)//for debugging
 									{
-										cout << "\nerror occured: f.number= " << flit_trace_number << " \n";
+										//cout << "\nFlit trace f.number= " << flit_trace_number << " \n";
 										if (ii >= last_cycle_which_flit_seen)
 										{
 											last_cycle_which_flit_seen = ii;
@@ -1424,7 +1424,7 @@ void main()
 									}
 									if (net[j][k][l].outport_number[u].f.number == flit_trace_number) //for debugging
 									{
-										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+										//cout << "\nFlit trace: f.number == " << flit_trace_number << "\n";
 										if (ii >= last_cycle_which_flit_seen)
 										{
 											last_cycle_which_flit_seen = ii;
@@ -1499,7 +1499,7 @@ void main()
 								}
 								if (net[j][k][l].inport_number[u].buffer_display().number == flit_trace_number) //for debugging
 								{
-									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+									//cout << "\nFlit trace: f.number == " << flit_trace_number << "\n";
 									if (ii >= last_cycle_which_flit_seen)
 									{
 										last_cycle_which_flit_seen = ii;
@@ -1588,7 +1588,7 @@ void main()
 								}
 								if (net[j][k][l].inport_number[net[j][k][l].outport_number[t].winner_inport_in_arbitration].buffer_display().number == flit_trace_number)
 								{
-									cout << "\nError occured: f.number == " << flit_trace_number << " in arbitration\n";
+									//cout << "\nFlit trace: f.number == " << flit_trace_number << " in arbitration\n";
 									if (ii >= last_cycle_which_flit_seen)
 									{
 										last_cycle_which_flit_seen = ii;
@@ -1627,7 +1627,7 @@ void main()
 								temp = temp6.number;
 								if (temp == flit_trace_number)
 								{
-									cout << "\nError occured: f.number == " << flit_trace_number << " in copy inlink to inport of that element\n";
+									//cout << "\nFlit trace: f.number == " << flit_trace_number << " in copy inlink to inport of that element\n";
 									if (ii >= last_cycle_which_flit_seen)
 									{
 										last_cycle_which_flit_seen = ii;
@@ -1720,7 +1720,7 @@ void main()
 								net[j][k][l].inport_number[inport_number].is_full_for_recswitch = 1;
 								if (net[j][k][l].inlink_number[i].f.number == flit_trace_number) //for debugging
 								{
-									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+									//cout << "\nFlit trace: f.number == " << flit_trace_number << "\n";
 									if (ii >= last_cycle_which_flit_seen)
 									{
 										last_cycle_which_flit_seen = ii;
@@ -1752,7 +1752,7 @@ void main()
 									}
 									if (net[j][k][l].inport_number[y1].flit_of_inport_of_recswitch.number == flit_trace_number) //for debugging
 									{
-										cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+										//cout << "\nFlit trace: f.number == " << flit_trace_number << "\n";
 										if (ii >= last_cycle_which_flit_seen)
 										{
 											last_cycle_which_flit_seen = ii;
@@ -1781,7 +1781,7 @@ void main()
 								net[j1][k1][l].inlink_number[inlinknumber].f = net[j][k][l].outport_number[u].f; //send out to in-link of neighbor element
 								if (net[j][k][l].outport_number[u].f.number == flit_trace_number) //for debugging
 								{
-									cout << "\nError occured: f.number == " << flit_trace_number << "\n";
+									//cout << "\nFlit trace: f.number == " << flit_trace_number << "\n";
 									if (ii >= last_cycle_which_flit_seen)
 									{
 										last_cycle_which_flit_seen = ii;
