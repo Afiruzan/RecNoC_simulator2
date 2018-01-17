@@ -32,7 +32,7 @@ using namespace std;
 #define buffer_size 8
 #define NI_buffer_size 50
 #define a_size 30000000 // 30,000,000 estimation of number of generated flits
-#define flit_trace_number 100 //trace an errori flit
+#define flit_trace_number 3 //for trace an errori flit
 int simulation_time = 50000; //50k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
 float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
@@ -41,8 +41,8 @@ int const num_of_corridors = 2;
 const int networkx = 3; //networkx=networky
 const int networky = 3;
 const int networkz = 1;
-int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
-int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
+const int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
+const int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
 int pl = 0; //pl is a global variable which will be used for counting number of flits
 int pu = 0; //pl is a global variable which will be used for counting number of flits starting from PE_in Buffer
 int pk = 0; //pk for debugging
@@ -81,7 +81,7 @@ class flit
 public:
 	int number;
 	int x_dest;
-	int y_dest;
+	int y_dest; //TODO: 3D must be complete (z_dest) must be added.
 	int data;
 	int time; //time which flit comes to cluster-based RecNoC and reached to its destination
 	int injection_time;
@@ -946,22 +946,30 @@ location which_is_at_the_end_of_long_link(element(&net)[100][100][2], int j, int
 	return loc;
 }
 
-int table_based_routing_function(flit f, int j, int k, int l, element(&net)[100][100][2])
+int table_based_routing_function_automatic(flit f, int j, int k, int l, element(&net)[100][100][2])
 {
 	int outputport;
-	location a[networkx + (((networkx / cluster_size) - 1)*num_of_corridors)][networky + (((networky / cluster_size) - 1)*num_of_corridors)][5][networkz]; //a table for storing routing information. this matrix stores routing table. TODO: 3D must be complete.
+	location a[networkx + (((networkx / cluster_size) - 1)*num_of_corridors)][networky + (((networky / cluster_size) - 1)*num_of_corridors)][5][networkz]; //a table for storing routing information. this matrix stores routing table. a[] is as below: a[x-dest][y-dest][outportnumber] TODO: 3D must be complete.
 	for (int ii = 0; ii < (networkx + (((networkx / cluster_size) - 1)*num_of_corridors)); ii++)
 	{
 		for (int jj = 0; jj < (networky + (((networky / cluster_size) - 1)*num_of_corridors)); jj++) //TODO: 3D must be completed
 		{
 			for (int kk = 0; kk < 4; kk++)//we have 5 outport. TODO:3D must be completed.
 			{
-				a[ii][jj][kk][networkz] = which_is_at_the_end_of_long_link(net, j, k, l, kk);
+				a[ii][jj][kk][networkz] = which_is_at_the_end_of_long_link(net, j, k, l, kk); //creating table
 				if ((a[ii][jj][kk][networkz].j == f.x_dest) && (a[ii][jj][kk][networkz].k == f.y_dest))
 					return kk; //return outport number
 			}
 		}
 	}
+}
+
+int table_based_routing_function_manually(flit f, int j, int k, int l, element(&net)[100][100][2]) //in this function routing table of all routers must manually be written.
+{
+	int outputport;
+	int a[number_of_elements_in_x_direction][number_of_elements_in_y_direction][networkz][number_of_elements_in_x_direction][number_of_elements_in_y_direction][networkz]; //a table for storing routing information for each router. This matrix stores routing table for each router and data must be entered handy. a[] is as below: a[x-dest][y-dest][outportnumber] TODO: 3D must be complete.
+	a[1][4][1][4][7][1]=4; // in router (1,4,1)  for going to router(4,7,1) must send to outport 4 (E_out)
+	return a[j][k][l][f.x_dest][f.y_dest][1];
 }
 
 //End of required functions definitions
@@ -1101,7 +1109,7 @@ void main()
 	//f4.time = 0;
 
 	//Destination of flits
-	f1.x_dest =4;
+	f1.x_dest = 4;
 	f1.y_dest = 7;
 
 	f2.x_dest = 4;
@@ -1145,76 +1153,76 @@ void main()
 	net[1][5][1].crossbar_in_recswitch[2][0] = 1;
 	
 	//(2,1) recswitch
-	net[2][1][1].crossbar_in_recswitch[0][2] = 0;
-	net[2][1][1].crossbar_in_recswitch[2][0] = 0;
 	net[2][1][1].crossbar_in_recswitch[0][1] = 0;
 	net[2][1][1].crossbar_in_recswitch[1][0] = 0;
+	net[2][1][1].crossbar_in_recswitch[0][2] = 1;
+	net[2][1][1].crossbar_in_recswitch[2][0] = 1;
 
 	//(2,7) recswitch
 	net[2][7][1].crossbar_in_recswitch[0][2] = 0;
 	net[2][7][1].crossbar_in_recswitch[2][0] = 0;
-	net[2][7][1].crossbar_in_recswitch[1][3] = 0;
-	net[2][7][1].crossbar_in_recswitch[3][1] = 0;
+	net[2][7][1].crossbar_in_recswitch[1][3] = 1;
+	net[2][7][1].crossbar_in_recswitch[3][1] = 1;
 
 	//(3,4) recswitch
 	net[3][4][1].crossbar_in_recswitch[0][1] = 0;
 	net[3][4][1].crossbar_in_recswitch[1][0] = 0;
-	net[3][4][1].crossbar_in_recswitch[0][3] = 0;
-	net[3][4][1].crossbar_in_recswitch[3][0] = 0;
+	net[3][4][1].crossbar_in_recswitch[0][3] = 1;
+	net[3][4][1].crossbar_in_recswitch[3][0] = 1;
 
 	//(3,7) recswitch
 	net[3][7][1].crossbar_in_recswitch[0][1] = 0;
 	net[3][7][1].crossbar_in_recswitch[1][0] = 0;
-	net[3][7][1].crossbar_in_recswitch[1][2] = 0;
-	net[3][7][1].crossbar_in_recswitch[2][1] = 0;
+	net[3][7][1].crossbar_in_recswitch[1][2] = 1;
+	net[3][7][1].crossbar_in_recswitch[2][1] = 1;
 
 	//(4,3) recswitch
 	net[4][3][1].crossbar_in_recswitch[0][1] = 0;
 	net[4][3][1].crossbar_in_recswitch[1][0] = 0;
-	net[4][3][1].crossbar_in_recswitch[0][2] = 0;
-	net[4][3][1].crossbar_in_recswitch[2][0] = 0;
+	net[4][3][1].crossbar_in_recswitch[0][2] = 1;
+	net[4][3][1].crossbar_in_recswitch[2][0] = 1;
 
 	//(4,6) recswitch
 	net[4][6][1].crossbar_in_recswitch[0][1] = 0;
 	net[4][6][1].crossbar_in_recswitch[1][0] = 0;
-	net[4][6][1].crossbar_in_recswitch[0][2] = 0;
-	net[4][6][1].crossbar_in_recswitch[2][0] = 0;
+	net[4][6][1].crossbar_in_recswitch[0][2] = 1;
+	net[4][6][1].crossbar_in_recswitch[2][0] = 1;
 
 	//(5,4) recswitch
 	net[5][4][1].crossbar_in_recswitch[0][1] = 0;
 	net[5][4][1].crossbar_in_recswitch[1][0] = 0;
-	net[5][4][1].crossbar_in_recswitch[0][3] = 0;
-	net[5][4][1].crossbar_in_recswitch[3][0] = 0;
+	net[5][4][1].crossbar_in_recswitch[0][3] = 1;
+	net[5][4][1].crossbar_in_recswitch[3][0] = 1;
 
 	//(5,7) recswitch
 	net[5][7][1].crossbar_in_recswitch[0][1] = 0;
 	net[5][7][1].crossbar_in_recswitch[1][0] = 0;
-	net[5][7][1].crossbar_in_recswitch[1][2] = 0;
-	net[5][7][1].crossbar_in_recswitch[2][1] = 0;
+	net[5][7][1].crossbar_in_recswitch[1][2] = 1;
+	net[5][7][1].crossbar_in_recswitch[2][1] = 1;
 
 	//(6,1) recswitch
 	net[6][1][1].crossbar_in_recswitch[0][1] = 0;
 	net[6][1][1].crossbar_in_recswitch[1][0] = 0;
-	net[6][1][1].crossbar_in_recswitch[0][2] = 0;
-	net[6][1][1].crossbar_in_recswitch[2][0] = 0;
+	net[6][1][1].crossbar_in_recswitch[0][2] = 1;
+	net[6][1][1].crossbar_in_recswitch[2][0] = 1;
 
 	//(6,6) recswitch
 	net[6][6][1].crossbar_in_recswitch[0][1] = 0;
 	net[6][6][1].crossbar_in_recswitch[1][0] = 0;
-	net[6][6][1].crossbar_in_recswitch[3][1] = 0;
-	net[6][6][1].crossbar_in_recswitch[1][3] = 0;
+	net[6][6][1].crossbar_in_recswitch[3][1] = 1;
+	net[6][6][1].crossbar_in_recswitch[1][3] = 1;
 
 	//(7,3) recswitch
 	net[7][3][1].crossbar_in_recswitch[0][1] = 0;
 	net[7][3][1].crossbar_in_recswitch[1][0] = 0;
-	net[7][3][1].crossbar_in_recswitch[3][1] = 0;
-	net[7][3][1].crossbar_in_recswitch[1][3] = 0;
+	net[7][3][1].crossbar_in_recswitch[3][1] = 1;
+	net[7][3][1].crossbar_in_recswitch[1][3] = 1;
 
 	//(7,5) recswitch
 	net[7][5][1].crossbar_in_recswitch[0][1] = 0;
 	net[7][5][1].crossbar_in_recswitch[1][0] = 0;
-	net[7][5][1].crossbar_in_recswitch[3][1] = 0;
-	net[7][5][1].crossbar_in_recswitch[1][3] = 0;
+	net[7][5][1].crossbar_in_recswitch[3][1] = 1;
+	net[7][5][1].crossbar_in_recswitch[1][3] = 1;
 
 
 
@@ -1356,7 +1364,7 @@ void main()
 								//----------
 								if (u == 5) /// u==5 means PE_out. So this line means flit reached to its destination
 								{
-									for (int o = 1; o < 8; o++) //we use this section when flits handy defined
+									for (int o = 1; o < 7; o++) //we use this section when flits handy defined
 									{
 										if (net[j][k][l].outport_number[u].f.number == o)
 											cout << "\n flit " << o << " reached to its destination\n";
@@ -1899,7 +1907,7 @@ void main()
 	}
 	}
 	}*/
-	cout << "\n\n Last cycle which flit " << flit_trace_number << " seen was in cycle " << last_cycle_which_flit_seen << " in "<<last_place_which_flit_seen.name<<" of element "<< last_place_which_flit_seen.j<<" "<< last_place_which_flit_seen.k<<" "<< last_place_which_flit_seen.l<<" in line number "<<last_place_which_flit_seen.line_number<<"\n";
+	cout << "\n\n Result of flit trace:\nLast cycle which flit " << flit_trace_number << " seen was in cycle " << last_cycle_which_flit_seen << " in "<<last_place_which_flit_seen.name<<" of element "<< last_place_which_flit_seen.j<<" "<< last_place_which_flit_seen.k<<" "<< last_place_which_flit_seen.l<<" in line number "<<last_place_which_flit_seen.line_number<<"\n";
 	cout << "\n\nSimulation finished press enter to exit\nResults are written in result.txt file in code directory";
 	cout << "\n\n pk= " << pk << "\n"; //pk is for debugging
 	getchar();
