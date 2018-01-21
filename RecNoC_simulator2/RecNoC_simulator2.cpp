@@ -1095,6 +1095,7 @@ void main()
 	flit f1, f2, f3, f4, f5, f6;
 	int number_of_flits = pl - 1;
 	
+	//Flit numbers must be dfeine in below lines
 	f1.number = 1;
 	f2.number = 2;
 	f3.number = 3;
@@ -1108,7 +1109,7 @@ void main()
 	//f3.time = 0;
 	//f4.time = 0;
 
-	//Destination of flits
+	//Destination of flits must be define in below lines
 	f1.x_dest = 4;
 	f1.y_dest = 7;
 
@@ -1133,7 +1134,7 @@ void main()
 	f4.x_dest = 2;
 	f4.y_dest = 1;*/
 
-	//injection location of flits into PE input ports
+	//injection location of flits into PE input ports must be defined in below lines
 	//net[1][6][1].inport_number[5].buffer.enQueue(f1);
 	/*net[2][2][1].inport_number[4].buffer.enQueue(f2);
 	net[2][2][1].inport_number[3].buffer.enQueue(f3);
