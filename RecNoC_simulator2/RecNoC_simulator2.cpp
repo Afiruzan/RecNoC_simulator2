@@ -298,7 +298,7 @@ public:
 	//int read_pointer=-1;// equal to front initializing read pointer
 	void buffer_read_increase_time();
 	bool grant = 0;//for arbitration section
-	int outport_computed_by_routing_function; //This member is use for storing computed outport in routing step
+	int outport_computed_by_routing_function; //This member is using for storing computed outport in routing step
 };
 flit inport::buffer_display() //this function returns front flit of queue
 {
@@ -1712,7 +1712,7 @@ void main()
 						//// for all inlinks of recswitch copy inlink to inport of that recswitch
 						for (int i = 1; i < 6; i++)//for all inlinks
 						{
-							if (net[j][k][l].inlink_number[i].is_full == 1)
+							if (net[j][k][l].inlink_number[i].is_full == 1) //if there is a flit in inlink
 							{
 								int inport_number;
 								inport_number = inlink_to_inport_computer(i);
