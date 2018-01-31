@@ -90,6 +90,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Dijestra.cpp" />
     <ClCompile Include="RecNoC_simulator2.cpp" />
     <ClCompile Include="random_arbiter_function.cpp" />
     <ClCompile Include="priority_arbiter_function.cpp" />
