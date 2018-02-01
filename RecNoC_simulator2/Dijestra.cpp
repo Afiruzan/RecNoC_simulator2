@@ -1,11 +1,7 @@
 #include "stdafx.h"
 
-//
-//  main.cpp
-//  dijkstra
-//
-//  Created by Mahmut Bulut on 11/11/13.
-//  Copyright (c) 2013 Mahmut Bulut. All rights reserved.
+//  
+//  dijkstra Algorithm
 //
 
 #include <unordered_map>
@@ -102,7 +98,6 @@ public:
 
 int mainfunc()
 {
-	cout << "@author: Mahmut Bulut" << endl << endl;
 	int seq = 0;
 	char init_node = 'A';
 	char dest_node = 'G';
