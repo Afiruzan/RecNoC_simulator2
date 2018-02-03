@@ -70,11 +70,11 @@ public:
 	int j, k, l;//for storing location in a 3D NoC we need (j,k,l)
 };
 
-class multicast //a class for creating multicast
+class multicast //a class for creating multicast tree
 {
 public:
 	location multicast_source;
-	location multicast_destination[10];
+	location multicast_destination[10]; //up to 10 destination for each source
 };
 
 class last_location_which_flit_seen // a class for tracing flits
