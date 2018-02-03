@@ -2,7 +2,7 @@
     CONSOLE APPLICATION : RecNoC_simulator2 Project Overview
 ========================================================================
 
-AppWizard has created this RecNoC_simulator2 application for you.
+
 
 This file contains a summary of what you will find in each of the files that
 make up your RecNoC_simulator2 application.
@@ -22,7 +22,7 @@ RecNoC_simulator2.vcxproj.filters
     "Source Files" filter).
 
 RecNoC_simulator2.cpp
-    This is the main application source file.
+    This is the main source file of simulator.
 
 /////////////////////////////////////////////////////////////////////////////
 Other standard files:
