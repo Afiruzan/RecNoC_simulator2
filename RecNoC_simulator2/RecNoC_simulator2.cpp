@@ -416,11 +416,6 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //End of class definitions
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
-
-void multicat(multicast a) //finding shortest path tree
-{
-	
-}
 void place_router(element(&net)[100][100][2], int &x, int y, int z, int &routercounter_in_x_dimension)
 {
 	net[x][y][z].router = 1;
