@@ -417,7 +417,7 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
 
-void multicat(multicast a) //finding shortest path tree
+void shortest_path_tree(multicast a) //finding shortest path tree
 {
 	
 }
