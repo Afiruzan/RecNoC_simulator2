@@ -23,6 +23,7 @@ int _tmain(int argc, _TCHAR* argv[])
 #include<typeinfo>
 #include <vector>
 #include<time.h>
+#include<set>
 //#include "random_arbiter_function.h"
 #include "priority_arbiter_function.h"
 using namespace std;
@@ -334,6 +335,11 @@ public:
 	outport outport_number[20];  // an array for easily usage of outports
 	inlink inlink_number[8];
 	int crossbar_in_recswitch[4][4]; //which input of recswitch is connected to which output using a 4 * 4 matrix
+	
+	set<location> delta;//will be use in Multicast and finding shortest path tree.
+	set<location> pi;//will be use in Multicast and finding shortest path tree.
+	
+	
 	element(); //constructor for recswitch matrix
 			   /*
 			   port N_in; //1
@@ -417,9 +423,24 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
 
-void shortest_path_tree(multicast a) //finding shortest path tree
+void shortest_path_tree(multicast a, element(net)[100][100][2], int x, int y, int z) //finding shortest path tree
 {
-	
+	set<location> S; //S is a set of vertices whose final shortest-path weights from the source have not yet been determined.
+	for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
+	{
+		for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
+		{
+			for (int l = 1; l < (networkz + 1); l++) //////////////////////////////
+			{
+				//net[j][k][l].delta.insert(
+			}
+		}
+	}
+	while (true)
+	{
+
+	}
+
 }
 void place_router(element(&net)[100][100][2], int &x, int y, int z, int &routercounter_in_x_dimension)
 {
