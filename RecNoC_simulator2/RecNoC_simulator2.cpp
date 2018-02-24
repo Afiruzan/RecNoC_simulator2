@@ -30,15 +30,15 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------
 //Inputs of code
 //Please set the flit data at line 400 of this code if you are not going to use synthetic traffic
-#define buffer_size 8
-#define NI_buffer_size 50
+#define buffer_size 8 //Buffer size of input ports
+#define NI_buffer_size 50 //Buffer size of Network Interface
 #define a_size 30000000 // 30,000,000 estimation of number of generated flits
-#define flit_trace_number 3 //for trace an errori flit
+#define flit_trace_number 3 //for trace an errori flit. for example if we want to find errori flit number3 we must use this.
 int simulation_time = 50000; //50k cycle. simulation time by cycle unit
 int traffic_generation_duration = (simulation_time - 2000); //traffic_generation_duration by cycle unit
-float injection_rate = 0.5; //if the number of this line is based on 0.0x we must chnage traffic generator line of this code to ran()*100 and aslo of statement
-int const cluster_size = 1; //cluster size must be related with networkx and networky
-int const num_of_corridors = 2;
+float injection_rate = 0.5; //if the number of this line is based on 0.0x (for example 0.07) we must chnage traffic generator line of this code to ran()*100 and aslo of statement
+int const cluster_size = 2; //Notice: cluster size must be related with networkx and networky. for example if cluster size=2 then netx & nety=3 is incorrect
+int const num_of_corridors = 1;
 const int networkx = 3; //networkx=networky
 const int networky = 3;
 const int networkz = 1;
@@ -423,9 +423,10 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
 
-void shortest_path_tree(multicast a, element(net)[100][100][2], int x, int y, int z) //finding shortest path tree
+//Begin of Dijestra algorithm
+void shortest_path_tree(multicast a, element(net)[100][100][2], int x, int y, int z) //finding shortest path tree using dijestra algorithm
 {
-	set<location> S; //S is a set of vertices whose final shortest-path weights from the source have not yet been determined.
+	/*set<location> S; //S is a set of vertices whose final shortest-path weights from the source have not yet been determined.
 	for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 	{
 		for (int k = 1; k < number_of_elements_in_y_direction + 1; k++) /////////// for all routers
@@ -436,12 +437,23 @@ void shortest_path_tree(multicast a, element(net)[100][100][2], int x, int y, in
 			}
 		}
 	}
-	while (true)
+	while (!S.empty) //while S is empty do:
 	{
+		
+		S.find._Min;
+		S = S.erase(S.find());
+		if(S!= S.find._Min)
+			for each vertex adjacent to u do
+			if (delta)
+			{
+			net[j][k][l].delta = net[j][k][l].delta;
+			}
 
-	}
+	}*/
 
 }
+//End of Dijestra algorithm
+
 void place_router(element(&net)[100][100][2], int &x, int y, int z, int &routercounter_in_x_dimension)
 {
 	net[x][y][z].router = 1;
