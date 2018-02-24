@@ -1141,7 +1141,7 @@ void main()
 	flit f1, f2, f3, f4, f5, f6;
 	int number_of_flits = pl - 1;
 	
-	//Flit numbers must be dfeine in below lines
+	//Flit numbers must be define in below lines
 	f1.number = 1;
 	f2.number = 2;
 	f3.number = 3;
@@ -1275,7 +1275,7 @@ void main()
 
 
 	//--------------------------------------------------------------------------------
-
+	//An instance of NI and trafficmananger in below lines
 	NI NI_1;
 	trafficmanager TF1;
 	//--------------------------------------------------------------------------------
