@@ -54,9 +54,9 @@ int buffer_full_counter = 0; ////a global variable for counting number of buffer
 int arbiter_counter[networkx][networky][networkz][5];//TODO: 3D 
 int number_of_errors = 0;
 int number_of_flit_number_missed_errors = 0;
-int number_of_flit_number_missed_errors_section1 = 0;
-int number_of_flit_number_missed_errors_section2 = 0;
-int number_of_flit_number_missed_errors_section3 = 0;
+int number_of_flit_number_missed_errors_section1 = 0; //for all out ports if there is a flit send outport flit to in-link of neighbor element
+int number_of_flit_number_missed_errors_section2 = 0; //for all out ports if there is a flit send outport flit to in-link of neighbor element
+int number_of_flit_number_missed_errors_section3 = 0; //for all inports if grant=1 then traverse to outport which computed by routing function in previous section
 int last_cycle_which_flit_seen = 0; //last_cycle_which_flit_seen
 
 ofstream myfile("Result.txt");
