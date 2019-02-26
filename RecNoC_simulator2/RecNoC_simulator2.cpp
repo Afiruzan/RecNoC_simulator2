@@ -323,7 +323,7 @@ void inport::buffer_read_increase_time() //This function increases time for fron
 	front3 = buffer.front;
 	buffer.f[front3].time++;
 }
-class element //an element can be router or reconfigurable switch
+class element //an element can be router or reconfigurable switch (if element been router then router integer is 1)
 {
 public:
 	int id;
@@ -426,6 +426,8 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //Begin of Dijestra algorithm
 void shortest_path_tree(multicast a, element(net)[100][100][2], int x, int y, int z) //finding shortest path tree using dijestra algorithm
 {
+	//Multicast algorithm will be add here
+	
 	/*set<location> S; //S is a set of vertices whose final shortest-path weights from the source have not yet been determined.
 	for (int j = 1; j < number_of_elements_in_x_direction + 1; j++) ///////////////
 	{
