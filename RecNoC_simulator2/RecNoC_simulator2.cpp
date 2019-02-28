@@ -424,7 +424,7 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //Required functions definition
 
 //Begin of Dijestra algorithm
-void shortest_path_tree(multicast a, element(net)[100][100][2], int x, int y, int z) //finding shortest path tree using dijestra algorithm
+void shortest_path_tree(multicast a, element(net)[100][100][2]) //finding shortest path tree using dijestra algorithm
 {
 	//Multicast algorithm will be add here
 	
