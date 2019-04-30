@@ -422,10 +422,16 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //End of class definitions
 //------------------------------------------------------------------------------------------------------------------------
 //Required functions definition
+void network_to_graph_converter(element (net)[100][100][2])
+{
+
+}
 
 //Begin of Dijestra algorithm
 void shortest_path_trees(multicast a[4], element(net)[100][100][2]) //finding shortest path tree using dijestra algorithm
 {
+	network_to_graph_converter (net);
+	
 	//int Tsource,Tpath=std::numeric_limits<int>::max();
 	//cout << "\n\nTpath="<<Tpath;
 	
