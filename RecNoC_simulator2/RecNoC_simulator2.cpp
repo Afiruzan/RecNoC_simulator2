@@ -39,8 +39,8 @@ int traffic_generation_duration = (simulation_time - 2000); //traffic_generation
 float injection_rate = 0.5; //if the number of this line is based on 0.0x (for example 0.07) we must chnage traffic generator line of this code to ran()*100 and aslo of statement
 int const cluster_size = 2; //Notice: cluster size must be related with networkx and networky. for example if cluster size=2 then netx & nety=3 is incorrect
 int const num_of_corridors = 1;
-const int networkx = 3; //networkx=networky
-const int networky = 3;
+const int networkx = 6; //number of elements in x direction (networkx=networky). Notice: cluster size must be related with networkx and networky. for example if cluster size=2 then netx & nety=3 is incorrect
+const int networky = 6; //number of elements in x direction (networkx=networky). Notice: cluster size must be related with networkx and networky. for example if cluster size=2 then netx & nety=3 is incorrect
 const int networkz = 1;
 const int number_of_elements_in_x_direction = networkx + (((networkx / cluster_size) - 1)*num_of_corridors);
 const int number_of_elements_in_y_direction = networky + (((networky / cluster_size) - 1)*num_of_corridors);
