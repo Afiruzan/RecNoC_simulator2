@@ -74,8 +74,8 @@ public:
 class multicast //a class for creating multicast tree
 {
 public:
-	location multicast_source;
-	location multicast_destination[10]; //up to 10 destination for each source
+	location multicast_source[4]; //up to 4 sources.
+	location multicast_destination[4][10]; //up to 10 destination for each source
 };
 
 class last_location_which_flit_seen // a class for tracing flits
@@ -336,8 +336,8 @@ public:
 	inlink inlink_number[8];
 	int crossbar_in_recswitch[4][4]; //which input of recswitch is connected to which output using a 4 * 4 matrix
 	
-	set<location> delta;//will be use in Multicast and finding shortest path tree.
-	set<location> pi;//will be use in Multicast and finding shortest path tree.
+	//set<location> delta;//will be use in Multicast and finding shortest path tree.
+	//set<location> pi;//will be use in Multicast and finding shortest path tree.
 	
 	
 	element(); //constructor for recswitch matrix
@@ -424,8 +424,19 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 //Required functions definition
 
 //Begin of Dijestra algorithm
-void shortest_path_tree(multicast a, element(net)[100][100][2]) //finding shortest path tree using dijestra algorithm
+void shortest_path_trees(multicast a[4], element(net)[100][100][2]) //finding shortest path tree using dijestra algorithm
 {
+	//int Tsource,Tpath=std::numeric_limits<int>::max();
+	//cout << "\n\nTpath="<<Tpath;
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//Multicast algorithm will be add here
 	
 	/*set<location> S; //S is a set of vertices whose final shortest-path weights from the source have not yet been determined.
