@@ -205,6 +205,27 @@ public:
 };
 
 
+class graph
+{
+public:
+	vector<int> vertex;
+	vector<int,int> edge;
+	graph();
+	~graph();
+
+private:
+
+};
+
+graph::graph()
+{
+
+}
+
+graph::~graph()
+{
+}
+
 class Queue //buffer is a circular queue
 {
 public:
@@ -407,7 +428,7 @@ flit trafficmanager::generate_flit(int j, int k, int l, int(&a)[6][a_size], int 
 	//myfile << "\n At cycle " << i << " Flit " << pl << " generated with X-dest = " << a[2][pl] << " and Y_dest = " << a[3][pl] << "\n\n";
 	a[0][pl]++; //every time a flit generated a[0] array increments by one
 	a[2][pl] = x; //stroing x_dest of flit for future statistics
-	a[3][pl] = y; //stroing x_dest of flit for future statistics
+	a[3][pl] = y; //stroing y_dest of flit for future statistics
 	a[4][pl] = j;
 	a[5][pl] = k; //TODO: 3D must be completed
 				  //myfile << "\n At cycle " << i << " Flit " << pl << " generated with X-dest = " << a[2][pl] << " and Y_dest = " << a[3][pl] << "\n\n";
