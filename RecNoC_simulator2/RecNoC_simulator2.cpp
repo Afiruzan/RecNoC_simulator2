@@ -1063,8 +1063,8 @@ int table_based_routing_function_manually(flit f, int j, int k, int l, element(&
 void main()
 {
 	last_location_which_flit_seen last_place_which_flit_seen;
-	cout << "number_of_elements_in_x_direction= " << number_of_elements_in_x_direction << "\n";
-	cout << "number_of_elements_in_y_direction= " << number_of_elements_in_y_direction << "\n";
+	cout << "number_of_elements_in_x_direction (include Both PEs and Conf. Switches) = " << number_of_elements_in_x_direction << "\n";
+	cout << "number_of_elements_in_y_direction (include Both PEs and Conf. Switches) = " << number_of_elements_in_y_direction << "\n";
 	int a[6][a_size]; //An array for storing the specification of flits such as when it reaches its destination and producing statistics //must be completed
 					  //store flit_path[a_size][500]; // An array for storing path of flits;
 	for (int i = 0; i < a_size; i++) //initialization of b[] array (b[]=a global variable for indexing elements of flit_path array)
@@ -1078,8 +1078,8 @@ void main()
 			a[i][j] = 0;
 		}
 	}
-	element net[100][100][2]; //creates a 3D cluster-based Reconfigurable NoC
-	for (int i = 0; i < number_of_elements_in_x_direction + 1; i++)
+	element net[100][100][2]; //creates a 3D cluster-based Reconfigurable NoC with specified size
+	for (int i = 0; i < number_of_elements_in_x_direction + 1; i++) //initialize all network elements as router then change it to reconfigurable switch
 	{
 		for (int j = 0; j < number_of_elements_in_y_direction + 1; j++)
 		{
